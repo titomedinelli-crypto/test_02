@@ -272,6 +272,14 @@
         .aurora-button:hover::before {
             opacity: 1;
         }
+        .avatar-selection img {
+            cursor: pointer;
+            border: 4px solid transparent;
+            transition: border-color 0.2s ease-in-out;
+        }
+        .avatar-selection img.selected {
+            border-color: #4f46e5; /* indigo-600 */
+        }
     </style>
 </head>
 
@@ -286,51 +294,69 @@
             <div class="absolute bottom-1/4 left-1/3 w-60 h-60 bg-indigo-300 rounded-full animated-blob opacity-50" style="animation: blob-move-3 12s infinite linear;"></div>
         </div>
 
-        <!-- Login Form -->
-        <div class="relative z-10 w-full max-w-md p-8 space-y-8 bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl m-4">
-            <div class="text-center">
-                <h2 class="text-4xl font-bold text-slate-800">ยินดีต้อนรับ</h2>
-                <p class="mt-2 text-slate-600">เข้าสู่ศูนย์การเรียนรู้เรื่องเซต</p>
+        <!-- Auth Container -->
+        <div id="auth-container" class="relative z-10 w-full max-w-md p-8 space-y-8 bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl m-4">
+            <!-- Login View -->
+            <div id="login-view">
+                <div class="text-center">
+                    <h2 class="text-4xl font-bold text-slate-800">ยินดีต้อนรับ</h2>
+                    <p class="mt-2 text-slate-600">เข้าสู่ระบบเพื่อใช้งาน</p>
+                </div>
+                <form id="login-form" class="mt-8 space-y-6">
+                    <div id="login-error" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
+                    <div class="rounded-md shadow-sm -space-y-px">
+                        <div>
+                            <label for="login-email" class="sr-only">อีเมล</label>
+                            <input id="login-email" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-slate-300 placeholder-slate-500 text-slate-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="อีเมล">
+                        </div>
+                        <div>
+                            <label for="login-password" class="sr-only">รหัสผ่าน</label>
+                            <input id="login-password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-slate-300 placeholder-slate-500 text-slate-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="รหัสผ่าน">
+                        </div>
+                    </div>
+                    <div>
+                        <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                            เข้าสู่ระบบ
+                        </button>
+                    </div>
+                </form>
+                <p class="mt-4 text-center text-sm text-slate-600">
+                    ยังไม่มีบัญชี? <a href="#" id="show-signup" class="font-medium text-indigo-600 hover:text-indigo-500">สมัครสมาชิก</a>
+                </p>
             </div>
-            <form id="login-form" class="mt-8 space-y-6">
-                <div id="auth-error" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
-                <div class="rounded-md shadow-sm -space-y-px">
+
+            <!-- Signup View -->
+            <div id="signup-view" class="hidden">
+                 <div class="text-center">
+                    <h2 class="text-4xl font-bold text-slate-800">สร้างบัญชีใหม่</h2>
+                    <p class="mt-2 text-slate-600">เริ่มต้นการเรียนรู้ได้เลย!</p>
+                </div>
+                <form id="signup-form" class="mt-8 space-y-6">
+                    <div id="signup-error" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
+                    <div class="rounded-md shadow-sm">
+                         <div>
+                            <label for="signup-username" class="sr-only">ชื่อผู้ใช้</label>
+                            <input id="signup-username" name="username" type="text" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-slate-300 placeholder-slate-500 text-slate-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="ชื่อผู้ใช้">
+                        </div>
+                        <div class="-mt-px">
+                            <label for="signup-email" class="sr-only">อีเมล</label>
+                            <input id="signup-email" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-slate-300 placeholder-slate-500 text-slate-900 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="อีเมล">
+                        </div>
+                        <div class="-mt-px">
+                            <label for="signup-password" class="sr-only">รหัสผ่าน</label>
+                            <input id="signup-password" name="password" type="password" autocomplete="new-password" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-slate-300 placeholder-slate-500 text-slate-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm" placeholder="รหัสผ่าน">
+                        </div>
+                    </div>
                     <div>
-                        <label for="email-address" class="sr-only">ชื่อผู้ใช้</label>
-                        <input id="email-address" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-slate-300 placeholder-slate-500 text-slate-900 rounded-t-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition-all duration-300" placeholder="ชื่อผู้ใช้ หรืออีเมล">
+                        <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-green-500 to-teal-500 hover:from-green-600 hover:to-teal-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                            สมัครสมาชิก
+                        </button>
                     </div>
-                    <div>
-                        <label for="password" class="sr-only">รหัสผ่าน</label>
-                        <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-slate-300 placeholder-slate-500 text-slate-900 rounded-b-md focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm transition-all duration-300" placeholder="รหัสผ่าน">
-                    </div>
-                </div>
-
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center">
-                        <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-slate-300 rounded transition-all duration-300">
-                        <label for="remember-me" class="ml-2 block text-sm text-slate-900">
-                            จดจำฉันไว้
-                        </label>
-                    </div>
-
-                    <div class="text-sm">
-                        <a href="#" class="font-medium text-indigo-600 hover:text-indigo-500 transition-colors duration-300">
-                            ลืมรหัสผ่าน?
-                        </a>
-                    </div>
-                </div>
-
-                <div>
-                    <button type="submit" id="login-btn" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-700 hover:to-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all duration-300">
-                        เข้าสู่ระบบ
-                    </button>
-                </div>
-                 <div>
-                    <button type="button" id="signup-btn" class="group relative w-full flex justify-center py-3 px-4 border border-slate-300 text-sm font-medium rounded-lg text-slate-700 bg-white hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transform hover:-translate-y-0.5 transition-all duration-300">
-                        สมัครสมาชิก
-                    </button>
-                </div>
-            </form>
+                </form>
+                 <p class="mt-4 text-center text-sm text-slate-600">
+                    มีบัญชีอยู่แล้ว? <a href="#" id="show-login" class="font-medium text-indigo-600 hover:text-indigo-500">เข้าสู่ระบบ</a>
+                </p>
+            </div>
         </div>
     </section>
 
@@ -364,7 +390,7 @@
                         <div class="relative ml-6" id="profile-menu">
                             <button id="profile-menu-button" type="button" class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-full">
                                 <span id="user-name-desktop" class="text-sm font-medium text-slate-700 hidden lg:block"></span>
-                                <img id="profile-img-desktop" class="h-9 w-9 rounded-full border-2 border-white shadow-sm" src="" alt="User Profile" onerror="this.onerror=null; this.src='https://placehold.co/100x100/e2e8f0/e2e8f0?text=..'">
+                                <img id="profile-img-desktop" class="h-9 w-9 rounded-full border-2 border-white shadow-sm object-cover" src="" alt="User Profile">
                             </button>
                             <div id="profile-menu-dropdown" class="hidden absolute right-0 mt-2 w-56 origin-top-right bg-white/80 backdrop-blur-lg rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none py-1 border border-white/30" style="animation: fadeIn 0.15s ease-out;">
                                 <div class="px-4 py-2">
@@ -372,8 +398,8 @@
                                     <p id="user-email-dropdown" class="text-sm text-slate-500 truncate"></p>
                                 </div>
                                 <div class="border-t border-slate-200/50 my-1"></div>
-                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-white/50 transition-colors">โปรไฟล์</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-white/50 transition-colors">การตั้งค่า</a>
+                                <a href="#profile-page" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-white/50 transition-colors">โปรไฟล์</a>
+                                <a href="#settings-page" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-white/50 transition-colors">การตั้งค่า</a>
                                 <div class="border-t border-slate-200/50 my-1"></div>
                                 <a href="#" id="logout-btn" class="block px-4 py-2 text-sm text-slate-700 hover:bg-white/50 transition-colors">ออกจากระบบ</a>
                             </div>
@@ -402,7 +428,7 @@
                 <div class="pt-4 pb-3">
                     <div class="flex items-center px-5">
                         <div class="flex-shrink-0">
-                            <img id="profile-img-mobile" class="h-10 w-10 rounded-full" src="" alt="User Profile" onerror="this.onerror=null; this.src='https://placehold.co/100x100/e2e8f0/e2e8f0?text=..'">
+                            <img id="profile-img-mobile" class="h-10 w-10 rounded-full object-cover" src="" alt="User Profile">
                         </div>
                         <div class="ml-3">
                             <div id="user-name-mobile" class="text-base font-medium text-slate-800"></div>
@@ -410,8 +436,8 @@
                         </div>
                     </div>
                     <div class="mt-3 px-2 space-y-1">
-                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-slate-600 hover:bg-white/50">โปรไฟล์</a>
-                        <a href="#" class="block rounded-md px-3 py-2 text-base font-medium text-slate-600 hover:bg-white/50">การตั้งค่า</a>
+                        <a href="#profile-page" class="nav-link block rounded-md px-3 py-2 text-base font-medium text-slate-600 hover:bg-white/50">โปรไฟล์</a>
+                        <a href="#settings-page" class="nav-link block rounded-md px-3 py-2 text-base font-medium text-slate-600 hover:bg-white/50">การตั้งค่า</a>
                         <a href="#" id="mobile-logout-btn" class="block rounded-md px-3 py-2 text-base font-medium text-slate-600 hover:bg-white/50">ออกจากระบบ</a>
                     </div>
                 </div>
@@ -669,6 +695,72 @@
                      </div>
                  </div>
             </section>
+            
+            <!-- Profile Page Section -->
+            <section id="profile-page" class="app-section hidden">
+                <h2 class="text-3xl font-bold text-slate-800 mb-6">แก้ไขโปรไฟล์</h2>
+                <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                    <form id="profile-form">
+                        <div class="flex flex-col items-center space-y-6">
+                            <img id="profile-page-avatar" class="h-32 w-32 rounded-full object-cover border-4 border-indigo-200" src="" alt="Current Avatar">
+                            
+                            <div>
+                                <label for="profile-username" class="block text-sm font-medium text-slate-700 mb-1">ชื่อผู้ใช้</label>
+                                <input type="text" id="profile-username" class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+
+                            <div>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">เลือกรูปโปรไฟล์ใหม่</label>
+                                <div id="avatar-selection-grid" class="grid grid-cols-5 gap-4 avatar-selection">
+                                    <!-- Avatars will be injected by JS -->
+                                </div>
+                            </div>
+                            
+                            <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+                                บันทึกการเปลี่ยนแปลง
+                            </button>
+                            <div id="profile-success-message" class="hidden text-green-600">บันทึกข้อมูลสำเร็จ!</div>
+                        </div>
+                    </form>
+                </div>
+            </section>
+
+            <!-- Settings Page Section -->
+            <section id="settings-page" class="app-section hidden">
+                 <h2 class="text-3xl font-bold text-slate-800 mb-6">การตั้งค่าบัญชี</h2>
+                 <div class="max-w-2xl mx-auto space-y-8">
+                     <!-- Change Email -->
+                    <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                         <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนอีเมล</h3>
+                         <form id="change-email-form" class="space-y-4">
+                            <div id="email-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
+                            <div id="email-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
+                            <div>
+                                <label for="new-email" class="block text-sm font-medium text-slate-700 mb-1">อีเมลใหม่</label>
+                                <input type="email" id="new-email" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                            <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
+                                เปลี่ยนอีเมล
+                            </button>
+                         </form>
+                    </div>
+                    <!-- Change Password -->
+                    <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                         <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนรหัสผ่าน</h3>
+                         <form id="change-password-form" class="space-y-4">
+                            <div id="password-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
+                            <div id="password-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
+                            <div>
+                                <label for="new-password" class="block text-sm font-medium text-slate-700 mb-1">รหัสผ่านใหม่</label>
+                                <input type="password" id="new-password" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                            </div>
+                             <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
+                                เปลี่ยนรหัสผ่าน
+                            </button>
+                         </form>
+                    </div>
+                 </div>
+            </section>
         </div>
     </main>
 
@@ -734,7 +826,7 @@
             apiKey: "AIzaSyDYi6Ozmf6vEWkWg49QC5MuyJAvt7a-xZc",
             authDomain: "secset-542cb.firebaseapp.com",
             projectId: "secset-542cb",
-            storageBucket: "secset-542cb.appspot.com",
+            storageBucket: "secset-542cb.firebasestorage.app",
             messagingSenderId: "735349862292",
             appId: "1:735349862292:web:a86d3f77dd3b7153d4a981",
             measurementId: "G-Y6V4MV1XGB"
@@ -744,6 +836,13 @@
         firebase.initializeApp(firebaseConfig);
         const auth = firebase.auth();
         const db = firebase.firestore();
+        
+        // A potential fix for connection issues in some environments.
+        try {
+            db.settings({ experimentalForceLongPolling: true });
+        } catch(e) {
+            console.warn("Could not set Firestore long polling:", e);
+        }
 
 
         // --- YouTube Player API Logic ---
@@ -810,52 +909,72 @@
             let currentSection = document.querySelector('.app-section:not(.hidden)');
             let isTransitioning = false; // Transition lock
             
-             // --- Random Profile Picture Logic ---
-            const setRandomAvatar = () => {
-                const avatarFiles = [
-                    'Gemini_Generated_Image_llfog6llfog6llfo.jpg',
-                    'Gemini_Generated_Image_llfog6llfog6llfo (1).jpg',
-                    'Gemini_Generated_Image_llfog6llfog6llfo (2).jpg',
-                    'Gemini_Generated_Image_llfog6llfog6llfo (3).jpg',
-                    'Gemini_Generated_Image_llfog6llfog6llfo (4).jpg'
-                ];
-                const randomIndex = Math.floor(Math.random() * avatarFiles.length);
-                const randomAvatarFile = avatarFiles[randomIndex];
-                // Encode the filename to handle spaces and special characters
-                const avatarUrl = encodeURI(randomAvatarFile);
-
-                const desktopImg = document.getElementById('profile-img-desktop');
-                const mobileImg = document.getElementById('profile-img-mobile');
-
-                if (desktopImg) {
-                    desktopImg.src = avatarUrl;
-                }
-                if (mobileImg) {
-                    mobileImg.src = avatarUrl;
-                }
+            const avatarFiles = [
+                'Gemini_Generated_Image_llfog6llfog6llfo.jpg',
+                'Gemini_Generated_Image_llfog6llfog6llfo (1).jpg',
+                'Gemini_Generated_Image_llfog6llfog6llfo (2).jpg',
+                'Gemini_Generated_Image_llfog6llfog6llfo (3).jpg',
+                'Gemini_Generated_Image_llfog6llfog6llfo (4).jpg'
+            ];
+            
+            const populateAvatarSelection = () => {
+                const grid = document.getElementById('avatar-selection-grid');
+                if (!grid) return;
+                grid.innerHTML = ''; // Clear existing
+                avatarFiles.forEach(file => {
+                    const img = document.createElement('img');
+                    img.src = encodeURI(file);
+                    img.dataset.filename = file;
+                    img.classList.add('h-16', 'w-16', 'rounded-full', 'object-cover');
+                    grid.appendChild(img);
+                });
             };
-            setRandomAvatar();
+            populateAvatarSelection();
 
+             // --- Navigation Logic ---
+            const showMainApp = async (user) => {
+                // Fetch user data from Firestore
+                try {
+                    const userDoc = await db.collection('users').doc(user.uid).get();
+                    const userData = userDoc.data() || {};
 
-            // --- Navigation Logic ---
-            const showMainApp = (user) => {
-                // Update UI with user info
-                const userName = user.displayName || user.email.split('@')[0];
-                const userEmail = user.email;
+                    const userName = user.displayName || user.email.split('@')[0];
+                    const userEmail = user.email;
+                    const photoURL = user.photoURL || encodeURI(avatarFiles[0]);
 
-                document.getElementById('user-name-desktop').textContent = userName;
-                document.getElementById('user-name-dropdown').textContent = userName;
-                document.getElementById('user-email-dropdown').textContent = userEmail;
-                document.getElementById('user-name-mobile').textContent = userName;
-                document.getElementById('user-email-mobile').textContent = userEmail;
+                    // Update all UI elements
+                    document.getElementById('user-name-desktop').textContent = userName;
+                    document.getElementById('user-name-dropdown').textContent = userName;
+                    document.getElementById('user-email-dropdown').textContent = userEmail;
+                    document.getElementById('user-name-mobile').textContent = userName;
+                    document.getElementById('user-email-mobile').textContent = userEmail;
+                    document.getElementById('profile-img-desktop').src = photoURL;
+                    document.getElementById('profile-img-mobile').src = photoURL;
+                    
+                    // Populate profile page
+                    document.getElementById('profile-page-avatar').src = photoURL;
+                    document.getElementById('profile-username').value = userName;
+                    
+                    // Highlight the selected avatar
+                    document.querySelectorAll('#avatar-selection-grid img').forEach(img => {
+                        img.classList.remove('selected');
+                        if (decodeURI(img.src).endsWith(decodeURI(photoURL))) {
+                            img.classList.add('selected');
+                        }
+                    });
 
+                    loginSection.classList.add('opacity-0');
+                    setTimeout(() => {
+                        loginSection.classList.add('hidden');
+                        mainApp.classList.remove('hidden');
+                        setTimeout(() => mainApp.classList.remove('opacity-0'), 50); 
+                    }, 500);
 
-                loginSection.classList.add('opacity-0');
-                setTimeout(() => {
-                    loginSection.classList.add('hidden');
-                    mainApp.classList.remove('hidden');
-                    setTimeout(() => mainApp.classList.remove('opacity-0'), 50); 
-                }, 500);
+                } catch (error) {
+                    console.error("Error fetching user data:", error);
+                     // If there's an error, maybe just log out the user to be safe
+                    auth.signOut();
+                }
             };
 
             const showLoginScreen = () => {
@@ -868,9 +987,28 @@
             };
 
             // --- Firebase Auth Logic ---
+            const loginView = document.getElementById('login-view');
+            const signupView = document.getElementById('signup-view');
+            const showSignupBtn = document.getElementById('show-signup');
+            const showLoginBtn = document.getElementById('show-login');
+            
+            showSignupBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                loginView.classList.add('hidden');
+                signupView.classList.remove('hidden');
+            });
+
+            showLoginBtn.addEventListener('click', (e) => {
+                e.preventDefault();
+                signupView.classList.add('hidden');
+                loginView.classList.remove('hidden');
+            });
+
+
             const loginForm = document.getElementById('login-form');
-            const signupBtn = document.getElementById('signup-btn');
-            const authError = document.getElementById('auth-error');
+            const signupForm = document.getElementById('signup-form');
+            const loginError = document.getElementById('login-error');
+            const signupError = document.getElementById('signup-error');
 
             loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
@@ -879,21 +1017,74 @@
 
                 auth.signInWithEmailAndPassword(email, password)
                     .catch(err => {
-                        authError.textContent = err.message;
-                        authError.classList.remove('hidden');
+                        console.error("Login Error:", err.code, err.message);
+                        let friendlyMessage = "เกิดข้อผิดพลาดที่ไม่รู้จัก";
+                        switch (err.code) {
+                            case 'auth/user-not-found':
+                            case 'auth/wrong-password':
+                            case 'auth/invalid-credential':
+                                friendlyMessage = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+                                break;
+                            case 'auth/invalid-email':
+                                friendlyMessage = "รูปแบบอีเมลไม่ถูกต้อง";
+                                break;
+                        }
+                        loginError.textContent = friendlyMessage;
+                        loginError.classList.remove('hidden');
                     });
             });
 
-            signupBtn.addEventListener('click', () => {
-                const email = loginForm.email.value;
-                const password = loginForm.password.value;
+            signupForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const username = signupForm.username.value;
+                const email = signupForm.email.value;
+                const password = signupForm.password.value;
+                
+                if (!username) {
+                    signupError.textContent = "กรุณาใส่ชื่อผู้ใช้";
+                    signupError.classList.remove('hidden');
+                    return;
+                }
 
                 auth.createUserWithEmailAndPassword(email, password)
+                    .then(userCredential => {
+                        const user = userCredential.user;
+                        const randomAvatar = encodeURI(avatarFiles[Math.floor(Math.random() * avatarFiles.length)]);
+                        
+                        // Update profile in Auth
+                        return user.updateProfile({
+                            displayName: username,
+                            photoURL: randomAvatar
+                        }).then(() => {
+                            // Create user doc in Firestore
+                            return db.collection('users').doc(user.uid).set({
+                                username: username,
+                                email: email,
+                                photoURL: randomAvatar,
+                                highScore: 0,
+                                createdAt: firebase.firestore.FieldValue.serverTimestamp()
+                            });
+                        });
+                    })
                     .catch(err => {
-                        authError.textContent = err.message;
-                        authError.classList.remove('hidden');
+                        console.error("Signup Error:", err.code, err.message);
+                        let friendlyMessage = "เกิดข้อผิดพลาดที่ไม่รู้จัก";
+                        switch (err.code) {
+                            case 'auth/email-already-in-use':
+                                friendlyMessage = "อีเมลนี้มีผู้ใช้งานแล้ว";
+                                break;
+                            case 'auth/invalid-email':
+                                friendlyMessage = "รูปแบบอีเมลไม่ถูกต้อง";
+                                break;
+                            case 'auth/weak-password':
+                                friendlyMessage = "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร";
+                                break;
+                        }
+                        signupError.textContent = friendlyMessage;
+                        signupError.classList.remove('hidden');
                     });
             });
+
 
             // Auth State Listener
             auth.onAuthStateChanged(user => {
@@ -943,7 +1134,9 @@
                          activeLink.classList.add('active');
                     });
                     
-                    document.getElementById('mobile-menu').classList.add('hidden');
+                    if (document.getElementById('mobile-menu').classList.contains('hidden') === false) {
+                        document.getElementById('mobile-menu').classList.add('hidden');
+                    }
                 });
             });
 
@@ -979,6 +1172,99 @@
 
             logoutBtn.addEventListener('click', handleLogout);
             mobileLogoutBtn.addEventListener('click', handleLogout);
+
+             // --- Profile and Settings Page Logic ---
+            const profileForm = document.getElementById('profile-form');
+            const avatarSelectionGrid = document.getElementById('avatar-selection-grid');
+            let selectedAvatarFile = null;
+
+            avatarSelectionGrid.addEventListener('click', (e) => {
+                if (e.target.tagName === 'IMG') {
+                    // Remove selected class from all avatars
+                    avatarSelectionGrid.querySelectorAll('img').forEach(img => img.classList.remove('selected'));
+                    // Add selected class to clicked avatar
+                    e.target.classList.add('selected');
+                    selectedAvatarFile = e.target.dataset.filename;
+                }
+            });
+
+            profileForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newUsername = document.getElementById('profile-username').value;
+                const user = auth.currentUser;
+                const profileSuccessMessage = document.getElementById('profile-success-message');
+
+                if (user) {
+                    const updates = {};
+                    if (newUsername !== user.displayName) {
+                        updates.displayName = newUsername;
+                    }
+                    if (selectedAvatarFile) {
+                        updates.photoURL = encodeURI(selectedAvatarFile);
+                    }
+
+                    user.updateProfile(updates).then(() => {
+                        // Also update firestore
+                        const firestoreUpdates = {};
+                         if (newUsername !== user.displayName) {
+                            firestoreUpdates.username = newUsername;
+                        }
+                        if (selectedAvatarFile) {
+                            firestoreUpdates.photoURL = encodeURI(selectedAvatarFile);
+                        }
+                        return db.collection('users').doc(user.uid).update(firestoreUpdates);
+                    }).then(() => {
+                        profileSuccessMessage.classList.remove('hidden');
+                        setTimeout(() => profileSuccessMessage.classList.add('hidden'), 3000);
+                        showMainApp(auth.currentUser); // Refresh UI
+                    }).catch(error => {
+                        console.error("Error updating profile: ", error);
+                    });
+                }
+            });
+
+            const changeEmailForm = document.getElementById('change-email-form');
+            changeEmailForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newEmail = document.getElementById('new-email').value;
+                const user = auth.currentUser;
+                const emailSuccessMessage = document.getElementById('email-success-message');
+                const emailErrorMessage = document.getElementById('email-error-message');
+                
+                if (user && newEmail) {
+                    user.updateEmail(newEmail).then(() => {
+                        emailSuccessMessage.textContent = "เปลี่ยนอีเมลสำเร็จแล้ว!";
+                        emailSuccessMessage.classList.remove('hidden');
+                        setTimeout(() => emailSuccessMessage.classList.add('hidden'), 3000);
+                    }).catch(error => {
+                        emailErrorMessage.textContent = error.message;
+                        emailErrorMessage.classList.remove('hidden');
+                         setTimeout(() => emailErrorMessage.classList.add('hidden'), 3000);
+                    });
+                }
+            });
+
+             const changePasswordForm = document.getElementById('change-password-form');
+             changePasswordForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const newPassword = document.getElementById('new-password').value;
+                const user = auth.currentUser;
+                const passwordSuccessMessage = document.getElementById('password-success-message');
+                const passwordErrorMessage = document.getElementById('password-error-message');
+
+                if (user && newPassword) {
+                    user.updatePassword(newPassword).then(() => {
+                        passwordSuccessMessage.textContent = "เปลี่ยนรหัสผ่านสำเร็จแล้ว!";
+                        passwordSuccessMessage.classList.remove('hidden');
+                        setTimeout(() => passwordSuccessMessage.classList.add('hidden'), 3000);
+                    }).catch(error => {
+                        passwordErrorMessage.textContent = error.message;
+                        passwordErrorMessage.classList.remove('hidden');
+                         setTimeout(() => passwordErrorMessage.classList.add('hidden'), 3000);
+                    });
+                }
+            });
+
 
             // --- AI Solver Modal Logic ---
             const aiSolverModal = document.getElementById('ai-solver-modal');
@@ -1172,6 +1458,8 @@
                         } else {
                             arcadeHighScoreEl.textContent = 0;
                         }
+                    }).catch(error => {
+                        console.error("Error getting high score from Firestore:", error);
                     });
                 }
             }
