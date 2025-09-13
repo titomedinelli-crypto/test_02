@@ -823,14 +823,14 @@
     <script>
         // --- Firebase Configuration ---
         const firebaseConfig = {
-            apiKey: "AIzaSyDYi6Ozmf6vEWkWg49QC5MuyJAvt7a-xZc",
-            authDomain: "secset-542cb.firebaseapp.com",
-            projectId: "secset-542cb",
-            storageBucket: "secset-542cb.firebasestorage.app",
-            messagingSenderId: "735349862292",
-            appId: "1:735349862292:web:a86d3f77dd3b7153d4a981",
-            measurementId: "G-Y6V4MV1XGB"
-        };
+  apiKey: "AIzaSyDYi6Ozmf6vEWkWg49QC5MuyJAvt7a-xZc",
+  authDomain: "secset-542cb.firebaseapp.com",
+  projectId: "secset-542cb",
+  storageBucket: "secset-542cb.firebasestorage.app",
+  messagingSenderId: "735349862292",
+  appId: "1:735349862292:web:a86d3f77dd3b7153d4a981",
+  measurementId: "G-Y6V4MV1XGB"
+};
 
         // Initialize Firebase
         firebase.initializeApp(firebaseConfig);
@@ -1068,7 +1068,7 @@
                     })
                     .catch(err => {
                         console.error("Signup Error:", err.code, err.message);
-                        let friendlyMessage = "เกิดข้อผิดพลาดที่ไม่รู้จัก";
+                        let friendlyMessage = "";
                         switch (err.code) {
                             case 'auth/email-already-in-use':
                                 friendlyMessage = "อีเมลนี้มีผู้ใช้งานแล้ว";
@@ -1078,6 +1078,10 @@
                                 break;
                             case 'auth/weak-password':
                                 friendlyMessage = "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร";
+                                break;
+                            default:
+                                // Display the actual error from Firebase for better debugging
+                                friendlyMessage = `เกิดข้อผิดพลาด: ${err.message}`;
                                 break;
                         }
                         signupError.textContent = friendlyMessage;
@@ -2120,4 +2124,5 @@
 </body>
 
 </html>
+"
 
