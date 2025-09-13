@@ -558,57 +558,70 @@
 
                 <!-- Speed Quiz Mode Content -->
                 <div id="speed-quiz-mode-content" class="hidden">
-                    <button class="back-to-arcade-menu mb-4 text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
-                    <div id="speed-quiz-game-area" class="relative w-full max-w-3xl mx-auto h-[70vh] bg-gray-800 rounded-2xl shadow-2xl overflow-hidden" style="background: linear-gradient(180deg, #1f2937 0%, #374151 100%);">
+                     <div id="speed-quiz-game-area" class="relative w-full max-w-3xl mx-auto h-[80vh] rounded-2xl shadow-2xl overflow-hidden bg-[#0B0F29]">
+                        <div class="absolute top-0 left-0 w-full h-16 bg-[#1D244F] z-30 flex items-center justify-between px-4">
+                            <div class="flex items-center space-x-2">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                <span id="speed-quiz-score-top" class="text-white font-bold text-lg">0</span>
+                            </div>
+                             <div class="flex items-center space-x-2">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                <span id="speed-quiz-timer-top" class="text-white font-bold text-lg">30</span>
+                            </div>
+                            <button class="back-to-arcade-menu text-white">
+                                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
+
                         <canvas id="background-canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
                         <canvas id="laser-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></canvas>
                         <canvas id="confetti-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-50"></canvas>
                         
-                        <div class="absolute bottom-4 left-4 flex space-x-8 text-white text-xl font-bold bg-black/30 px-4 py-2 rounded-lg z-30">
-                            <div>เวลา: <span id="speed-quiz-timer">30</span></div>
-                            <div>คะแนน: <span id="speed-quiz-score">0</span></div>
-                        </div>
-                        
                          <div id="speed-quiz-start-overlay" class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-40">
-                            <h3 class="text-4xl font-bold text-white mb-6">ทดสอบความเร็ว</h3>
+                            <h3 class="text-4xl font-bold text-white mb-2">โหมดทดสอบความเร็ว</h3>
+                             <p class="text-white/80 mb-6">ยิงคำตอบที่ถูกต้องก่อนเวลาจะหมด!</p>
                             <button id="speed-quiz-start-btn" class="aurora-button px-10 py-4 font-bold rounded-lg text-lg">เริ่มเกม</button>
                         </div>
-                        <div id="countdown-overlay" class="hidden absolute inset-0 bg-black/50 flex-col items-center justify-center z-40 text-white text-9xl font-bold">
+                        <div id="countdown-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/80 flex-col items-center justify-center z-40 text-white text-9xl font-bold">
                             <span id="countdown-text" class="countdown-number">3</span>
                         </div>
-                        <div id="speed-quiz-end-overlay" class="hidden absolute inset-0 bg-black/50 backdrop-blur-md flex-col items-center justify-center z-40 p-8">
-                           <div class="w-full max-w-md text-left">
-                               <img src="https://img.icons8.com/plasticine/100/000000/trophy.png" alt="Trophy" class="mb-4 h-20 w-20"/>
+                        <div id="speed-quiz-end-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/90 backdrop-blur-md flex-col items-center justify-center z-40 p-8">
+                           <div class="w-full max-w-md text-center">
+                               <img src="https://img.icons8.com/plasticine/100/000000/trophy.png" alt="Trophy" class="mx-auto mb-4 h-24 w-24"/>
                                <h3 class="text-3xl font-bold text-white mb-2">ทำได้ดีมาก!</h3>
                                <p class="text-white/80 text-lg mb-6">นี่คือคะแนนสุดท้ายของคุณ</p>
                                <div class="flex space-x-4 w-full">
-                                   <div class="w-1/2 bg-blue-500/50 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
+                                   <div class="w-1/2 bg-blue-500/20 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
                                        <p class="text-blue-200 text-sm">คะแนนของคุณ</p>
                                        <p id="final-score" class="text-white text-4xl font-bold">0</p>
                                    </div>
-                                   <div class="w-1/2 bg-fuchsia-500/50 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
+                                   <div class="w-1/2 bg-fuchsia-500/20 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
                                        <p class="text-fuchsia-200 text-sm">คะแนนสูงสุด</p>
                                        <p id="high-score" class="text-white text-4xl font-bold">0</p>
                                    </div>
                                </div>
                                <button id="speed-quiz-restart-btn" class="aurora-button mt-8 w-full py-3 font-bold rounded-lg text-lg">เล่นอีกครั้ง</button>
+                                <button class="back-to-arcade-menu mt-4 w-full py-3 font-semibold rounded-lg text-white/70 hover:text-white transition-colors">กลับไปเลือกโหมด</button>
                            </div>
                         </div>
                         
                         <!-- Game elements -->
-                        <div id="speed-quiz-question-area" class="absolute top-4 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-black/40 backdrop-blur-sm p-4 rounded-lg text-white text-center z-30 opacity-100 transition-opacity duration-300">
-                             <p id="speed-quiz-question-text" class="text-lg"></p>
+                        <div id="speed-quiz-question-area" class="absolute top-20 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-black/40 backdrop-blur-sm p-4 rounded-lg text-white text-center z-30 opacity-100 transition-opacity duration-300">
+                             <p id="speed-quiz-question-text" class="text-xl font-semibold"></p>
                         </div>
 
-                        <div id="shooter-container" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-36 h-36 z-30">
-                             <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M100 20C44.77 20 0 64.77 0 120C0 148.97 16.59 174.6 41.5 186.13C52.12 191.2 64.53 194 77.5 194H122.5C135.47 194 147.88 191.2 158.5 186.13C183.41 174.6 200 148.97 200 120C200 64.77 155.23 20 100 20Z" fill="#262626"/>
-                                <path d="M100 20C100 20 120 25 120 40C120 55 100 60 100 60C100 60 80 55 80 40C80 25 100 20 100 20Z" fill="#737373"/>
-                                <path d="M140 80C140 74.48 135.52 70 130 70H70C64.48 70 60 74.48 60 80V120C60 125.52 64.48 130 70 130H130C135.52 130 140 125.52 140 120V80Z" fill="#525252"/>
-                                <path d="M130 70H70C64.48 70 60 74.48 60 80V100H140V80C140 74.48 135.52 70 130 70Z" fill="#404040"/>
-                                <path d="M125 140H75L70 170H130L125 140Z" fill="#404040"/>
-                                <rect x="85" y="90" width="30" height="10" rx="2" fill="#ef4444"/>
-                             </svg>
+                        <div id="shooter-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 w-24 h-24 z-30">
+                             <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                <path d="M50 0C48.4488 4.29171 44.2917 8.44876 40 10C35.7083 11.5512 30.5833 11.5512 25 10C19.4167 8.44876 15.2596 4.29171 10 0L0 15C4.29171 19.7404 8.44876 24.2211 10 30C11.5512 35.7789 11.5512 41.6667 10 45C8.44876 50.5556 4.29171 55.2596 0 60L10 90C19.4167 85.5833 29.2596 80.7596 40 80H60C70.7404 80.7596 80.5833 85.5833 90 90L100 60C95.7083 55.2596 91.5512 50.5556 90 45C88.4488 39.4444 88.4488 33.5556 90 30C91.5512 24.4444 95.7083 19.7404 100 15L90 0C80.5833 4.41667 70.7404 8.44876 60 10C55.7083 11.5512 51.5512 11.5512 50 10V0Z" fill="url(#paint0_linear_1_2)"/>
+                                <circle cx="50" cy="45" r="12" fill="#24294A" stroke="white" stroke-width="2"/>
+                                <circle cx="50" cy="45" r="5" fill="#7DF0E5"/>
+                                <defs>
+                                <linearGradient id="paint0_linear_1_2" x1="50" y1="0" x2="50" y2="90" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#3D457F"/>
+                                <stop offset="1" stop-color="#24294A"/>
+                                </linearGradient>
+                                </defs>
+                            </svg>
                         </div>
                     </div>
                 </div>
@@ -932,53 +945,54 @@
             populateAvatarSelection();
 
              // --- Navigation Logic ---
-            const showMainApp = async (user) => {
-                // Fetch user data from Firestore
-                try {
-                    const userDoc = await db.collection('users').doc(user.uid).get();
+            const showMainApp = (user) => {
+                 // Update UI with basic info first to make it feel faster
+                const userName = user.displayName || user.email.split('@')[0];
+                const userEmail = user.email;
+                const photoURL = user.photoURL || encodeURI(avatarFiles[0]);
+
+                document.getElementById('user-name-desktop').textContent = userName;
+                document.getElementById('user-name-dropdown').textContent = userName;
+                document.getElementById('user-email-dropdown').textContent = userEmail;
+                document.getElementById('user-name-mobile').textContent = userName;
+                document.getElementById('user-email-mobile').textContent = userEmail;
+                document.getElementById('profile-img-desktop').src = photoURL;
+                document.getElementById('profile-img-mobile').src = photoURL;
+                document.getElementById('profile-page-avatar').src = photoURL;
+                document.getElementById('profile-username').value = userName;
+                
+                loginSection.classList.add('opacity-0');
+                setTimeout(() => {
+                    loginSection.classList.add('hidden');
+                    mainApp.classList.remove('hidden');
+                    setTimeout(() => mainApp.classList.remove('opacity-0'), 50); 
+                }, 500);
+
+                // Then, try to fetch detailed data from Firestore
+                db.collection('users').doc(user.uid).get().then(userDoc => {
                     if (!userDoc.exists) {
-                        console.log("No user document found! This might be a new user.");
-                         // Potentially create a document here if signup logic failed partially
+                        console.warn("User document doesn't exist in Firestore. This might be the first login after signup.");
+                        return;
                     }
-                    const userData = userDoc.data() || {};
-
-                    const userName = user.displayName || user.email.split('@')[0];
-                    const userEmail = user.email;
-                    const photoURL = user.photoURL || encodeURI(avatarFiles[0]);
-
-                    // Update all UI elements
-                    document.getElementById('user-name-desktop').textContent = userName;
-                    document.getElementById('user-name-dropdown').textContent = userName;
-                    document.getElementById('user-email-dropdown').textContent = userEmail;
-                    document.getElementById('user-name-mobile').textContent = userName;
-                    document.getElementById('user-email-mobile').textContent = userEmail;
-                    document.getElementById('profile-img-desktop').src = photoURL;
-                    document.getElementById('profile-img-mobile').src = photoURL;
+                    const userData = userDoc.data();
                     
-                    // Populate profile page
-                    document.getElementById('profile-page-avatar').src = photoURL;
-                    document.getElementById('profile-username').value = userName;
-                    
-                    // Highlight the selected avatar
+                    // Update UI again with data from Firestore if it exists
+                    const firestorePhotoURL = userData.photoURL || photoURL;
+                    document.getElementById('profile-img-desktop').src = firestorePhotoURL;
+                    document.getElementById('profile-img-mobile').src = firestorePhotoURL;
+                    document.getElementById('profile-page-avatar').src = firestorePhotoURL;
+
                     document.querySelectorAll('#avatar-selection-grid img').forEach(img => {
                         img.classList.remove('selected');
-                        if (decodeURI(img.src).endsWith(decodeURI(photoURL))) {
+                        if (decodeURI(img.src).endsWith(decodeURI(firestorePhotoURL))) {
                             img.classList.add('selected');
                         }
                     });
 
-                    loginSection.classList.add('opacity-0');
-                    setTimeout(() => {
-                        loginSection.classList.add('hidden');
-                        mainApp.classList.remove('hidden');
-                        setTimeout(() => mainApp.classList.remove('opacity-0'), 50); 
-                    }, 500);
-
-                } catch (error) {
+                }).catch(error => {
                     console.error("Error fetching user data from Firestore:", error.code, error.message);
-                    alert(`ไม่สามารถโหลดข้อมูลผู้ใช้ได้: ${error.message} กรุณาตรวจสอบ Firestore Rules ของคุณ`);
-                    auth.signOut();
-                }
+                    alert(`เกิดปัญหาในการเชื่อมต่อฐานข้อมูล: ${error.message} กรุณาตรวจสอบ Firestore Rules ของคุณ`);
+                });
             };
 
             const showLoginScreen = () => {
@@ -1022,16 +1036,11 @@
                 auth.signInWithEmailAndPassword(email, password)
                     .catch(err => {
                         console.error("Login Error:", err.code, err.message);
-                        let friendlyMessage = "เกิดข้อผิดพลาดที่ไม่รู้จัก";
-                        switch (err.code) {
-                            case 'auth/user-not-found':
-                            case 'auth/wrong-password':
-                            case 'auth/invalid-credential':
-                                friendlyMessage = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
-                                break;
-                            case 'auth/invalid-email':
-                                friendlyMessage = "รูปแบบอีเมลไม่ถูกต้อง";
-                                break;
+                        let friendlyMessage = "เกิดข้อผิดพลาด: อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+                        if (err.code === 'auth/invalid-email') {
+                            friendlyMessage = "รูปแบบอีเมลไม่ถูกต้อง";
+                        } else if (err.code.includes('internal-error') || err.message.includes('INVALID_LOGIN_CREDENTIALS')) {
+                            friendlyMessage = "อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง";
                         }
                         loginError.textContent = friendlyMessage;
                         loginError.classList.remove('hidden');
@@ -1540,8 +1549,8 @@
 
             // --- Speed Quiz Game Logic ---
             const speedQuizGameArea = document.getElementById('speed-quiz-game-area');
-            const speedQuizTimerEl = document.getElementById('speed-quiz-timer');
-            const speedQuizScoreEl = document.getElementById('speed-quiz-score');
+            const speedQuizTimerEl = document.getElementById('speed-quiz-timer-top');
+            const speedQuizScoreEl = document.getElementById('speed-quiz-score-top');
             const speedQuizQuestionArea = document.getElementById('speed-quiz-question-area');
             const speedQuizQuestionTextEl = document.getElementById('speed-quiz-question-text');
             const speedQuizStartOverlay = document.getElementById('speed-quiz-start-overlay');
@@ -1662,21 +1671,13 @@
             }
 
             // --- Particle Explosion setup ---
-            const createExplosion = (x, y, color) => {
-                for (let i = 0; i < 50; i++) { // Increased particle count for bigger splash
-                    const angle = Math.random() * Math.PI * 2;
-                    const speed = Math.random() * 6 + 2;
-                    particles.push({
-                        x: x,
-                        y: y,
-                        vx: Math.cos(angle) * speed,
-                        vy: Math.sin(angle) * speed,
-                        radius: Math.random() * 3 + 2,
-                        color: color,
-                        life: 60, // frames
-                        friction: 0.95
-                    });
-                }
+             const createHitRing = (x, y, color) => {
+                particles.push({
+                    x, y, color,
+                    radius: 20,
+                    life: 30,
+                    type: 'ring'
+                });
             }
             
             const drawLasers = () => {
@@ -1684,9 +1685,9 @@
                     laserCtx.beginPath();
                     laserCtx.moveTo(laser.startX, laser.startY);
                     laserCtx.lineTo(laser.x, laser.y);
-                    laserCtx.strokeStyle = '#ef4444'; // Red laser
-                    laserCtx.lineWidth = 4;
-                    laserCtx.shadowColor = '#f87171';
+                    laserCtx.strokeStyle = 'white';
+                    laserCtx.lineWidth = 3;
+                    laserCtx.shadowColor = '#7DF0E5';
                     laserCtx.shadowBlur = 15;
                     laserCtx.stroke();
                 });
@@ -1696,11 +1697,13 @@
             const drawParticles = () => {
                 // Particles are drawn on the laser canvas to be on top
                 particles.forEach(p => {
-                    laserCtx.beginPath();
-                    laserCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                    laserCtx.fillStyle = p.color;
-                    laserCtx.globalAlpha = p.life / 60;
-                    laserCtx.fill();
+                    if (p.type === 'ring') {
+                        laserCtx.beginPath();
+                        laserCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                        laserCtx.strokeStyle = `rgba(255, 255, 255, ${p.life / 30})`;
+                        laserCtx.lineWidth = 2;
+                        laserCtx.stroke();
+                    }
                 });
                 laserCtx.globalAlpha = 1.0; // Reset alpha
             }
@@ -1715,9 +1718,13 @@
                     if (l.progress >= 1) {
                          const bubble = bubbles.find(b => b.id === l.targetId);
                         if(bubble) {
-                             createExplosion(l.endX, l.endY, bubble.el.dataset.isCorrect === 'true' ? '#4ade80' : '#f87171');
-                             bubble.el.remove();
-                             bubbles = bubbles.filter(b => b.id !== l.targetId);
+                             createHitRing(l.endX, l.endY);
+                             if (bubble.el.dataset.isCorrect === 'true') {
+                                 bubble.isHit = true;
+                             } else {
+                                 bubble.el.style.animation = 'shake 0.5s';
+                                 setTimeout(() => { bubble.el.style.animation = '' }, 500);
+                             }
                         }
                         lasers.splice(i, 1);
                     }
@@ -1725,10 +1732,9 @@
                 
                 for (let i = particles.length - 1; i >= 0; i--) {
                     const p = particles[i];
-                    p.x += p.vx;
-                    p.y += p.vy;
-                    p.vx *= p.friction; 
-                    p.vy *= p.friction;
+                    if (p.type === 'ring') {
+                        p.radius += 2;
+                    }
                     p.life--;
                     if (p.life <= 0) {
                         particles.splice(i, 1);
@@ -1754,7 +1760,7 @@
                         void countdownText.offsetWidth; // Trigger reflow
                         countdownText.classList.add('countdown-number');
                     } else if (count === 0) {
-                        countdownText.textContent = "เริ่ม!";
+                        countdownText.textContent = "BLAST!";
                         countdownText.classList.remove('countdown-number');
                         void countdownText.offsetWidth; // Trigger reflow
                         countdownText.classList.add('countdown-number');
@@ -1774,7 +1780,7 @@
                 speedQuizScoreEl.textContent = speedQuizScore;
                 setupStarfield();
                 startTimer();
-                nextSpeedQuestion();
+                nextSpeedQuestion(true); // isFirstQuestion = true
                 gameLoop();
             }
 
@@ -1858,60 +1864,76 @@
             const updateBubbles = () => {
                 const gameRect = speedQuizGameArea.getBoundingClientRect();
                 bubbles.forEach(bubble => {
+                     if (bubble.isHit) {
+                        bubble.el.style.opacity = Math.max(0, parseFloat(bubble.el.style.opacity) - 0.05);
+                        if (parseFloat(bubble.el.style.opacity) <= 0) {
+                             // Will be handled by next question logic
+                        }
+                        return;
+                    }
+
                     bubble.x += bubble.vx;
                     bubble.y += bubble.vy;
 
                     if (bubble.x <= 0 || bubble.x + bubble.el.offsetWidth >= gameRect.width) {
                         bubble.vx *= -1; 
                     }
-                    if (bubble.y <= 0 || bubble.y + bubble.el.offsetHeight >= gameRect.height - 150) { // Keep away from shooter
+                    if (bubble.y <= 64 || bubble.y + bubble.el.offsetHeight >= gameRect.height - 120) { // Keep away from top/bottom
                         bubble.vy *= -1;
                     }
 
-                    // Clamp position to prevent going out of bounds
                     bubble.x = Math.max(0, Math.min(bubble.x, gameRect.width - bubble.el.offsetWidth));
-                    bubble.y = Math.max(0, Math.min(bubble.y, gameRect.height - 150 - bubble.el.offsetHeight));
-
+                    bubble.y = Math.max(64, Math.min(bubble.y, gameRect.height - 120 - bubble.el.offsetHeight));
 
                     bubble.el.style.transform = `translate(${bubble.x}px, ${bubble.y}px)`;
                 });
             }
 
-            const nextSpeedQuestion = () => {
-                if (!timerInterval) return; 
-                bubbles.forEach(b => b.el.remove());
-                bubbles = [];
+            const nextSpeedQuestion = (isFirstQuestion = false) => {
+                if (!timerInterval) return;
 
                 speedQuizCurrentQuestion = speedQuizQuestions[Math.floor(Math.random() * speedQuizQuestions.length)];
                 speedQuizQuestionTextEl.innerHTML = speedQuizCurrentQuestion.question;
 
                 const gameRect = speedQuizGameArea.getBoundingClientRect();
 
-                speedQuizCurrentQuestion.options.forEach((option, index) => {
-                    const bubbleEl = document.createElement('div');
-                    bubbleEl.classList.add('bubble', 'absolute', 'cursor-pointer', 'flex', 'items-center', 'justify-center', 'text-center', 'p-2', 'text-white', 'font-semibold', 'rounded-full', 'bg-purple-500/70', 'backdrop-blur-sm', 'border', 'border-purple-300/50', 'shadow-lg', 'transition-all', 'duration-300');
-                    bubbleEl.style.width = '140px';
-                    bubbleEl.style.height = '140px';
-                    bubbleEl.style.fontSize = '14px';
-                    bubbleEl.style.zIndex = '10';
-                    bubbleEl.innerHTML = option;
-                    bubbleEl.dataset.answer = option;
-                    
-                    const bubbleId = `bubble-${Date.now()}-${index}`;
+                if (isFirstQuestion) {
+                    bubbles.forEach(b => b.el.remove());
+                    bubbles = [];
+                    speedQuizCurrentQuestion.options.forEach((option, index) => {
+                         const bubbleEl = document.createElement('div');
+                        bubbleEl.classList.add('bubble', 'absolute', 'cursor-pointer', 'flex', 'items-center', 'justify-center', 'text-center', 'p-2', 'text-white', 'font-semibold', 'rounded-full', 'bg-purple-500/70', 'backdrop-blur-sm', 'border', 'border-purple-300/50', 'shadow-lg', 'transition-opacity', 'duration-300');
+                        bubbleEl.style.width = '140px';
+                        bubbleEl.style.height = '140px';
+                        bubbleEl.style.fontSize = '14px';
+                        bubbleEl.style.zIndex = '10';
+                        
+                        const bubbleId = `bubble-${Date.now()}-${index}`;
 
-                    const bubble = {
-                        id: bubbleId,
-                        el: bubbleEl,
-                        x: Math.random() * (gameRect.width - 140),
-                        y: (Math.random() * (gameRect.height - 420)) + 80, // Start higher up and not on question
-                        vx: (Math.random() - 0.5) * 2.5, // Sligthly slower
-                        vy: (Math.random() - 0.5) * 2.5,
-                    };
-                    bubbleEl.dataset.id = bubbleId;
-
-                    bubbles.push(bubble);
-                    speedQuizGameArea.appendChild(bubbleEl);
-                    bubbleEl.addEventListener('click', handleBubbleClick);
+                        const bubble = {
+                            id: bubbleId,
+                            el: bubbleEl,
+                            isHit: false,
+                            x: Math.random() * (gameRect.width - 140),
+                            y: (Math.random() * (gameRect.height - 420)) + 80,
+                            vx: (Math.random() - 0.5) * 2,
+                            vy: (Math.random() - 0.5) * 2,
+                        };
+                        bubbleEl.dataset.id = bubbleId;
+                        bubbles.push(bubble);
+                        speedQuizGameArea.appendChild(bubbleEl);
+                        bubbleEl.addEventListener('click', handleBubbleClick);
+                    });
+                }
+                
+                // Assign new options to all bubbles
+                const shuffledOptions = [...speedQuizCurrentQuestion.options].sort(() => 0.5 - Math.random());
+                bubbles.forEach((bubble, index) => {
+                    bubble.el.innerHTML = shuffledOptions[index];
+                    bubble.el.dataset.answer = shuffledOptions[index];
+                    bubble.isHit = false;
+                    bubble.el.style.opacity = 1;
+                    bubble.el.style.pointerEvents = 'auto';
                 });
             }
             
@@ -1928,7 +1950,7 @@
                 const centerY = bubbleRect.top + bubbleRect.height / 2 - gameAreaRect.top;
                 
                 const distance = Math.sqrt(Math.pow(centerX - startX, 2) + Math.pow(centerY - startY, 2));
-                const laserSpeed = 1 / (distance / 40); // Adjust divisor for speed
+                const laserSpeed = 1 / (distance / 30); // Adjust divisor for speed
 
                 lasers.push({
                     startX, startY, endX: centerX, endY: centerY,
@@ -1950,24 +1972,19 @@
                 const isCorrect = selectedAnswer === speedQuizCurrentQuestion.correctAnswer;
                 selectedBubbleEl.dataset.isCorrect = isCorrect;
                 
-                if(isCorrect){
-                   selectedBubbleEl.classList.add('shadow-2xl', 'shadow-green-500/50', 'border-green-400');
-                } else {
-                   selectedBubbleEl.classList.add('shadow-2xl', 'shadow-red-500/50', 'border-red-400');
-                }
-                
                 shootLaser(selectedBubbleEl);
                 
                 setTimeout(() => {
                     if (isCorrect) {
                         speedQuizScore += 10;
+                        speedQuizScoreEl.textContent = speedQuizScore;
+                        nextSpeedQuestion();
                     } else {
                         speedQuizScore = Math.max(0, speedQuizScore - 5);
+                         speedQuizScoreEl.textContent = speedQuizScore;
+                         bubbles.forEach(b => b.el.style.pointerEvents = 'auto');
                     }
-                    speedQuizScoreEl.textContent = speedQuizScore;
-                    
-                    nextSpeedQuestion();
-                }, 1000); // Wait 1s for animation
+                }, 500); // Wait for laser animation
             }
 
             document.getElementById('speed-quiz-start-btn').addEventListener('click', startCountdown);
@@ -2130,22 +2147,4 @@
 </body>
 
 </html>
-```
-
-ผมได้ทำการแก้ไขโค้ดเพื่อจัดการกับ error ที่เกิดขึ้น และปรับปรุงการแสดงผลข้อความ error ให้ผู้ใช้เข้าใจง่ายขึ้นแล้วครับ
-
-อย่างไรก็ตาม, error `Missing or insufficient permissions` ที่คุณเจอนั้น **เป็นปัญหาที่เกิดจากการตั้งค่า Rules ใน Firestore ของคุณ** ไม่ใช่จากโค้ดโดยตรงครับ
-
-**สิ่งที่ต้องทำเพื่อแก้ไข:**
-กรุณาเข้าไปที่โปรเจกต์ Firebase ของคุณ แล้วไปที่ **Firestore Database -> Rules** จากนั้นนำโค้ดด้านล่างนี้ไปวางทับของเดิมทั้งหมด แล้วกด **Publish** ครับ
-
-```
-rules_version = '2';
-service cloud.firestore {
-  match /databases/{database}/documents {
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-    }
-  }
-}
 
