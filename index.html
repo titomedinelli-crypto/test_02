@@ -374,7 +374,7 @@
             <div class="mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex-shrink-0">
-                        <h1 class="text-2xl font-bold text-indigo-600">Set Theory Hub</h1>
+                        <h1 class="text-2xl font-bold text-indigo-600">SucSet</h1>
                     </div>
 
                     <!-- Right side of navbar for desktop -->
@@ -712,34 +712,27 @@
             <!-- Profile Page Section -->
             <section id="profile-page" class="app-section hidden">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">แก้ไขโปรไฟล์</h2>
-                <div class="max-w-4xl mx-auto bg-white/70 backdrop-blur-xl p-8 rounded-2xl shadow-lg border border-white/30">
-                    <form id="profile-form" class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                        <!-- Avatar Display -->
-                        <div class="md:col-span-1 flex flex-col items-center">
-                            <img id="profile-page-avatar" class="h-40 w-40 rounded-full object-cover border-4 border-white shadow-lg" src="" alt="Current Avatar">
-                             <p class="mt-4 text-slate-600 text-center text-sm">รูปโปรไฟล์ปัจจุบัน</p>
-                        </div>
-                        
-                        <!-- Form Fields -->
-                        <div class="md:col-span-2 space-y-6">
+                <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                    <form id="profile-form">
+                        <div class="flex flex-col items-center space-y-6">
+                            <img id="profile-page-avatar" class="h-32 w-32 rounded-full object-cover border-4 border-indigo-200" src="" alt="Current Avatar">
+                            
                             <div>
-                                <label for="profile-username" class="block text-lg font-semibold text-slate-800 mb-2">ชื่อผู้ใช้</label>
-                                <input type="text" id="profile-username" class="w-full border-slate-300 rounded-lg p-3 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                                <label for="profile-username" class="block text-sm font-medium text-slate-700 mb-1">ชื่อผู้ใช้</label>
+                                <input type="text" id="profile-username" class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
                             </div>
 
                             <div>
-                                <label class="block text-lg font-semibold text-slate-800 mb-2">เลือกรูปโปรไฟล์ใหม่</label>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">เลือกรูปโปรไฟล์ใหม่</label>
                                 <div id="avatar-selection-grid" class="grid grid-cols-5 gap-4 avatar-selection">
                                     <!-- Avatars will be injected by JS -->
                                 </div>
                             </div>
                             
-                            <div class="pt-4">
-                                <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 shadow-md hover:shadow-lg">
-                                    บันทึกการเปลี่ยนแปลง
-                                </button>
-                                <div id="profile-success-message" class="hidden text-center mt-4 text-green-600 font-semibold">บันทึกข้อมูลสำเร็จ!</div>
-                            </div>
+                            <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+                                บันทึกการเปลี่ยนแปลง
+                            </button>
+                            <div id="profile-success-message" class="hidden text-green-600">บันทึกข้อมูลสำเร็จ!</div>
                         </div>
                     </form>
                 </div>
@@ -749,39 +742,33 @@
             <section id="settings-page" class="app-section hidden">
                  <h2 class="text-3xl font-bold text-slate-800 mb-6">การตั้งค่าบัญชี</h2>
                  <div class="max-w-2xl mx-auto space-y-8">
-                     <!-- Change Email Card -->
-                    <div class="bg-white/70 backdrop-blur-xl p-8 rounded-2xl shadow-lg border border-white/30">
-                        <div class="flex items-center mb-4">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                             <h3 class="text-xl font-bold text-slate-800">เปลี่ยนอีเมล</h3>
-                        </div>
+                     <!-- Change Email -->
+                    <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                         <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนอีเมล</h3>
                          <form id="change-email-form" class="space-y-4">
                             <div id="email-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
                             <div id="email-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
                             <div>
                                 <label for="new-email" class="block text-sm font-medium text-slate-700 mb-1">อีเมลใหม่</label>
-                                <input type="email" id="new-email" required class="w-full border-slate-300 rounded-lg p-3 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                                <input type="email" id="new-email" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
                             </div>
-                            <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300 shadow-md hover:shadow-lg">
-                                บันทึกอีเมลใหม่
+                            <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
+                                เปลี่ยนอีเมล
                             </button>
                          </form>
                     </div>
-                    <!-- Change Password Card -->
-                    <div class="bg-white/70 backdrop-blur-xl p-8 rounded-2xl shadow-lg border border-white/30">
-                        <div class="flex items-center mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                            <h3 class="text-xl font-bold text-slate-800">เปลี่ยนรหัสผ่าน</h3>
-                        </div>
+                    <!-- Change Password -->
+                    <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                         <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนรหัสผ่าน</h3>
                          <form id="change-password-form" class="space-y-4">
                             <div id="password-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
                             <div id="password-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
                             <div>
                                 <label for="new-password" class="block text-sm font-medium text-slate-700 mb-1">รหัสผ่านใหม่</label>
-                                <input type="password" id="new-password" required class="w-full border-slate-300 rounded-lg p-3 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                                <input type="password" id="new-password" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
                             </div>
-                             <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300 shadow-md hover:shadow-lg">
-                                บันทึกรหัสผ่านใหม่
+                             <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
+                                เปลี่ยนรหัสผ่าน
                             </button>
                          </form>
                     </div>
@@ -1049,19 +1036,11 @@
                 auth.signInWithEmailAndPassword(email, password)
                     .catch(err => {
                         console.error("Login Error:", err.code, err.message);
-                        let friendlyMessage = "เกิดข้อผิดพลาดที่ไม่รู้จัก";
-                        switch (err.code) {
-                            case 'auth/user-not-found':
-                            case 'auth/wrong-password':
-                            case 'auth/invalid-credential':
-                            case 'auth/internal-error':
-                                friendlyMessage = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
-                                break;
-                            case 'auth/invalid-email':
-                                friendlyMessage = "รูปแบบอีเมลไม่ถูกต้อง";
-                                break;
-                             default:
-                                friendlyMessage = "อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง";
+                        let friendlyMessage = "เกิดข้อผิดพลาด: อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+                        if (err.code === 'auth/invalid-email' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+                            friendlyMessage = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+                        } else if (err.message.includes('INVALID_LOGIN_CREDENTIALS')) {
+                            friendlyMessage = "อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง";
                         }
                         loginError.textContent = friendlyMessage;
                         loginError.classList.remove('hidden');
@@ -1358,8 +1337,8 @@
                 }
             };
 
-            // --- AI Call Logic ---
-            const callAIAPI = async (prompt, chatBoxId, persona, schema = null) => {
+            // --- Gemini API Call Logic (Updated for Backend) ---
+            const callGeminiAPI = async (prompt, chatBoxId, persona) => {
                 updateUserHabits(prompt);
                 const apiUrl = 'http://localhost:3000/api/generate';
 
@@ -1369,14 +1348,8 @@
                     habitInfo: getUserHabits()
                 };
 
-                if (schema) {
-                    payload.schema = schema;
-                }
-
                 const typingIndicatorId = `typing-${Date.now()}`;
-                if(chatBoxId) {
-                    appendMessage({ text: '' }, 'ai', chatBoxId, typingIndicatorId);
-                }
+                appendMessage({ text: '' }, 'ai', chatBoxId, typingIndicatorId);
 
                 try {
                     const response = await fetch(apiUrl, {
@@ -1392,16 +1365,11 @@
                     const result = await response.json();
                     const text = result.text || "ขออภัยค่ะ มีบางอย่างผิดพลาด";
                     
-                    if(chatBoxId) {
-                        updateTypingIndicator(typingIndicatorId, text, chatBoxId);
-                    }
-                    return result;
+                    updateTypingIndicator(typingIndicatorId, text, chatBoxId);
 
                 } catch (error) {
                     console.error("Error calling backend:", error);
-                     if(chatBoxId) {
-                        updateTypingIndicator(typingIndicatorId, "ขออภัยค่ะ ไม่สามารถเชื่อมต่อกับ AI ได้ในขณะนี้ กรุณาลองใหม่อีกครั้งค่ะ", chatBoxId);
-                    }
+                    updateTypingIndicator(typingIndicatorId, "ขออภัยค่ะ ไม่สามารถเชื่อมต่อกับ AI ได้ในขณะนี้ กรุณาลองใหม่อีกครั้งค่ะ", chatBoxId);
                 }
             };
             
@@ -1478,7 +1446,7 @@
                     if (prompt) {
                         appendMessage(prompt, 'user', chatBoxId);
                         input.value = '';
-                        callAIAPI(prompt, chatBoxId, persona);
+                        callGeminiAPI(prompt, chatBoxId, persona);
                     }
                 };
                 
@@ -2044,33 +2012,40 @@
             let currentQuestionIndex = 0;
             let score = 0;
             
-            const generateQuizWithAI = async () => {
+            const generateQuizWithGemini = async () => {
                 quizLoadingModal.classList.remove('hidden');
                 
                 // This part will now call your backend
                 try {
-                    const result = await callAIAPI(
-                        "สร้างแบบทดสอบปรนัย 30 ข้อเกี่ยวกับทฤษฎีเซตสำหรับนักเรียน ม.4 ของไทย แต่ละข้อมี 4 ตัวเลือก โดยมี 1 คำตอบที่ถูกต้อง",
-                        null, // no chatbox for this call
-                        "Quiz Generator",
-                        {
-                            type: "ARRAY",
-                            items: {
-                                type: "OBJECT",
-                                properties: {
-                                    "question": { "type": "STRING" },
-                                    "options": {
-                                        "type": "ARRAY",
-                                        "items": { "type": "STRING" }
+                    const response = await fetch('http://localhost:3000/api/generate', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            prompt: "สร้างแบบทดสอบปรนัย 30 ข้อเกี่ยวกับทฤษฎีเซตสำหรับนักเรียน ม.4 ของไทย แต่ละข้อมี 4 ตัวเลือก โดยมี 1 คำตอบที่ถูกต้อง",
+                            persona: "Quiz Generator",
+                             schema: {
+                                type: "ARRAY",
+                                items: {
+                                    type: "OBJECT",
+                                    properties: {
+                                        "question": { "type": "STRING" },
+                                        "options": {
+                                            "type": "ARRAY",
+                                            "items": { "type": "STRING" }
+                                        },
+                                        "correctAnswer": { "type": "STRING" }
                                     },
-                                    "correctAnswer": { "type": "STRING" }
-                                },
-                                required: ["question", "options", "correctAnswer"]
+                                    required: ["question", "options", "correctAnswer"]
+                                }
                             }
-                        }
-                    );
+                        })
+                    });
+
+                    if (!response.ok) throw new Error("Backend response not OK");
                     
-                    if (result && result.text) {
+                    const result = await response.json();
+                    
+                    if (result.text) {
                          const generatedQuestions = JSON.parse(result.text);
                          if (Array.isArray(generatedQuestions) && generatedQuestions.length > 0) {
                             quizQuestions = generatedQuestions;
@@ -2086,7 +2061,7 @@
 
 
             const startQuiz = async () => {
-                await generateQuizWithAI(); // Generate new questions
+                await generateQuizWithGemini(); // Generate new questions
                 currentQuizQuestions = [...quizQuestions].sort(() => 0.5 - Math.random());
                 currentQuestionIndex = 0;
                 score = 0;
@@ -2172,4 +2147,6 @@
 </body>
 
 </html>
+
+
 
