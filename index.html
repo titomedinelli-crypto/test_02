@@ -7,6 +7,11 @@
     <title>ศูนย์การเรียนรู้เรื่องเซต</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Mitr:wght@200;300;400;500;600;700&display=swap"
@@ -287,7 +292,8 @@
                 <h2 class="text-4xl font-bold text-slate-800">ยินดีต้อนรับ</h2>
                 <p class="mt-2 text-slate-600">เข้าสู่ศูนย์การเรียนรู้เรื่องเซต</p>
             </div>
-            <form class="mt-8 space-y-6" action="#" method="POST">
+            <form id="login-form" class="mt-8 space-y-6">
+                <div id="auth-error" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
                 <div class="rounded-md shadow-sm -space-y-px">
                     <div>
                         <label for="email-address" class="sr-only">ชื่อผู้ใช้</label>
@@ -357,13 +363,13 @@
                         <!-- Profile Dropdown -->
                         <div class="relative ml-6" id="profile-menu">
                             <button id="profile-menu-button" type="button" class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-full">
-                                <span class="text-sm font-medium text-slate-700 hidden lg:block">ผู้ใช้งาน</span>
+                                <span id="user-name-desktop" class="text-sm font-medium text-slate-700 hidden lg:block"></span>
                                 <img id="profile-img-desktop" class="h-9 w-9 rounded-full border-2 border-white shadow-sm" src="" alt="User Profile" onerror="this.onerror=null; this.src='https://placehold.co/100x100/e2e8f0/e2e8f0?text=..'">
                             </button>
                             <div id="profile-menu-dropdown" class="hidden absolute right-0 mt-2 w-56 origin-top-right bg-white/80 backdrop-blur-lg rounded-md shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none py-1 border border-white/30" style="animation: fadeIn 0.15s ease-out;">
                                 <div class="px-4 py-2">
-                                    <p class="text-sm font-semibold text-slate-800">ผู้ใช้งาน</p>
-                                    <p class="text-sm text-slate-500 truncate">user@example.com</p>
+                                    <p id="user-name-dropdown" class="text-sm font-semibold text-slate-800"></p>
+                                    <p id="user-email-dropdown" class="text-sm text-slate-500 truncate"></p>
                                 </div>
                                 <div class="border-t border-slate-200/50 my-1"></div>
                                 <a href="#" class="block px-4 py-2 text-sm text-slate-700 hover:bg-white/50 transition-colors">โปรไฟล์</a>
@@ -399,8 +405,8 @@
                             <img id="profile-img-mobile" class="h-10 w-10 rounded-full" src="" alt="User Profile" onerror="this.onerror=null; this.src='https://placehold.co/100x100/e2e8f0/e2e8f0?text=..'">
                         </div>
                         <div class="ml-3">
-                            <div class="text-base font-medium text-slate-800">ผู้ใช้งาน</div>
-                            <div class="text-sm font-medium text-slate-500">user@example.com</div>
+                            <div id="user-name-mobile" class="text-base font-medium text-slate-800"></div>
+                            <div id="user-email-mobile" class="text-sm font-medium text-slate-500"></div>
                         </div>
                     </div>
                     <div class="mt-3 px-2 space-y-1">
@@ -723,6 +729,23 @@
 
 
     <script>
+        // --- Firebase Configuration ---
+        const firebaseConfig = {
+            apiKey: "AIzaSyDYi6Ozmf6vEWkWg49QC5MuyJAvt7a-xZc",
+            authDomain: "secset-542cb.firebaseapp.com",
+            projectId: "secset-542cb",
+            storageBucket: "secset-542cb.appspot.com",
+            messagingSenderId: "735349862292",
+            appId: "1:735349862292:web:a86d3f77dd3b7153d4a981",
+            measurementId: "G-Y6V4MV1XGB"
+        };
+
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
+        const db = firebase.firestore();
+
+
         // --- YouTube Player API Logic ---
         let ytPlayer;
         function onYouTubeIframeAPIReady() {
@@ -815,7 +838,18 @@
 
 
             // --- Navigation Logic ---
-            const showMainApp = () => {
+            const showMainApp = (user) => {
+                // Update UI with user info
+                const userName = user.displayName || user.email.split('@')[0];
+                const userEmail = user.email;
+
+                document.getElementById('user-name-desktop').textContent = userName;
+                document.getElementById('user-name-dropdown').textContent = userName;
+                document.getElementById('user-email-dropdown').textContent = userEmail;
+                document.getElementById('user-name-mobile').textContent = userName;
+                document.getElementById('user-email-mobile').textContent = userEmail;
+
+
                 loginSection.classList.add('opacity-0');
                 setTimeout(() => {
                     loginSection.classList.add('hidden');
@@ -824,14 +858,52 @@
                 }, 500);
             };
 
-            document.getElementById('login-btn').addEventListener('click', (e) => {
+            const showLoginScreen = () => {
+                 mainApp.classList.add('opacity-0');
+                setTimeout(() => {
+                    mainApp.classList.add('hidden');
+                    loginSection.classList.remove('hidden');
+                    setTimeout(() => loginSection.classList.remove('opacity-0'), 50);
+                }, 500);
+            };
+
+            // --- Firebase Auth Logic ---
+            const loginForm = document.getElementById('login-form');
+            const signupBtn = document.getElementById('signup-btn');
+            const authError = document.getElementById('auth-error');
+
+            loginForm.addEventListener('submit', (e) => {
                 e.preventDefault();
-                showMainApp();
+                const email = loginForm.email.value;
+                const password = loginForm.password.value;
+
+                auth.signInWithEmailAndPassword(email, password)
+                    .catch(err => {
+                        authError.textContent = err.message;
+                        authError.classList.remove('hidden');
+                    });
             });
-             document.getElementById('signup-btn').addEventListener('click', (e) => {
-                e.preventDefault();
-                showMainApp();
+
+            signupBtn.addEventListener('click', () => {
+                const email = loginForm.email.value;
+                const password = loginForm.password.value;
+
+                auth.createUserWithEmailAndPassword(email, password)
+                    .catch(err => {
+                        authError.textContent = err.message;
+                        authError.classList.remove('hidden');
+                    });
             });
+
+            // Auth State Listener
+            auth.onAuthStateChanged(user => {
+                if (user) {
+                    showMainApp(user);
+                } else {
+                    showLoginScreen();
+                }
+            });
+
 
             navLinks.forEach(link => {
                 link.addEventListener('click', (e) => {
@@ -844,12 +916,10 @@
                     if (currentSection !== targetSection) {
                         isTransitioning = true;
                         
-                        // Add 'leaving' class to the current section
                         if (currentSection) {
                             currentSection.classList.add('section-leave-active');
                         }
                         
-                        // After a delay, hide the old section, show the new one and start its animation
                         setTimeout(() => {
                             if (currentSection) {
                                 currentSection.classList.add('hidden');
@@ -860,13 +930,12 @@
                             targetSection.classList.add('section-enter-active');
                             currentSection = targetSection;
                             
-                            // Clean up animation classes after it finishes
                             setTimeout(() => {
                                 targetSection.classList.remove('section-enter-active');
-                                isTransitioning = false; // Unlock after animation is done
+                                isTransitioning = false;
                             }, 500);
 
-                        }, 250); // Half of the animation duration
+                        }, 250);
                     }
 
                     navLinks.forEach(nav => nav.classList.remove('active'));
@@ -892,15 +961,7 @@
 
             const handleLogout = (e) => {
                 e.preventDefault();
-                mainApp.classList.add('opacity-0');
-                document.getElementById('mobile-menu').classList.add('hidden');
-                profileMenuDropdown.classList.add('hidden');
-                
-                setTimeout(() => {
-                    mainApp.classList.add('hidden');
-                    loginSection.classList.remove('hidden');
-                    setTimeout(() => loginSection.classList.remove('opacity-0'), 50);
-                }, 500);
+                auth.signOut();
             };
 
             if (profileMenuButton) {
@@ -1103,10 +1164,18 @@
             const arcadeHighScoreEl = document.getElementById('arcade-high-score');
             
             const updateArcadeHighScore = () => {
-                const highScore = localStorage.getItem('setTheoryHighScore') || 0;
-                arcadeHighScoreEl.textContent = highScore;
+                const user = auth.currentUser;
+                if (user) {
+                    db.collection('users').doc(user.uid).get().then(doc => {
+                        if (doc.exists && doc.data().highScore) {
+                             arcadeHighScoreEl.textContent = doc.data().highScore;
+                        } else {
+                            arcadeHighScoreEl.textContent = 0;
+                        }
+                    });
+                }
             }
-            updateArcadeHighScore();
+
 
             document.getElementById('start-flashcard-mode').addEventListener('click', () => {
                 arcadeMenu.classList.add('hidden');
@@ -1432,13 +1501,20 @@
 
                 if (isSilent) return;
 
-                const highScore = localStorage.getItem('setTheoryHighScore') || 0;
-                if (speedQuizScore > highScore) {
-                    localStorage.setItem('setTheoryHighScore', speedQuizScore);
-                    highScoreEl.textContent = speedQuizScore;
-                } else {
-                    highScoreEl.textContent = highScore;
+                const user = auth.currentUser;
+                if (user) {
+                    const userDocRef = db.collection('users').doc(user.uid);
+                    userDocRef.get().then(doc => {
+                        const currentHighScore = (doc.exists && doc.data().highScore) ? doc.data().highScore : 0;
+                        if (speedQuizScore > currentHighScore) {
+                            userDocRef.set({ highScore: speedQuizScore }, { merge: true });
+                            highScoreEl.textContent = speedQuizScore;
+                        } else {
+                            highScoreEl.textContent = currentHighScore;
+                        }
+                    });
                 }
+
 
                 finalScoreEl.textContent = speedQuizScore;
                 speedQuizEndOverlay.classList.remove('hidden');
