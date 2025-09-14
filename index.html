@@ -6,7 +6,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ศูนย์การเรียนรู้เรื่องเซต</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://www.youtube.com/watch?v=bYRwxh0LdHk&t=1898s"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -279,90 +280,23 @@
         .avatar-selection img.selected {
             border-color: #4f46e5; /* indigo-600 */
         }
-
-        /* --- Set Operations Game Styles --- */
-        #set-op-drop-zone.drag-over {
-            background-color: #dbeafe; /* blue-100 */
-            border-color: #6366f1; /* indigo-500 */
-        }
-        #set-op-element-pool .set-op-element, #set-op-drop-zone .set-op-element {
-            cursor: grab;
-            background-color: white;
-            padding: 8px 16px;
-            border-radius: 9999px;
-            font-weight: 600;
-            font-family: monospace;
-            font-size: 1.25rem;
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            transition: transform 0.2s;
-        }
-        #set-op-element-pool .set-op-element:hover {
-            transform: scale(1.1);
-        }
-
-        #set-op-drop-zone .set-op-element {
-            background-color: #e0e7ff; /* indigo-100 */
-            cursor: pointer; /* Can click to remove */
-        }
-
-        #set-op-element-pool .dragged {
-            opacity: 0.5;
-            background-color: #e5e7eb;
-        }
-         /* --- Venn Diagram Game Styles --- */
-        #venn-diagram-container, #venn-3-diagram-container {
-            position: relative;
-        }
-        #venn-diagram-svg, #venn-3-diagram-svg {
-            width: 100%;
-            height: auto;
-        }
-        .venn-zone.drag-over-bg {
-            fill: rgba(165, 243, 195, 0.5); /* A light green */
-        }
-        .venn-drop-area {
-            position: absolute;
-            border-radius: 8px;
-            min-height: 40px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 6px;
-            padding: 6px;
-            align-items: flex-start;
-            justify-content: center;
-        }
-         .venn-drop-area.drag-over {
-            background-color: rgba(199, 210, 254, 0.5);
-         }
-        .venn-element {
-             cursor: grab;
-            background-color: white;
-            color: #1e293b;
-            padding: 4px 12px;
-            border-radius: 9999px;
-            font-weight: 600;
-            font-family: monospace;
-            font-size: 1.1rem;
-            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-            transition: transform 0.2s;
-            user-select: none;
-        }
-        .venn-element.dragged {
-            opacity: 0.5;
-        }
     </style>
 </head>
 
 <body class="antialiased text-slate-700">
 
+    <!-- =========== Login Section =========== -->
     <section id="login-section" class="relative min-h-screen w-full flex items-center justify-center overflow-hidden transition-opacity duration-500">
+        <!-- Animated Blobs -->
         <div class="absolute top-0 left-0 w-full h-full z-0">
             <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-purple-300 rounded-full animated-blob opacity-70" style="animation: blob-move-1 15s infinite ease;"></div>
             <div class="absolute top-1/2 right-1/4 w-80 h-80 bg-blue-300 rounded-full animated-blob opacity-60" style="animation: blob-move-2 18s infinite ease-in-out;"></div>
             <div class="absolute bottom-1/4 left-1/3 w-60 h-60 bg-indigo-300 rounded-full animated-blob opacity-50" style="animation: blob-move-3 12s infinite linear;"></div>
         </div>
 
+        <!-- Auth Container -->
         <div id="auth-container" class="relative z-10 w-full max-w-md p-8 space-y-8 bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl m-4">
+            <!-- Login View -->
             <div id="login-view">
                 <div class="text-center">
                     <h2 class="text-4xl font-bold text-slate-800">ยินดีต้อนรับ</h2>
@@ -391,6 +325,7 @@
                 </p>
             </div>
 
+            <!-- Signup View -->
             <div id="signup-view" class="hidden">
                  <div class="text-center">
                     <h2 class="text-4xl font-bold text-slate-800">สร้างบัญชีใหม่</h2>
@@ -425,20 +360,24 @@
         </div>
     </section>
 
+    <!-- =========== Main App Section =========== -->
     <main id="main-app" class="hidden opacity-0 transition-opacity duration-500 relative min-h-screen flex flex-col" style="animation: fadeIn 0.7s ease-out forwards;">
+        <!-- Animated Blobs Background -->
         <div class="fixed top-0 left-0 w-full h-full z-[-1]">
             <div class="absolute -top-20 -left-20 w-80 h-80 bg-purple-300 rounded-full animated-blob opacity-30" style="animation: blob-move-1 15s infinite ease;"></div>
             <div class="absolute top-1/2 right-1/4 w-96 h-96 bg-blue-300 rounded-full animated-blob opacity-20" style="animation: blob-move-2 18s infinite ease-in-out;"></div>
             <div class="absolute bottom-0 -right-20 w-72 h-72 bg-indigo-300 rounded-full animated-blob opacity-30" style="animation: blob-move-3 12s infinite linear;"></div>
         </div>
 
+        <!-- Header & Navigation -->
         <header class="bg-white/70 backdrop-blur-xl sticky top-0 z-40 shadow-sm border-b border-white/30">
             <div class="mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex-shrink-0">
-                        <h1 class="text-2xl font-bold text-indigo-600">SucSet</h1>
+                        <h1 class="text-2xl font-bold text-indigo-600">Set Theory Hub</h1>
                     </div>
 
+                    <!-- Right side of navbar for desktop -->
                     <div class="hidden md:flex items-center">
                         <nav class="flex space-x-8">
                             <a href="#study-zone" class="nav-link text-slate-500 hover:text-slate-800 px-3 py-2 text-md font-medium border-b-2 border-transparent transition-all duration-300 active">โซนเรียนรู้</a>
@@ -447,6 +386,7 @@
                             <a href="#friends-challenge" class="nav-link text-slate-500 hover:text-slate-800 px-3 py-2 text-md font-medium border-b-2 border-transparent transition-all duration-300">ท้าทายเพื่อน</a>
                         </nav>
 
+                        <!-- Profile Dropdown -->
                         <div class="relative ml-6" id="profile-menu">
                             <button id="profile-menu-button" type="button" class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-full">
                                 <span id="user-name-desktop" class="text-sm font-medium text-slate-700 hidden lg:block"></span>
@@ -459,7 +399,6 @@
                                 </div>
                                 <div class="border-t border-slate-200/50 my-1"></div>
                                 <a href="#profile-page" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-white/50 transition-colors">โปรไฟล์</a>
-                                <a href="#" id="add-friend-btn" class="block px-4 py-2 text-sm text-slate-700 hover:bg-white/50 transition-colors">เพิ่มเพื่อน</a>
                                 <a href="#settings-page" class="nav-link block px-4 py-2 text-sm text-slate-700 hover:bg-white/50 transition-colors">การตั้งค่า</a>
                                 <div class="border-t border-slate-200/50 my-1"></div>
                                 <a href="#" id="logout-btn" class="block px-4 py-2 text-sm text-slate-700 hover:bg-white/50 transition-colors">ออกจากระบบ</a>
@@ -467,6 +406,7 @@
                         </div>
                     </div>
                     
+                    <!-- Mobile menu button -->
                     <div class="md:hidden">
                         <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-lg text-indigo-600 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-300">
                             <span class="sr-only">Open main menu</span>
@@ -477,7 +417,8 @@
                     </div>
                 </div>
             </div>
-             <div class="md:hidden hidden" id="mobile-menu">
+             <!-- Mobile menu, show/hide based on menu state. -->
+            <div class="md:hidden hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-b border-slate-200">
                     <a href="#study-zone" class="nav-link text-slate-600 hover:bg-white/50 block px-3 py-2 rounded-md text-base font-medium active">โซนเรียนรู้</a>
                     <a href="#recap-arcade" class="nav-link text-slate-600 hover:bg-white/50 block px-3 py-2 rounded-md text-base font-medium">อาเขตทบทวน</a>
@@ -503,18 +444,22 @@
             </div>
         </header>
 
+        <!-- Content Sections -->
         <div class="flex-grow mx-auto py-8 px-4 sm:px-6 lg:px-8 w-full">
             <section id="study-zone" class="app-section">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">โซนเรียนรู้: พื้นฐานเรื่องเซต</h2>
                 <div class="bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30">
                     <div class="flex flex-col lg:flex-row gap-6">
 
+                        <!-- Left Column: Video -->
                         <div class="lg:w-[60%] w-full relative">
                             <div id="player" class="aspect-video rounded-lg overflow-hidden bg-black shadow-lg">
-                                </div>
+                                <!-- YouTube Player will be inserted here by JS -->
+                            </div>
                              <canvas id="video-overlay" class="hidden absolute top-0 left-0 w-full h-full pointer-events-none z-10"></canvas>
                         </div>
 
+                        <!-- Right Column: AI Chat -->
                         <div class="lg:w-[40%] w-full flex flex-col">
                             <div class="flex flex-col h-full border border-white/30 rounded-lg bg-white/50 backdrop-blur-sm">
                                 <div class="p-4 border-b border-white/30">
@@ -533,7 +478,7 @@
                                                 • เซตของจำนวนนับที่น้อยกว่า 1 (ไม่มีใช่ไหมคะ?)<br>
                                                 • เซตของคนที่อายุเกิน 200 ปี (ตอนนี้ก็ยังไม่มีเนอะ)<br><br>
                                                 <strong>สัญลักษณ์ของเซตว่าง:</strong><br>
-                                                • เราจะใช้สัญลักษณ์ ∅ (วงกลมมีขีดทับ) หรือ {} ค่ะ<br><br>
+                                                • เราจะใช้สัญลักษณ์ &empty; (วงกลมมีขีดทับ) หรือ {} ค่ะ<br><br>
                                                 จำง่าย ๆ ว่าเป็นเซตที่ "ว่างเปล่า" นั่นเองค่ะ
                                             </p>
                                         </div>
@@ -554,54 +499,44 @@
             <section id="recap-arcade" class="app-section hidden">
                  <div id="arcade-menu">
                     <h2 class="text-3xl font-bold text-slate-800 mb-6">อาเขตทบทวน</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                        <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-2 transition-all duration-300" id="start-flashcard-mode">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                        <div class="group bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-2 transition-all duration-300" id="start-flashcard-mode">
                             <div class="flex justify-center mb-4">
-                               <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-blue-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                               <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-blue-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
                                </svg>
                             </div>
-                            <h3 class="text-2xl font-bold text-slate-800 mb-2">โหมดแฟลชการ์ด</h3>
-                            <p class="text-slate-600">ทบทวนคำศัพท์และนิยามสำคัญแบบไม่จำกัดเวลา</p>
+                            <h3 class="text-xl font-bold text-slate-800 mb-2">โหมดแฟลชการ์ด</h3>
+                            <p class="text-slate-600 text-sm">ทบทวนคำศัพท์และนิยาม</p>
                         </div>
-                        <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2 transition-all duration-300" id="start-speed-mode">
+                        <div class="group bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-purple-500/20 hover:-translate-y-2 transition-all duration-300" id="start-speed-mode">
                              <div class="flex justify-center mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-purple-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-purple-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M13 10V3L4 14h7v7l9-11h-7z" />
                                 </svg>
                              </div>
-                             <h3 class="text-2xl font-bold text-slate-800 mb-2">โหมดทดสอบความเร็ว</h3>
-                            <p class="text-slate-600">ตอบคำถาม 10 ข้อ ข้อละ 10 วินาทีเพื่อทำคะแนนสูงสุด!</p>
+                             <h3 class="text-xl font-bold text-slate-800 mb-2">ทดสอบความเร็ว</h3>
+                            <p class="text-slate-600 text-sm">เกมยิงคำตอบ</p>
                         </div>
-                        <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-green-500/20 hover:-translate-y-2 transition-all duration-300" id="start-set-operations-game">
-                            <div class="flex justify-center mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 11.25V15.75M11.25 11.25V15.75M8.25 15.75V11.25m3-3V6.75m3.75 6.75V6.75m3-3h-15a1.5 1.5 0 00-1.5 1.5v15a1.5 1.5 0 001.5 1.5h15a1.5 1.5 0 001.5-1.5v-15a1.5 1.5 0 00-1.5-1.5z" />
+                        <div class="group bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-green-500/20 hover:-translate-y-2 transition-all duration-300" id="start-set-ops-game">
+                             <div class="flex justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.874 15.69A7.5 7.5 0 1015.69 4.874M4.874 15.69L2 17.564M15.69 4.874L17.564 2" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 7.5a4.5 4.5 0 11-4.5 4.5" />
                                 </svg>
-                            </div>
-                            <h3 class="text-2xl font-bold text-slate-800 mb-2">เกมดำเนินการเซต</h3>
-                            <p class="text-slate-600">ฝึกฝนยูเนียน, อินเตอร์เซกชัน และผลต่างโดยการลากและวาง</p>
+                             </div>
+                             <h3 class="text-xl font-bold text-slate-800 mb-2">การดำเนินการของเซ็ต</h3>
+                            <p class="text-slate-600 text-sm">ตอบคำถามยูเนียน อินเตอร์เซกชัน</p>
                         </div>
-                         <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-teal-500/20 hover:-translate-y-2 transition-all duration-300" id="start-venn-diagram-game">
-                            <div class="flex justify-center mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-teal-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                  <circle cx="10.5" cy="10.5" r="7.5" />
-                                  <circle cx="13.5" cy="13.5" r="7.5" />
-                                </svg>
-                            </div>
-                            <h3 class="text-2xl font-bold text-slate-800 mb-2">เกมแผนภาพเวนน์ (2 เซต)</h3>
-                            <p class="text-slate-600">จัดเรียงตัวเลขในแผนภาพเวนน์ให้ถูกต้อง</p>
-                        </div>
-                         <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-rose-500/20 hover:-translate-y-2 transition-all duration-300" id="start-venn-3-diagram-game">
-                            <div class="flex justify-center mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-rose-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                     <circle cx="12" cy="8.25" r="4.5" />
-                                     <circle cx="8.25" cy="15.75" r="4.5" />
-                                     <circle cx="15.75" cy="15.75" r="4.5" />
-                                </svg>
-                            </div>
-                            <h3 class="text-2xl font-bold text-slate-800 mb-2">เกมแผนภาพเวนน์ (3 เซต)</h3>
-                            <p class="text-slate-600">ท้าทายยิ่งขึ้นด้วยการจัดเรียงตัวเลขใน 3 เซต</p>
+                         <div class="group bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-red-500/20 hover:-translate-y-2 transition-all duration-300" id="start-venn-diagram-game">
+                             <div class="flex justify-center mb-4">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-red-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                                     <circle cx="10" cy="12" r="6" />
+                                     <circle cx="14" cy="12" r="6" />
+                                 </svg>
+                             </div>
+                             <h3 class="text-xl font-bold text-slate-800 mb-2">แผนภาพเวนน์-ออยเลอร์</h3>
+                            <p class="text-slate-600 text-sm">ทายความหมายจากพื้นที่แรเงา</p>
                         </div>
                     </div>
                      <div class="mt-8 bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30">
@@ -620,8 +555,9 @@
                     </div>
                  </div>
 
-                <div id="flashcard-mode-content" class="hidden flex-col items-center">
-                    <button class="back-to-arcade-menu mb-6 text-indigo-600 hover:text-indigo-800">← กลับไปเลือกโหมด</button>
+                 <!-- Flashcard Mode Content -->
+                 <div id="flashcard-mode-content" class="app-sub-section hidden flex-col items-center">
+                    <button class="back-to-arcade-menu mb-6 text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
                     <div id="flashcard-container" class="relative w-full max-w-lg h-72 perspective-1000">
                         <div id="flashcard-inner" class="relative w-full h-full text-center flip-card-inner">
                             <div class="absolute w-full h-full p-6 bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 flex items-center justify-center flip-card-front">
@@ -640,42 +576,40 @@
                     </div>
                 </div>
 
-                <div id="speed-quiz-mode-content" class="hidden">
+                <!-- Speed Quiz Mode Content -->
+                <div id="speed-quiz-mode-content" class="app-sub-section hidden">
                      <div id="speed-quiz-game-area" class="relative w-full max-w-3xl mx-auto h-[80vh] rounded-2xl shadow-2xl overflow-hidden bg-[#0B0F29]">
-                         <div class="absolute top-0 left-0 w-full h-16 bg-[#1D244F] z-30 flex items-center justify-between px-4">
-                             <div class="flex items-center space-x-2">
+                        <div class="absolute top-0 left-0 w-full h-16 bg-[#1D244F] z-30 flex items-center justify-between px-4">
+                            <div class="flex items-center space-x-2">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                 <span id="speed-quiz-score-top" class="text-white font-bold text-lg">0</span>
-                             </div>
-                             <div>
-                                 <span id="speed-quiz-question-counter-top" class="text-white font-bold text-lg">1/10</span>
-                             </div>
+                                <span id="speed-quiz-score-top" class="text-white font-bold text-lg">0</span>
+                            </div>
                              <div class="flex items-center space-x-2">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                 <span id="speed-quiz-timer-top" class="text-white font-bold text-lg">10</span>
-                             </div>
-                             <button class="back-to-arcade-menu text-white">
-                                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                             </button>
-                         </div>
+                                <span id="speed-quiz-timer-top" class="text-white font-bold text-lg">30</span>
+                            </div>
+                            <button class="back-to-arcade-menu text-white">
+                                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                            </button>
+                        </div>
 
                         <canvas id="background-canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
                         <canvas id="laser-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></canvas>
                         <canvas id="confetti-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-50"></canvas>
                         
-                          <div id="speed-quiz-start-overlay" class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-40">
-                             <h3 class="text-4xl font-bold text-white mb-2">โหมดทดสอบความเร็ว</h3>
+                         <div id="speed-quiz-start-overlay" class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-40">
+                            <h3 class="text-4xl font-bold text-white mb-2">โหมดทดสอบความเร็ว</h3>
                              <p class="text-white/80 mb-6">ยิงคำตอบที่ถูกต้องก่อนเวลาจะหมด!</p>
-                             <button id="speed-quiz-start-btn" class="aurora-button px-10 py-4 font-bold rounded-lg text-lg">เริ่มเกม</button>
-                         </div>
+                            <button id="speed-quiz-start-btn" class="aurora-button px-10 py-4 font-bold rounded-lg text-lg">เริ่มเกม</button>
+                        </div>
                         <div id="countdown-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/80 flex-col items-center justify-center z-40 text-white text-9xl font-bold">
-                             <span id="countdown-text" class="countdown-number">3</span>
+                            <span id="countdown-text" class="countdown-number">3</span>
                         </div>
                         <div id="speed-quiz-end-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/90 backdrop-blur-md flex-col items-center justify-center z-40 p-8">
-                            <div class="w-full max-w-md text-center">
+                           <div class="w-full max-w-md text-center">
                                <img src="https://img.icons8.com/plasticine/100/000000/trophy.png" alt="Trophy" class="mx-auto mb-4 h-24 w-24"/>
                                <h3 class="text-3xl font-bold text-white mb-2">ทำได้ดีมาก!</h3>
-                                <p class="text-white/80 text-lg mb-6">นี่คือคะแนนสุดท้ายของคุณ</p>
+                               <p class="text-white/80 text-lg mb-6">นี่คือคะแนนสุดท้ายของคุณ</p>
                                <div class="flex space-x-4 w-full">
                                    <div class="w-1/2 bg-blue-500/20 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
                                        <p class="text-blue-200 text-sm">คะแนนของคุณ</p>
@@ -691,215 +625,83 @@
                            </div>
                         </div>
                         
+                        <!-- Game elements -->
                         <div id="speed-quiz-question-area" class="absolute top-20 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-black/40 backdrop-blur-sm p-4 rounded-lg text-white text-center z-30 opacity-100 transition-opacity duration-300">
                              <p id="speed-quiz-question-text" class="text-xl font-semibold"></p>
                         </div>
 
                         <div id="shooter-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 w-24 h-24 z-30">
                              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                 <path d="M50 0C48.4488 4.29171 44.2917 8.44876 40 10C35.7083 11.5512 30.5833 11.5512 25 10C19.4167 8.44876 15.2596 4.29171 10 0L0 15C4.29171 19.7404 8.44876 24.2211 10 30C11.5512 35.7789 11.5512 41.6667 10 45C8.44876 50.5556 4.29171 55.2596 0 60L10 90C19.4167 85.5833 29.2596 80.7596 40 80H60C70.7404 80.7596 80.5833 85.5833 90 90L100 60C95.7083 55.2596 91.5512 50.5556 90 45C88.4488 39.4444 88.4488 33.5556 90 30C91.5512 24.4444 95.7083 19.7404 100 15L90 0C80.5833 4.41667 70.7404 8.44876 60 10C55.7083 11.5512 51.5512 11.5512 50 10V0Z" fill="url(#paint0_linear_1_2)"/>
-                                 <circle cx="50" cy="45" r="12" fill="#24294A" stroke="white" stroke-width="2"/>
-                                 <circle cx="50" cy="45" r="5" fill="#7DF0E5"/>
-                                 <defs>
-                                 <linearGradient id="paint0_linear_1_2" x1="50" y1="0" x2="50" y2="90" gradientUnits="userSpaceOnUse">
-                                 <stop stop-color="#3D457F"/>
-                                 <stop offset="1" stop-color="#24294A"/>
-                                 </linearGradient>
-                                 </defs>
-                             </svg>
+                                <path d="M50 0C48.4488 4.29171 44.2917 8.44876 40 10C35.7083 11.5512 30.5833 11.5512 25 10C19.4167 8.44876 15.2596 4.29171 10 0L0 15C4.29171 19.7404 8.44876 24.2211 10 30C11.5512 35.7789 11.5512 41.6667 10 45C8.44876 50.5556 4.29171 55.2596 0 60L10 90C19.4167 85.5833 29.2596 80.7596 40 80H60C70.7404 80.7596 80.5833 85.5833 90 90L100 60C95.7083 55.2596 91.5512 50.5556 90 45C88.4488 39.4444 88.4488 33.5556 90 30C91.5512 24.4444 95.7083 19.7404 100 15L90 0C80.5833 4.41667 70.7404 8.44876 60 10C55.7083 11.5512 51.5512 11.5512 50 10V0Z" fill="url(#paint0_linear_1_2)"/>
+                                <circle cx="50" cy="45" r="12" fill="#24294A" stroke="white" stroke-width="2"/>
+                                <circle cx="50" cy="45" r="5" fill="#7DF0E5"/>
+                                <defs>
+                                <linearGradient id="paint0_linear_1_2" x1="50" y1="0" x2="50" y2="90" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#3D457F"/>
+                                <stop offset="1" stop-color="#24294A"/>
+                                </linearGradient>
+                                </defs>
+                            </svg>
                         </div>
                     </div>
                 </div>
 
-                <div id="set-operations-game-content" class="hidden">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-slate-800">เกมดำเนินการเซต</h2>
-                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">← กลับไปเลือกโหมด</button>
-                    </div>
-
-                    <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 max-w-4xl mx-auto">
-                        <div class="flex justify-between items-center border-b border-slate-200 pb-4 mb-6">
-                            <div>
-                                <p id="set-op-question" class="text-xl font-semibold text-slate-800"></p>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-slate-600">คะแนน</p>
-                                <p id="set-op-score" class="text-2xl font-bold text-green-600">0</p>
-                            </div>
+                 <!-- Set Operations Game -->
+                <div id="set-operations-game" class="app-sub-section hidden">
+                    <button class="back-to-arcade-menu mb-6 text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
+                    <div class="max-w-3xl mx-auto bg-white/70 backdrop-blur-xl p-6 md:p-8 rounded-2xl shadow-lg border border-white/30">
+                        <h3 class="text-2xl font-bold text-center text-slate-800 mb-6">เกมทายการดำเนินการของเซ็ต</h3>
+                        <div id="set-ops-question-container" class="text-center mb-6">
+                            <!-- Question will be injected here -->
                         </div>
-
-                        <div class="flex justify-around mb-6 text-center">
-                            <div>
-                                <p class="font-bold text-lg">เซต A</p>
-                                <p id="set-a-display" class="text-2xl p-2 bg-blue-100/80 rounded-lg font-mono"></p>
-                            </div>
-                            <div>
-                                <p class="font-bold text-lg">เซต B</p>
-                                <p id="set-b-display" class="text-2xl p-2 bg-purple-100/80 rounded-lg font-mono"></p>
-                            </div>
+                        <div id="set-ops-options-container" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Options will be injected here -->
                         </div>
-                        
-                        <div class="mb-6">
-                            <p class="font-bold text-lg text-center mb-2">เซตคำตอบ (ลากตัวเลขมาวางที่นี่)</p>
-                            <div id="set-op-drop-zone" class="min-h-[80px] bg-slate-100/80 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border-2 border-dashed border-slate-300">
-                                </div>
-                        </div>
-                        
-                        <div class="mb-6">
-                            <p class="font-bold text-lg text-center mb-2">ตัวเลือก</p>
-                            <div id="set-op-element-pool" class="min-h-[80px] bg-white/50 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border border-slate-200">
-                                </div>
-                        </div>
-                        
-                        <div id="set-op-feedback" class="text-center mb-4 h-6 font-semibold"></div>
-                        <div class="flex justify-center space-x-4">
-                             <button id="set-op-reset-btn" class="px-6 py-2 bg-white/70 backdrop-blur-xl border border-white/30 rounded-lg hover:bg-white/80 transition-colors duration-300">ล้างคำตอบ</button>
-                            <button id="set-op-check-btn" class="px-8 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300">ตรวจคำตอบ</button>
-                        </div>
+                         <div id="set-ops-feedback" class="mt-6 text-center font-bold"></div>
                     </div>
                 </div>
+
+                <!-- Venn Diagram Menu -->
+                 <div id="venn-diagram-menu" class="app-sub-section hidden">
+                    <button class="back-to-arcade-menu mb-6 text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
+                     <h2 class="text-3xl font-bold text-slate-800 mb-6 text-center">เลือกประเภทแผนภาพเวนน์</h2>
+                     <div class="max-w-3xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8">
+                         <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-cyan-500/20 hover:-translate-y-2 transition-all duration-300" id="start-venn-2">
+                             <div class="flex justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-cyan-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                     <circle cx="9" cy="12" r="5" />
+                                     <circle cx="15" cy="12" r="5" />
+                                 </svg>
+                             </div>
+                             <h3 class="text-2xl font-bold text-slate-800 mb-2">2 วง</h3>
+                             <p class="text-slate-600">แผนภาพสำหรับ 2 เซ็ต (A, B)</p>
+                         </div>
+                         <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-amber-500/20 hover:-translate-y-2 transition-all duration-300" id="start-venn-3">
+                              <div class="flex justify-center mb-4">
+                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-amber-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                     <circle cx="12" cy="9.5" r="4.5" />
+                                     <circle cx="9" cy="14.5" r="4.5" />
+                                     <circle cx="15" cy="14.5" r="4.5" />
+                                 </svg>
+                              </div>
+                              <h3 class="text-2xl font-bold text-slate-800 mb-2">3 วง</h3>
+                             <p class="text-slate-600">แผนภาพสำหรับ 3 เซ็ต (A, B, C)</p>
+                         </div>
+                     </div>
+                 </div>
                 
-                 <div id="venn-diagram-game-content" class="hidden">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-slate-800">เกมแผนภาพเวนน์ (2 เซต)</h2>
-                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">← กลับไปเลือกโหมด</button>
-                    </div>
-
-                    <div class="bg-white/70 backdrop-blur-xl p-6 sm:p-8 rounded-xl shadow-lg border border-white/30 max-w-5xl mx-auto">
-                        <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-200 pb-4 mb-6 gap-4">
-                            <div class="text-center sm:text-left">
-                                 <p class="text-lg font-semibold text-slate-800">ลากตัวเลขไปยังบริเวณที่ถูกต้องในแผนภาพ</p>
-                                 <p class="text-slate-600">Universal Set U = { <span id="venn-universe-set"></span> }</p>
-                            </div>
-                            <div class="text-right bg-white/50 p-3 rounded-lg">
-                                <p class="text-slate-600">คะแนน</p>
-                                <p id="venn-score" class="text-2xl font-bold text-teal-600">0</p>
-                            </div>
+                 <!-- Venn Diagram Game -->
+                <div id="venn-diagram-game" class="app-sub-section hidden">
+                    <button class="back-to-venn-menu mb-6 text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกประเภท</button>
+                    <div class="max-w-4xl mx-auto bg-white/70 backdrop-blur-xl p-4 md:p-8 rounded-2xl shadow-lg border border-white/30">
+                        <h3 id="venn-game-title" class="text-2xl font-bold text-center text-slate-800 mb-4">พื้นที่แรเงาแทนเซ็ตใด?</h3>
+                        <div id="venn-diagram-container" class="my-6 flex justify-center items-center">
+                           <!-- Venn Diagram SVG will be injected here -->
                         </div>
-                        
-                         <div class="flex justify-around mb-6 text-center">
-                            <div>
-                                <p class="font-bold text-lg">เซต A</p>
-                                <p id="venn-set-a-display" class="text-xl p-2 bg-blue-100/80 rounded-lg font-mono"></p>
-                            </div>
-                            <div>
-                                <p class="font-bold text-lg">เซต B</p>
-                                <p id="venn-set-b-display" class="text-xl p-2 bg-purple-100/80 rounded-lg font-mono"></p>
-                            </div>
+                        <div id="venn-options-container" class="grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+                           <!-- Options will be injected here -->
                         </div>
-
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-                            <div class="lg:order-1">
-                                <p class="font-bold text-lg text-center mb-2">ตัวเลขสำหรับจัดเรียง</p>
-                                <div id="venn-element-pool" class="min-h-[150px] bg-slate-100/80 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border-2 border-dashed border-slate-300">
-                                    </div>
-                            </div>
-
-                            <div id="venn-diagram-container" class="relative lg:col-span-2 lg:order-2">
-                                 <svg id="venn-diagram-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <mask id="maskA">
-                                            <rect width="100%" height="100%" fill="white"/>
-                                            <circle cx="130" cy="60" r="40" fill="black" />
-                                        </mask>
-                                        <mask id="maskB">
-                                            <rect width="100%" height="100%" fill="white"/>
-                                            <circle cx="70" cy="60" r="40" fill="black" />
-                                        </mask>
-                                    </defs>
-                                    
-                                    <rect id="venn-zone-universe" class="venn-zone" width="200" height="120" rx="10" ry="10" fill="#f1f5f9" stroke="#cbd5e1" />
-                                    
-                                    <circle id="venn-zone-a" class="venn-zone" cx="70" cy="60" r="40" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="1.5" mask="url(#maskA)" />
-                                    <circle id="venn-zone-b" class="venn-zone" cx="130" cy="60" r="40" fill="rgba(168, 85, 247, 0.2)" stroke="#a855f7" stroke-width="1.5" mask="url(#maskB)" />
-                                    
-                                    <path id="venn-zone-intersection" class="venn-zone" d="M 100 94.64 C 83.43 94.64 68.43 83.43 62.22 68.43 C 68.43 53.43 83.43 42.22 100 42.22 C 116.57 42.22 131.57 53.43 137.78 68.43 C 131.57 83.43 116.57 94.64 100 94.64 Z" fill="rgba(107, 33, 168, 0.3)" />
-
-                                    <text x="35" y="30" font-family="Mitr" font-size="10" fill="#3b82f6" font-weight="bold">A</text>
-                                    <text x="160" y="30" font-family="Mitr" font-size="10" fill="#a855f7" font-weight="bold">B</text>
-                                </svg>
-                                
-                                <div id="venn-drop-universe" data-zone="universe" class="venn-drop-area" style="top: 0; left: 0; width: 100%; height: 100%;"></div>
-                                <div id="venn-drop-a" data-zone="a" class="venn-drop-area" style="top: 25%; left: 10%; width: 30%; height: 50%; border-radius: 50%;"></div>
-                                <div id="venn-drop-b" data-zone="b" class="venn-drop-area" style="top: 25%; right: 10%; width: 30%; height: 50%; border-radius: 50%;"></div>
-                                <div id="venn-drop-intersection" data-zone="intersection" class="venn-drop-area" style="top: 30%; left: 42%; width: 16%; height: 40%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div id="venn-feedback" class="text-center my-4 h-6 font-semibold"></div>
-                        <div class="flex justify-center space-x-4 mt-4">
-                            <button id="venn-check-btn" class="px-8 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300">ตรวจคำตอบ</button>
-                        </div>
-                    </div>
-                </div>
-
-                 <div id="venn-3-diagram-game-content" class="hidden">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-slate-800">เกมแผนภาพเวนน์ (3 เซต)</h2>
-                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">← กลับไปเลือกโหมด</button>
-                    </div>
-
-                    <div class="bg-white/70 backdrop-blur-xl p-6 sm:p-8 rounded-xl shadow-lg border border-white/30 max-w-5xl mx-auto">
-                        <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-200 pb-4 mb-6 gap-4">
-                            <div class="text-center sm:text-left">
-                                 <p class="text-lg font-semibold text-slate-800">ลากตัวเลขไปยังบริเวณที่ถูกต้องในแผนภาพ</p>
-                                 <p class="text-slate-600">Universal Set U = { <span id="venn-3-universe-set"></span> }</p>
-                            </div>
-                            <div class="text-right bg-white/50 p-3 rounded-lg">
-                                <p class="text-slate-600">คะแนน</p>
-                                <p id="venn-3-score" class="text-2xl font-bold text-rose-600">0</p>
-                            </div>
-                        </div>
-
-                         <div class="flex justify-around mb-6 text-center gap-4">
-                            <div>
-                                <p class="font-bold text-lg">เซต A</p>
-                                <p id="venn-3-set-a-display" class="text-md p-2 bg-blue-100/80 rounded-lg font-mono"></p>
-                            </div>
-                            <div>
-                                <p class="font-bold text-lg">เซต B</p>
-                                <p id="venn-3-set-b-display" class="text-md p-2 bg-purple-100/80 rounded-lg font-mono"></p>
-                            </div>
-                             <div>
-                                <p class="font-bold text-lg">เซต C</p>
-                                <p id="venn-3-set-c-display" class="text-md p-2 bg-green-100/80 rounded-lg font-mono"></p>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-                            <div class="lg:order-1">
-                                <p class="font-bold text-lg text-center mb-2">ตัวเลขสำหรับจัดเรียง</p>
-                                <div id="venn-3-element-pool" class="min-h-[150px] bg-slate-100/80 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border-2 border-dashed border-slate-300">
-                                    </div>
-                            </div>
-
-                            <div id="venn-3-diagram-container" class="relative lg:col-span-2 lg:order-2">
-                                <svg id="venn-3-diagram-svg" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="200" height="150" rx="10" ry="10" fill="#f1f5f9" stroke="#cbd5e1" />
-                                    <circle cx="100" cy="55" r="40" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1.5" />
-                                    <circle cx="75" cy="95" r="40" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="1.5" />
-                                    <circle cx="125" cy="95" r="40" fill="rgba(34, 197, 94, 0.2)" stroke="#22c55e" stroke-width="1.5" />
-                                    
-                                     <text x="100" y="25" font-family="Mitr" font-size="10" fill="#ef4444" font-weight="bold" text-anchor="middle">A</text>
-                                    <text x="45" y="130" font-family="Mitr" font-size="10" fill="#3b82f6" font-weight="bold">B</text>
-                                    <text x="155" y="130" font-family="Mitr" font-size="10" fill="#22c55e" font-weight="bold">C</text>
-                                </svg>
-                                
-                                <div id="venn-3-drop-universe" data-zone="universe" class="venn-drop-area" style="top: 0; left: 0; width: 100%; height: 100%;"></div>
-                                <div id="venn-3-drop-a" data-zone="a_only" class="venn-drop-area" style="top: 15%; left: 42%; width: 16%; height: 20%;"></div>
-                                <div id="venn-3-drop-b" data-zone="b_only" class="venn-drop-area" style="top: 60%; left: 15%; width: 20%; height: 25%;"></div>
-                                <div id="venn-3-drop-c" data-zone="c_only" class="venn-drop-area" style="top: 60%; right: 15%; width: 20%; height: 25%;"></div>
-                                <div id="venn-3-drop-ab" data-zone="ab_only" class="venn-drop-area" style="top: 40%; left: 29%; width: 15%; height: 20%;"></div>
-                                <div id="venn-3-drop-ac" data-zone="ac_only" class="venn-drop-area" style="top: 40%; right: 29%; width: 15%; height: 20%;"></div>
-                                <div id="venn-3-drop-bc" data-zone="bc_only" class="venn-drop-area" style="bottom: 8%; left: 42%; width: 16%; height: 20%;"></div>
-                                <div id="venn-3-drop-abc" data-zone="abc_intersect" class="venn-drop-area" style="top: 52%; left: 42%; width: 16%; height: 20%;"></div>
-                            </div>
-                        </div>
-                        
-                        <div id="venn-3-feedback" class="text-center my-4 h-6 font-semibold"></div>
-                        <div class="flex justify-center space-x-4 mt-4">
-                            <button id="venn-3-check-btn" class="px-8 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300">ตรวจคำตอบ</button>
-                        </div>
+                        <div id="venn-feedback" class="mt-6 text-center font-bold"></div>
                     </div>
                 </div>
 
@@ -908,6 +710,7 @@
             <section id="collab-hub" class="app-section hidden">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">ศูนย์รวมความร่วมมือ</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Student Chat -->
                     <div class="md:col-span-2 bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
                         <h3 class="text-xl font-semibold mb-4">พูดคุยกับเพื่อนๆ</h3>
                         <div class="h-96 border border-white/30 rounded-lg mb-4 p-4 overflow-y-auto custom-scrollbar">
@@ -918,6 +721,7 @@
                            <button class="bg-slate-300 text-white px-4 py-2 rounded-lg cursor-not-allowed">ส่ง</button>
                         </div>
                     </div>
+                    <!-- Find Friends & AI Help -->
                     <div class="space-y-8">
                         <div class="bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
                             <h3 class="text-xl font-semibold mb-4">AI ช่วยแก้โจทย์</h3>
@@ -925,2002 +729,8 @@
                             <button id="open-ai-solver-btn" class="aurora-button w-full font-semibold py-3 rounded-lg transition-all duration-300">เริ่มใช้งาน AI Solver</button>
                         </div>
                         <div class="bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
-                            <h3 class="text-xl font-semibold mb-4">เพื่อนของคุณ</h3>
-                            <ul id="friends-list" class="space-y-3">
-                                <li class="text-center text-slate-500">คุณยังไม่มีเพื่อน... ลองเพิ่มเพื่อนดูสิ!</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <section id="friends-challenge" class="app-section hidden">
-                <h2 class="text-3xl font-bold text-slate-800 mb-6">ท้าทายเพื่อน: แบบทดสอบประจำวัน</h2>
-                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                      <div class="md:col-span-2 bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-8 text-center flex flex-col justify-center items-center">
-                           <h3 class="text-2xl font-semibold mb-2 text-slate-800">ทดสอบความรู้เรื่องเซต!</h3>
-                           <p class="text-slate-600 mb-6">ตอบคำถาม 30 ข้อเพื่อเก็บคะแนนและไต่อันดับไปกับเพื่อนๆ<br><span class="text-xs text-indigo-500 font-semibold">ขับเคลื่อนด้วย AI</span></p>
-                           <button id="start-quiz-btn" class="aurora-button px-10 py-4 font-bold rounded-lg transition-all duration-300 shadow-lg text-lg">เริ่มทำแบบทดสอบประจำวัน</button>
-                      </div>
-                      <div class="bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
-                         <h3 class="text-xl font-semibold mb-4">ตารางคะแนน</h3>
-                         <ol class="space-y-4">
-                             <li class="flex items-center space-x-3">
-                                 <span class="font-bold text-lg text-yellow-500">1</span>
-                                 <div class="flex-1">
-                                     <p class="font-semibold text-slate-800">คุณ</p>
-                                     <p class="text-sm text-slate-500">150 คะแนน | สตรีค 5 🔥</p>
-                                 </div>
-                             </li>
-                             <li class="flex items-center space-x-3">
-                                 <span class="font-bold text-lg text-slate-400">2</span>
-                                 <div class="flex-1">
-                                     <p class="font-semibold text-slate-800">สมชาย</p>
-                                     <p class="text-sm text-slate-500">125 คะแนน | สตรีค 3</p>
-                                 </div>
-                             </li>
-                             <li class="flex items-center space-x-3">
-                                 <span class="font-bold text-lg text-orange-400">3</span>
-                                 <div class="flex-1">
-                                     <p class="font-semibold text-slate-800">สมศรี</p>
-                                     <p class="text-sm text-slate-500">110 คะแนน | สตรีค 2</p>
-                                 </div>
-                             </li>
-                         </ol>
-                      </div>
-                 </div>
-            </section>
-            
-            <section id="profile-page" class="app-section hidden">
-                <h2 class="text-3xl font-bold text-slate-800 mb-6">แก้ไขโปรไฟล์</h2>
-                <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
-                    <form id="profile-form">
-                        <div class="flex flex-col items-center space-y-6">
-                            <img id="profile-page-avatar" class="h-32 w-32 rounded-full object-cover border-4 border-indigo-200" src="" alt="Current Avatar">
-                            
-                            <div>
-                                <label for="profile-username" class="block text-sm font-medium text-slate-700 mb-1">ชื่อผู้ใช้</label>
-                                <input type="text" id="profile-username" class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
-                            </div>
-
-                            <div>
-                                <label class="block text-sm font-medium text-slate-700 mb-2">เลือกรูปโปรไฟล์ใหม่</label>
-                                <div id="avatar-selection-grid" class="grid grid-cols-5 gap-4 avatar-selection">
-                                    </div>
-                            </div>
-                            
-                            <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300">
-                                บันทึกการเปลี่ยนแปลง
-                            </button>
-                            <div id="profile-success-message" class="hidden text-green-600">บันทึกข้อมูลสำเร็จ!</div>
-                        </div>
-                    </form>
-                </div>
-            </section>
-
-            <section id="settings-page" class="app-section hidden">
-                 <h2 class="text-3xl font-bold text-slate-800 mb-6">การตั้งค่าบัญชี</h2>
-                 <div class="max-w-2xl mx-auto space-y-8">
-                       <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
-                           <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนอีเมล</h3>
-                           <form id="change-email-form" class="space-y-4">
-                               <div id="email-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
-                               <div id="email-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
-                               <div>
-                                   <label for="new-email" class="block text-sm font-medium text-slate-700 mb-1">อีเมลใหม่</label>
-                                   <input type="email" id="new-email" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
-                               </div>
-                               <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
-                                   เปลี่ยนอีเมล
-                               </button>
-                           </form>
-                      </div>
-                      <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
-                           <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนรหัสผ่าน</h3>
-                           <form id="change-password-form" class="space-y-4">
-                               <div id="password-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
-                               <div id="password-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
-                               <div>
-                                   <label for="new-password" class="block text-sm font-medium text-slate-700 mb-1">รหัสผ่านใหม่</label>
-                                   <input type="password" id="new-password" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
-                               </div>
-                                <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
-                                   เปลี่ยนรหัสผ่าน
-                               </button>
-                           </form>
-                      </div>
-                 </div>
-            </section>
-        </div>
-    </main>
-
-    <div id="ai-quiz-loading-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
-        <div class="bg-white/70 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-full max-w-sm p-8 text-center" style="animation: modal-scale-in 0.3s ease-out forwards;">
-            <div class="flex justify-center items-center mb-4">
-                <svg class="animate-spin h-10 w-10 text-indigo-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                </svg>
-            </div>
-            <h3 class="text-lg font-bold text-slate-800">AI กำลังสร้างแบบทดสอบชุดใหม่</h3>
-            <p class="text-slate-600">โปรดรอสักครู่...</p>
-        </div>
-    </div>
-    
-    <div id="quiz-modal" class="hidden fixed inset-0 bg-white z-50 flex flex-col p-4 sm:p-6 lg:p-8" style="animation: fadeIn 0.3s ease-out forwards;">
-        <div id="quiz-header" class="w-full max-w-4xl mx-auto mb-4">
-            <div class="flex justify-between items-center mb-2">
-                 <h2 class="text-xl font-bold text-slate-800">แบบทดสอบเรื่องเซต</h2>
-                 <button id="close-quiz-btn" class="text-slate-500 hover:text-slate-800 text-2xl font-bold">×</button>
-            </div>
-            <div class="w-full bg-slate-200 rounded-full h-2.5">
-                <div id="quiz-progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
-            </div>
-        </div>
-        <div id="quiz-content" class="flex-grow w-full max-w-4xl mx-auto flex flex-col justify-center">
-            </div>
-    </div>
-    
-    <div id="ai-solver-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
-        <div class="bg-white/70 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-full max-w-xl flex flex-col h-[80vh] relative" style="animation: modal-scale-in 0.3s ease-out forwards;">
-            <div class="p-4 border-b border-white/30">
-                <h3 class="font-semibold text-slate-800 text-lg">ผู้ช่วยแก้โจทย์ 'น้องขอม'</h3>
-                <p class="text-sm text-slate-500">พิมพ์โจทย์ปัญหาคณิตศาสตร์ของคุณที่นี่</p>
-            </div>
-            <div id="solver-chat-box" class="flex-1 p-4 overflow-y-auto custom-scrollbar space-y-4">
-                 <div class="flex justify-start">
-                    <div class="bg-white/60 backdrop-blur-lg border border-white/20 p-3 rounded-lg max-w-md">
-                        <p class="text-sm">สวัสดีค่ะ มีโจทย์เรื่องเซตข้อไหนที่แก้ไม่ได้หรือเปล่าคะ? ลองพิมพ์มาได้เลยค่ะ</p>
-                    </div>
-                </div>
-            </div>
-            <div class="p-4 border-t border-white/30">
-                <div class="flex space-x-2">
-                    <input type="text" id="solver-chat-input" class="flex-1 border-slate-300 rounded-lg bg-white/60 backdrop-blur-lg border-white/20 focus:ring-indigo-500 focus:border-indigo-500 transition-all duration-300" placeholder="พิมพ์โจทย์ของคุณ...">
-                    <button id="solver-chat-send" class="aurora-button px-4 py-2 rounded-lg font-semibold text-sm">ส่ง</button>
-                </div>
-            </div>
-            <button id="close-ai-solver-btn" class="absolute top-3 right-3 text-slate-500 hover:text-slate-800 text-2xl font-bold transition-colors duration-300">×</button>
-        </div>
-    </div>
-
-    <div id="add-friend-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
-        <div class="bg-white/70 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-full max-w-md flex flex-col relative" style="animation: modal-scale-in 0.3s ease-out forwards;">
-            <div class="p-4 border-b border-white/30">
-                <h3 class="font-semibold text-slate-800 text-lg">เพิ่มเพื่อน / จัดการคำขอ</h3>
-            </div>
-            <div class="p-6 space-y-6">
-                <div>
-                    <label for="friend-username-input" class="block text-sm font-medium text-slate-700 mb-2">ส่งคำขอเป็นเพื่อน (ด้วยชื่อผู้ใช้)</label>
-                    <div class="flex space-x-2">
-                        <input type="text" id="friend-username-input" class="flex-1 border-slate-300 rounded-lg bg-white/60 focus:ring-indigo-500 focus:border-indigo-500" placeholder="ชื่อผู้ใช้ของเพื่อน">
-                        <button id="send-friend-request-btn" class="px-4 py-2 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors">ส่ง</button>
-                    </div>
-                    <p id="friend-request-status" class="text-sm mt-2 h-4"></p>
-                </div>
-                <div class="border-t border-slate-200/80 pt-4">
-                    <h4 class="font-semibold text-slate-800 mb-2">คำขอที่ได้รับ</h4>
-                    <div id="incoming-requests-list" class="space-y-3 max-h-48 overflow-y-auto custom-scrollbar">
-                        <p class="text-slate-500 text-center">ไม่มีคำขอเป็นเพื่อนในขณะนี้</p>
-                    </div>
-                </div>
-            </div>
-            <button id="close-add-friend-modal-btn" class="absolute top-3 right-3 text-slate-500 hover:text-slate-800 text-2xl font-bold transition-colors duration-300">×</button>
-        </div>
-    </div>
-    <script>
-        // --- Firebase Configuration ---
-        const firebaseConfig = {
-            apiKey: "AIzaSyDYi6Ozmf6vEWkWg49QC5MuyJAvt7a-xZc",
-            authDomain: "secset-542cb.firebaseapp.com",
-            projectId: "secset-542cb",
-            storageBucket: "secset-542cb.appspot.com",
-            messagingSenderId: "735349862292",
-            appId: "1:735349862292:web:a86d3f77dd3b7153d4a981",
-            measurementId: "G-Y6V4MV1XGB"
-        };
-
-        // Initialize Firebase
-        firebase.initializeApp(firebaseConfig);
-        const auth = firebase.auth();
-        const db = firebase.firestore();
-        
-        try {
-            db.settings({ experimentalForceLongPolling: true });
-        } catch(e) {
-            console.warn("Could not set Firestore long polling:", e);
-        }
-
-
-        // --- YouTube Player API Logic ---
-        let ytPlayer;
-        function onYouTubeIframeAPIReady() {
-            ytPlayer = new YT.Player('player', {
-                height: '360',
-                width: '640',
-                videoId: 'bYRwxh0LdHk',
-                playerVars: {
-                    'playsinline': 1,
-                    'modestbranding': 1,
-                    'rel': 0
-                }
-            });
-        }
-        
-        function showHighlightOnVideo(payload) {
-            if (!ytPlayer || typeof ytPlayer.seekTo !== 'function') return;
-
-            const { timestamp, x, y, radius } = payload;
-            
-            ytPlayer.pauseVideo();
-            ytPlayer.seekTo(timestamp, true);
-
-            const canvas = document.getElementById('video-overlay');
-            const playerDiv = document.getElementById('player');
-            const ctx = canvas.getContext('2d');
-
-            const rect = playerDiv.getBoundingClientRect();
-            canvas.width = rect.width;
-            canvas.height = rect.height;
-
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            const absX = canvas.width * x;
-            const absY = canvas.height * y;
-
-            ctx.beginPath();
-            ctx.arc(absX, absY, radius, 0, 2 * Math.PI);
-            ctx.strokeStyle = 'rgba(255, 0, 0, 0.9)';
-            ctx.lineWidth = 4;
-            ctx.stroke();
-
-            canvas.classList.remove('hidden');
-            setTimeout(() => {
-                canvas.classList.add('hidden');
-            }, 3000);
-        }
-
-
-        document.addEventListener('DOMContentLoaded', () => {
-
-            const loginSection = document.getElementById('login-section');
-            const mainApp = document.getElementById('main-app');
-            const navLinks = document.querySelectorAll('.nav-link');
-            const sections = document.querySelectorAll('.app-section');
-            let currentSection = document.querySelector('.app-section:not(.hidden)');
-            let isTransitioning = false;
-            
-            const avatarFiles = [
-                'https://api.dicebear.com/7.x/bottts/svg?seed=Annie',
-                'https://api.dicebear.com/7.x/bottts/svg?seed=Sammy',
-                'https://api.dicebear.com/7.x/bottts/svg?seed=Gizmo',
-                'https://api.dicebear.com/7.x/bottts/svg?seed=Midnight',
-                'https://api.dicebear.com/7.x/bottts/svg?seed=Peanut'
-            ];
-            
-            const populateAvatarSelection = () => {
-                const grid = document.getElementById('avatar-selection-grid');
-                if (!grid) return;
-                grid.innerHTML = '';
-                avatarFiles.forEach(fileUrl => {
-                    const img = document.createElement('img');
-                    img.src = fileUrl;
-                    img.dataset.filename = fileUrl;
-                    img.classList.add('h-16', 'w-16', 'rounded-full', 'object-cover');
-                    grid.appendChild(img);
-                });
-            };
-            populateAvatarSelection();
-
-            const showMainApp = (user) => {
-                const userName = user.displayName || user.email.split('@')[0];
-                const userEmail = user.email;
-                const photoURL = user.photoURL || avatarFiles[0];
-
-                document.getElementById('user-name-desktop').textContent = userName;
-                document.getElementById('user-name-dropdown').textContent = userName;
-                document.getElementById('user-email-dropdown').textContent = userEmail;
-                document.getElementById('user-name-mobile').textContent = userName;
-                document.getElementById('user-email-mobile').textContent = userEmail;
-                document.getElementById('profile-img-desktop').src = photoURL;
-                document.getElementById('profile-img-mobile').src = photoURL;
-                document.getElementById('profile-page-avatar').src = photoURL;
-                document.getElementById('profile-username').value = userName;
-                
-                loginSection.classList.add('opacity-0');
-                setTimeout(() => {
-                    loginSection.classList.add('hidden');
-                    mainApp.classList.remove('hidden');
-                    setTimeout(() => mainApp.classList.remove('opacity-0'), 50); 
-                }, 500);
-
-                db.collection('users').doc(user.uid).get().then(userDoc => {
-                    if (!userDoc.exists) {
-                        console.warn("User document doesn't exist. This might be the first login.");
-                        return;
-                    }
-                    const userData = userDoc.data();
-                    
-                    const firestorePhotoURL = userData.photoURL || photoURL;
-                    document.getElementById('profile-img-desktop').src = firestorePhotoURL;
-                    document.getElementById('profile-img-mobile').src = firestorePhotoURL;
-                    document.getElementById('profile-page-avatar').src = firestorePhotoURL;
-
-                    document.querySelectorAll('#avatar-selection-grid img').forEach(img => {
-                        img.classList.remove('selected');
-                        if (img.src === firestorePhotoURL) {
-                            img.classList.add('selected');
-                        }
-                    });
-
-                }).catch(error => {
-                    console.error("Error fetching user data from Firestore:", error.code, error.message);
-                });
-                
-                // START: Load friends list on app show
-                loadFriendsList(user.uid);
-                // END: Load friends list on app show
-            };
-
-            const showLoginScreen = () => {
-                 mainApp.classList.add('opacity-0');
-                setTimeout(() => {
-                    mainApp.classList.add('hidden');
-                    loginSection.classList.remove('hidden');
-                    setTimeout(() => loginSection.classList.remove('opacity-0'), 50);
-                }, 500);
-            };
-
-            // --- Firebase Auth Logic ---
-            const loginView = document.getElementById('login-view');
-            const signupView = document.getElementById('signup-view');
-            const showSignupBtn = document.getElementById('show-signup');
-            const showLoginBtn = document.getElementById('show-login');
-            
-            showSignupBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                loginView.classList.add('hidden');
-                signupView.classList.remove('hidden');
-            });
-
-            showLoginBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                signupView.classList.add('hidden');
-                loginView.classList.remove('hidden');
-            });
-
-
-            const loginForm = document.getElementById('login-form');
-            const signupForm = document.getElementById('signup-form');
-            const loginError = document.getElementById('login-error');
-            const signupError = document.getElementById('signup-error');
-
-            loginForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const email = loginForm.email.value;
-                const password = loginForm.password.value;
-
-                auth.signInWithEmailAndPassword(email, password)
-                    .catch(err => {
-                        console.error("Login Error:", err.code, err.message);
-                        let friendlyMessage = "เกิดข้อผิดพลาด: อีเมลหรือรหัสผ่านไม่ถูกต้อง";
-                        if (err.code === 'auth/invalid-email' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-                            friendlyMessage = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
-                        }
-                        loginError.textContent = friendlyMessage;
-                        loginError.classList.remove('hidden');
-                    });
-            });
-
-            signupForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const username = signupForm.username.value.trim();
-                const email = signupForm.email.value;
-                const password = signupForm.password.value;
-                
-                if (!username) {
-                    signupError.textContent = "กรุณาใส่ชื่อผู้ใช้";
-                    signupError.classList.remove('hidden');
-                    return;
-                }
-                
-                // Check if username already exists
-                db.collection('users').where('username', '==', username).get().then(snapshot => {
-                    if (!snapshot.empty) {
-                        signupError.textContent = "ชื่อผู้ใช้นี้มีคนใช้แล้ว";
-                        signupError.classList.remove('hidden');
-                        return;
-                    }
-
-                    // If username is available, create user
-                    auth.createUserWithEmailAndPassword(email, password)
-                        .then(userCredential => {
-                            const user = userCredential.user;
-                            const randomAvatar = avatarFiles[Math.floor(Math.random() * avatarFiles.length)];
-                            
-                            return user.updateProfile({
-                                displayName: username,
-                                photoURL: randomAvatar
-                            }).then(() => {
-                                return db.collection('users').doc(user.uid).set({
-                                    username: username,
-                                    email: email,
-                                    photoURL: randomAvatar,
-                                    highScore: 0,
-                                    friends: [], // Initialize friends array
-                                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                                });
-                            });
-                        })
-                        .catch(err => {
-                            console.error("Signup Error:", err.code, err.message);
-                            let friendlyMessage = "";
-                            switch (err.code) {
-                                case 'auth/email-already-in-use':
-                                    friendlyMessage = "อีเมลนี้มีผู้ใช้งานแล้ว";
-                                    break;
-                                case 'auth/invalid-email':
-                                    friendlyMessage = "รูปแบบอีเมลไม่ถูกต้อง";
-                                    break;
-                                case 'auth/weak-password':
-                                    friendlyMessage = "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร";
-                                    break;
-                                default:
-                                    friendlyMessage = `เกิดข้อผิดพลาด: ${err.message}`;
-                                    break;
-                            }
-                            signupError.textContent = friendlyMessage;
-                            signupError.classList.remove('hidden');
-                        });
-                });
-            });
-
-
-            auth.onAuthStateChanged(user => {
-                if (user) {
-                    showMainApp(user);
-                } else {
-                    showLoginScreen();
-                }
-            });
-
-
-            navLinks.forEach(link => {
-                link.addEventListener('click', (e) => {
-                    e.preventDefault();
-                    if (isTransitioning) return;
-
-                    const targetId = link.getAttribute('href').substring(1);
-                    const targetSection = document.getElementById(targetId);
-
-                    if (currentSection !== targetSection) {
-                        isTransitioning = true;
-                        
-                        if (currentSection) {
-                            currentSection.classList.add('section-leave-active');
-                        }
-                        
-                        setTimeout(() => {
-                            if (currentSection) {
-                                currentSection.classList.add('hidden');
-                                currentSection.classList.remove('section-leave-active');
-                            }
-                            
-                            targetSection.classList.remove('hidden');
-                            targetSection.classList.add('section-enter-active');
-                            currentSection = targetSection;
-                            
-                            setTimeout(() => {
-                                targetSection.classList.remove('section-enter-active');
-                                isTransitioning = false;
-                            }, 500);
-
-                        }, 250);
-                    }
-
-                    navLinks.forEach(nav => nav.classList.remove('active'));
-                    document.querySelectorAll(`.nav-link[href="#${targetId}"]`).forEach(activeLink => {
-                         activeLink.classList.add('active');
-                    });
-                    
-                    if (document.getElementById('mobile-menu').classList.contains('hidden') === false) {
-                        document.getElementById('mobile-menu').classList.add('hidden');
-                    }
-                });
-            });
-
-            document.getElementById('mobile-menu-button').addEventListener('click', () => {
-                document.getElementById('mobile-menu').classList.toggle('hidden');
-            });
-
-            const profileMenu = document.getElementById('profile-menu');
-            const profileMenuButton = document.getElementById('profile-menu-button');
-            const profileMenuDropdown = document.getElementById('profile-menu-dropdown');
-            const logoutBtn = document.getElementById('logout-btn');
-            const mobileLogoutBtn = document.getElementById('mobile-logout-btn');
-
-            const handleLogout = (e) => {
-                e.preventDefault();
-                auth.signOut();
-            };
-
-            if (profileMenuButton) {
-                profileMenuButton.addEventListener('click', (e) => {
-                    e.stopPropagation();
-                    profileMenuDropdown.classList.toggle('hidden');
-                });
-            }
-
-            window.addEventListener('click', (e) => {
-                if (profileMenu && !profileMenu.contains(e.target)) {
-                    profileMenuDropdown.classList.add('hidden');
-                }
-            });
-
-            logoutBtn.addEventListener('click', handleLogout);
-            mobileLogoutBtn.addEventListener('click', handleLogout);
-
-            const profileForm = document.getElementById('profile-form');
-            const avatarSelectionGrid = document.getElementById('avatar-selection-grid');
-            let selectedAvatarFile = null;
-
-            avatarSelectionGrid.addEventListener('click', (e) => {
-                if (e.target.tagName === 'IMG') {
-                    avatarSelectionGrid.querySelectorAll('img').forEach(img => img.classList.remove('selected'));
-                    e.target.classList.add('selected');
-                    selectedAvatarFile = e.target.dataset.filename;
-                }
-            });
-
-            profileForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const newUsername = document.getElementById('profile-username').value;
-                const user = auth.currentUser;
-                const profileSuccessMessage = document.getElementById('profile-success-message');
-
-                if (user) {
-                    const updates = {};
-                    if (newUsername !== user.displayName) {
-                        updates.displayName = newUsername;
-                    }
-                    if (selectedAvatarFile) {
-                        updates.photoURL = selectedAvatarFile;
-                    }
-
-                    user.updateProfile(updates).then(() => {
-                        const firestoreUpdates = {};
-                         if (newUsername !== user.displayName) {
-                             firestoreUpdates.username = newUsername;
-                        }
-                        if (selectedAvatarFile) {
-                             firestoreUpdates.photoURL = selectedAvatarFile;
-                        }
-                        return db.collection('users').doc(user.uid).update(firestoreUpdates);
-                    }).then(() => {
-                        profileSuccessMessage.classList.remove('hidden');
-                        setTimeout(() => profileSuccessMessage.classList.add('hidden'), 3000);
-                        showMainApp(auth.currentUser);
-                    }).catch(error => {
-                        console.error("Error updating profile: ", error);
-                    });
-                }
-            });
-
-            const changeEmailForm = document.getElementById('change-email-form');
-            changeEmailForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const newEmail = document.getElementById('new-email').value;
-                const user = auth.currentUser;
-                const emailSuccessMessage = document.getElementById('email-success-message');
-                const emailErrorMessage = document.getElementById('email-error-message');
-                
-                if (user && newEmail) {
-                    user.updateEmail(newEmail).then(() => {
-                        emailSuccessMessage.textContent = "เปลี่ยนอีเมลสำเร็จแล้ว!";
-                        emailSuccessMessage.classList.remove('hidden');
-                        setTimeout(() => emailSuccessMessage.classList.add('hidden'), 3000);
-                    }).catch(error => {
-                        emailErrorMessage.textContent = error.message;
-                        emailErrorMessage.classList.remove('hidden');
-                           setTimeout(() => emailErrorMessage.classList.add('hidden'), 3000);
-                    });
-                }
-            });
-
-              const changePasswordForm = document.getElementById('change-password-form');
-              changePasswordForm.addEventListener('submit', (e) => {
-                e.preventDefault();
-                const newPassword = document.getElementById('new-password').value;
-                const user = auth.currentUser;
-                const passwordSuccessMessage = document.getElementById('password-success-message');
-                const passwordErrorMessage = document.getElementById('password-error-message');
-
-                if (user && newPassword) {
-                    user.updatePassword(newPassword).then(() => {
-                        passwordSuccessMessage.textContent = "เปลี่ยนรหัสผ่านสำเร็จแล้ว!";
-                        passwordSuccessMessage.classList.remove('hidden');
-                        setTimeout(() => passwordSuccessMessage.classList.add('hidden'), 3000);
-                    }).catch(error => {
-                        passwordErrorMessage.textContent = error.message;
-                        passwordErrorMessage.classList.remove('hidden');
-                           setTimeout(() => passwordErrorMessage.classList.add('hidden'), 3000);
-                    });
-                }
-            });
-
-            const aiSolverModal = document.getElementById('ai-solver-modal');
-            const openAiSolverBtn = document.getElementById('open-ai-solver-btn');
-            const closeAiSolverBtn = document.getElementById('close-ai-solver-btn');
-
-            if(openAiSolverBtn) {
-                openAiSolverBtn.addEventListener('click', () => {
-                    aiSolverModal.classList.remove('hidden');
-                });
-            }
-            
-            if(closeAiSolverBtn) {
-                closeAiSolverBtn.addEventListener('click', () => {
-                    aiSolverModal.classList.add('hidden');
-                });
-            }
-            
-            const callGeminiAPI = (prompt, chatBoxId, persona) => {
-                const typingIndicatorId = `typing-${Date.now()}`;
-                appendMessage({ text: '' }, 'ai', chatBoxId, typingIndicatorId);
-
-                setTimeout(() => {
-                    let responseText = "";
-                    const lowerCasePrompt = prompt.toLowerCase();
-                    
-                    if (lowerCasePrompt.includes("ยูเนียน")) {
-                        responseText = "<b>ยูเนียน (Union)</b> คือการนำสมาชิกทั้งหมดของเซตมารวมกันค่ะ สัญลักษณ์คือ ∪ ค่ะ เช่น {1, 2} ∪ {2, 3} จะได้ {1, 2, 3}";
-                    } else if (lowerCasePrompt.includes("อินเตอร์เซก")) {
-                        responseText = "<b>อินเตอร์เซกชัน (Intersection)</b> คือการหาสมาชิกที่ซ้ำกันในเซตค่ะ สัญลักษณ์คือ ∩ ค่ะ เช่น {1, 2} ∩ {2, 3} จะได้ {2}";
-                    } else if (persona === 'Problem Solver') {
-                        responseText = "สำหรับโจทย์ข้อนี้ ลองวาดแผนภาพเวนน์-ออยเลอร์เพื่อช่วยให้เห็นภาพชัดขึ้นนะคะ";
-                    } else {
-                        responseText = "ขออภัยค่ะ ลองถามคำถามอื่นเกี่ยวกับเซตได้ไหมคะ?";
-                    }
-                    updateTypingIndicator(typingIndicatorId, responseText, chatBoxId);
-                }, 1500); 
-            };
-            
-            const appendMessage = (message, sender, chatBoxId, elementId = null) => {
-                const chatBox = document.getElementById(chatBoxId);
-                const messageWrapper = document.createElement('div');
-                const messageBubble = document.createElement('div');
-                
-                messageWrapper.classList.add('flex', 'mb-4');
-                if (elementId) {
-                    messageWrapper.id = elementId;
-                }
-
-                let text = typeof message === 'string' ? message : message.text;
-
-                if (sender === 'user') {
-                    messageWrapper.classList.add('justify-end');
-                    messageBubble.classList.add('bg-indigo-500/80', 'backdrop-blur-lg', 'border', 'border-white/20', 'text-white', 'p-3', 'rounded-lg', 'max-w-xs');
-                    messageBubble.innerHTML = `<p class="text-sm">${text}</p>`;
-                } else { 
-                    messageWrapper.classList.add('justify-start');
-                    messageBubble.classList.add('bg-white/60', 'backdrop-blur-lg', 'border', 'border-white/20', 'p-3', 'rounded-lg', 'max-w-xs');
-                     if (text) {
-                        messageBubble.innerHTML = `<p class="text-sm">${text}</p>`;
-                    } else {
-                        messageBubble.innerHTML = `<div class="typing-indicator"><span></span><span></span><span></span></div>`;
-                    }
-                }
-                
-                messageWrapper.appendChild(messageBubble);
-                chatBox.appendChild(messageWrapper);
-                chatBox.scrollTop = chatBox.scrollHeight;
-            };
-
-            const updateTypingIndicator = (indicatorId, newText, chatBoxId) => {
-                  const chatBox = document.getElementById(chatBoxId);
-                  const indicatorWrapper = chatBox.querySelector(`#${indicatorId}`);
-                  if(indicatorWrapper) {
-                      const messageBubble = indicatorWrapper.querySelector('div');
-                      messageBubble.innerHTML = `<p class="text-sm">${newText}</p>`;
-                  }
-            };
-            
-            document.getElementById('study-chat-box').addEventListener('click', (e) => {
-                if (e.target.dataset.actionType === 'highlight') {
-                    const payload = JSON.parse(e.target.dataset.actionPayload);
-                    showHighlightOnVideo(payload);
-                }
-            });
-
-
-            const setupChat = (inputId, sendId, chatBoxId, persona) => {
-                const input = document.getElementById(inputId);
-                const sendButton = document.getElementById(sendId);
-                
-                const sendMessage = () => {
-                     const prompt = input.value.trim();
-                    if (prompt) {
-                        appendMessage(prompt, 'user', chatBoxId);
-                        input.value = '';
-                        callGeminiAPI(prompt, chatBoxId, persona);
-                    }
-                };
-                
-                sendButton.addEventListener('click', sendMessage);
-                input.addEventListener('keyup', (e) => {
-                    if(e.key === 'Enter') {
-                        sendMessage();
-                    }
-                });
-            };
-            
-            setupChat('study-chat-input', 'study-chat-send', 'study-chat-box', 'Study Buddy');
-            setupChat('solver-chat-input', 'solver-chat-send', 'solver-chat-box', 'Problem Solver');
-            
-            // --- START: Friend Feature Logic ---
-
-            const addFriendModal = document.getElementById('add-friend-modal');
-            const openAddFriendBtn = document.getElementById('add-friend-btn');
-            const closeAddFriendBtn = document.getElementById('close-add-friend-modal-btn');
-            const sendFriendRequestBtn = document.getElementById('send-friend-request-btn');
-            const friendUsernameInput = document.getElementById('friend-username-input');
-            const friendRequestStatus = document.getElementById('friend-request-status');
-            const incomingRequestsList = document.getElementById('incoming-requests-list');
-            
-            openAddFriendBtn.addEventListener('click', (e) => {
-                e.preventDefault();
-                addFriendModal.classList.remove('hidden');
-                loadFriendRequests();
-            });
-
-            closeAddFriendBtn.addEventListener('click', () => {
-                addFriendModal.classList.add('hidden');
-            });
-            
-            sendFriendRequestBtn.addEventListener('click', async () => {
-                const targetUsername = friendUsernameInput.value.trim();
-                const currentUser = auth.currentUser;
-
-                if (!targetUsername) {
-                    friendRequestStatus.textContent = "กรุณากรอกชื่อผู้ใช้";
-                    friendRequestStatus.className = 'text-sm mt-2 h-4 text-red-600';
-                    return;
-                }
-                
-                if (targetUsername === currentUser.displayName) {
-                    friendRequestStatus.textContent = "คุณไม่สามารถเพิ่มตัวเองเป็นเพื่อนได้";
-                    friendRequestStatus.className = 'text-sm mt-2 h-4 text-red-600';
-                    return;
-                }
-
-                friendRequestStatus.textContent = "กำลังค้นหา...";
-                friendRequestStatus.className = 'text-sm mt-2 h-4 text-slate-500';
-
-                const usersRef = db.collection('users');
-                const snapshot = await usersRef.where('username', '==', targetUsername).get();
-
-                if (snapshot.empty) {
-                    friendRequestStatus.textContent = "ไม่พบผู้ใช้นี้";
-                    friendRequestStatus.className = 'text-sm mt-2 h-4 text-red-600';
-                    return;
-                }
-                
-                const targetUser = snapshot.docs[0].data();
-                const targetUserId = snapshot.docs[0].id;
-
-                await db.collection('friendRequests').add({
-                    senderId: currentUser.uid,
-                    senderName: currentUser.displayName,
-                    receiverId: targetUserId,
-                    status: 'pending',
-                    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-                });
-
-                friendRequestStatus.textContent = "ส่งคำขอแล้ว!";
-                friendRequestStatus.className = 'text-sm mt-2 h-4 text-green-600';
-                friendUsernameInput.value = '';
-                setTimeout(() => friendRequestStatus.textContent = '', 3000);
-            });
-
-            const loadFriendRequests = async () => {
-                const currentUser = auth.currentUser;
-                const requestsRef = db.collection('friendRequests');
-                const snapshot = await requestsRef.where('receiverId', '==', currentUser.uid).where('status', '==', 'pending').get();
-                
-                if (snapshot.empty) {
-                    incomingRequestsList.innerHTML = `<p class="text-slate-500 text-center">ไม่มีคำขอเป็นเพื่อนในขณะนี้</p>`;
-                    return;
-                }
-
-                incomingRequestsList.innerHTML = '';
-                snapshot.forEach(doc => {
-                    const request = doc.data();
-                    const requestId = doc.id;
-                    const requestDiv = document.createElement('div');
-                    requestDiv.className = 'flex items-center justify-between bg-slate-100 p-2 rounded-lg';
-                    requestDiv.innerHTML = `
-                        <p class="text-sm">${request.senderName}</p>
-                        <div class="flex space-x-2">
-                            <button data-request-id="${requestId}" data-sender-id="${request.senderId}" class="accept-request-btn px-2 py-1 bg-green-500 text-white text-xs font-bold rounded hover:bg-green-600">ยอมรับ</button>
-                            <button data-request-id="${requestId}" class="decline-request-btn px-2 py-1 bg-red-500 text-white text-xs font-bold rounded hover:bg-red-600">ปฏิเสธ</button>
-                        </div>
-                    `;
-                    incomingRequestsList.appendChild(requestDiv);
-                });
-
-                document.querySelectorAll('.accept-request-btn').forEach(btn => {
-                    btn.addEventListener('click', acceptFriendRequest);
-                });
-                document.querySelectorAll('.decline-request-btn').forEach(btn => {
-                    btn.addEventListener('click', declineFriendRequest);
-                });
-            };
-
-            const acceptFriendRequest = async (e) => {
-                const requestId = e.target.dataset.requestId;
-                const senderId = e.target.dataset.senderId;
-                const receiverId = auth.currentUser.uid;
-                
-                const requestRef = db.collection('friendRequests').doc(requestId);
-                const senderRef = db.collection('users').doc(senderId);
-                const receiverRef = db.collection('users').doc(receiverId);
-
-                await requestRef.update({ status: 'accepted' });
-                await senderRef.update({ friends: firebase.firestore.FieldValue.arrayUnion(receiverId) });
-                await receiverRef.update({ friends: firebase.firestore.FieldValue.arrayUnion(senderId) });
-
-                loadFriendRequests(); // Refresh request list
-                loadFriendsList(receiverId); // Refresh main friends list
-            };
-            
-            const declineFriendRequest = async (e) => {
-                const requestId = e.target.dataset.requestId;
-                await db.collection('friendRequests').doc(requestId).update({ status: 'declined' });
-                loadFriendRequests(); // Refresh list
-            };
-            
-            async function loadFriendsList(userId) {
-                const friendsListEl = document.getElementById('friends-list');
-                const userDoc = await db.collection('users').doc(userId).get();
-                if (!userDoc.exists || !userDoc.data().friends || userDoc.data().friends.length === 0) {
-                    friendsListEl.innerHTML = `<li class="text-center text-slate-500">คุณยังไม่มีเพื่อน... ลองเพิ่มเพื่อนดูสิ!</li>`;
-                    return;
-                }
-                
-                friendsListEl.innerHTML = ''; // Clear list
-                const friendsIds = userDoc.data().friends;
-                
-                for (const friendId of friendsIds) {
-                    const friendDoc = await db.collection('users').doc(friendId).get();
-                    if (friendDoc.exists) {
-                        const friendData = friendDoc.data();
-                        const friendLi = document.createElement('li');
-                        friendLi.className = 'flex items-center justify-between';
-                        friendLi.innerHTML = `
-                            <div class="flex items-center space-x-2">
-                                <img src="${friendData.photoURL}" class="h-8 w-8 rounded-full object-cover">
-                                <span class="text-slate-700">${friendData.username}</span>
-                            </div>
-                            <span class="text-xs font-semibold bg-green-100/80 text-green-800 px-2 py-1 rounded-full">Online</span>
-                        `;
-                        friendsListEl.appendChild(friendLi);
-                    }
-                }
-            }
-            // --- END: Friend Feature Logic ---
-
-
-            // --- Arcade Mode Logic ---
-            const arcadeMenu = document.getElementById('arcade-menu');
-            const flashcardModeContent = document.getElementById('flashcard-mode-content');
-            const speedQuizModeContent = document.getElementById('speed-quiz-mode-content');
-            const setOperationsGameContent = document.getElementById('set-operations-game-content');
-            const vennDiagramGameContent = document.getElementById('venn-diagram-game-content');
-            const venn3DiagramGameContent = document.getElementById('venn-3-diagram-game-content');
-            const arcadeHighScoreEl = document.getElementById('arcade-high-score');
-            
-            const updateArcadeHighScore = () => {
-                const user = auth.currentUser;
-                if (user) {
-                    db.collection('users').doc(user.uid).get().then(doc => {
-                        if (doc.exists && doc.data().highScore) {
-                             arcadeHighScoreEl.textContent = doc.data().highScore;
-                        } else {
-                            arcadeHighScoreEl.textContent = 0;
-                        }
-                    }).catch(error => {
-                        console.error("Error getting high score from Firestore:", error);
-                    });
-                }
-            }
-
-
-            document.getElementById('start-flashcard-mode').addEventListener('click', () => {
-                arcadeMenu.classList.add('hidden');
-                flashcardModeContent.classList.add('flex');
-                flashcardModeContent.classList.remove('hidden');
-            });
-            document.getElementById('start-speed-mode').addEventListener('click', () => {
-                arcadeMenu.classList.add('hidden');
-                speedQuizModeContent.classList.remove('hidden');
-            });
-             document.getElementById('start-set-operations-game').addEventListener('click', () => {
-                arcadeMenu.classList.add('hidden');
-                setOperationsGameContent.classList.remove('hidden');
-                startSetOpGame();
-            });
-             document.getElementById('start-venn-diagram-game').addEventListener('click', () => {
-                arcadeMenu.classList.add('hidden');
-                vennDiagramGameContent.classList.remove('hidden');
-                startVennDiagramGame();
-            });
-             document.getElementById('start-venn-3-diagram-game').addEventListener('click', () => {
-                arcadeMenu.classList.add('hidden');
-                venn3DiagramGameContent.classList.remove('hidden');
-                startVenn3DiagramGame();
-            });
-
-            document.querySelectorAll('.back-to-arcade-menu').forEach(button => {
-                button.addEventListener('click', () => {
-                    flashcardModeContent.classList.add('hidden');
-                    flashcardModeContent.classList.remove('flex');
-                    speedQuizModeContent.classList.add('hidden');
-                    setOperationsGameContent.classList.add('hidden');
-                    vennDiagramGameContent.classList.add('hidden');
-                    venn3DiagramGameContent.classList.add('hidden');
-                    arcadeMenu.classList.remove('hidden');
-                    if (gameAnimationId) endGame(true);
-                    updateArcadeHighScore();
-                });
-            });
-
-
-            const flashcards = [
-                { term: "เซต (Set)", definition: "กลุ่มของสิ่งต่างๆ ที่เราสามารถกำหนดสมาชิกได้แน่นอน" },
-                { term: "สมาชิก (Element)", definition: "แต่ละสิ่งที่อยู่ในเซต" },
-                { term: "เซตว่าง (Empty Set)", definition: "เซตที่ไม่มีสมาชิกเลย เขียนแทนด้วย { } หรือ ∅" },
-                { term: "เซตจำกัด (Finite Set)", definition: "เซตที่สามารถนับจำนวนสมาชิกได้" },
-                { term: "เซตอนันต์ (Infinite Set)", definition: "เซตที่ไม่ใช่เซตจำกัด หรือมีจำนวนสมาชิกนับไม่ถ้วน" },
-                { term: "สับเซต (Subset)", definition: "เซต A เป็นสับเซตของ B ถ้าสมาชิกทุกตัวของ A เป็นสมาชิกของ B" },
-                { term: "เพาเวอร์เซต (Power Set)", definition: "เซตของสับเซตทั้งหมดที่เป็นไปได้ของเซตนั้น" },
-                { term: "ยูเนียน (Union)", definition: "การรวมสมาชิกทั้งหมดจากเซตที่กำหนดเข้าด้วยกัน" },
-                { term: "อินเตอร์เซกชัน (Intersection)", definition: "เซตของสมาชิกที่ซ้ำกันในเซตที่กำหนด" },
-                { term: "คอมพลีเมนต์ (Complement)", definition: "เซตของสมาชิกที่อยู่ในเอกภพสัมพัทธ์ แต่ไม่อยู่ในเซตนั้น" }
-            ];
-            let currentCardIndex = 0;
-            const cardInner = document.getElementById('flashcard-inner');
-            const frontText = document.getElementById('flashcard-front-text');
-            const backText = document.getElementById('flashcard-back-text');
-            const cardCounter = document.getElementById('flashcard-counter');
-
-            const showCard = (index) => {
-                frontText.innerHTML = flashcards[index].term;
-                backText.innerHTML = flashcards[index].definition;
-                cardCounter.textContent = `${index + 1} / ${flashcards.length}`;
-                cardInner.classList.remove('is-flipped');
-            };
-
-            document.getElementById('flip-flashcard').addEventListener('click', () => {
-                cardInner.classList.toggle('is-flipped');
-            });
-            document.getElementById('next-flashcard').addEventListener('click', () => {
-                currentCardIndex = (currentCardIndex + 1) % flashcards.length;
-                showCard(currentCardIndex);
-            });
-            document.getElementById('prev-flashcard').addEventListener('click', () => {
-                currentCardIndex = (currentCardIndex - 1 + flashcards.length) % flashcards.length;
-                showCard(currentCardIndex);
-            });
-
-            showCard(currentCardIndex);
-
-
-            // --- Speed Quiz Game Logic ---
-            const speedQuizTimerEl = document.getElementById('speed-quiz-timer-top');
-            const speedQuizScoreEl = document.getElementById('speed-quiz-score-top');
-            const speedQuizQuestionCounterEl = document.getElementById('speed-quiz-question-counter-top');
-            const speedQuizQuestionArea = document.getElementById('speed-quiz-question-area');
-            const speedQuizQuestionTextEl = document.getElementById('speed-quiz-question-text');
-            const speedQuizStartOverlay = document.getElementById('speed-quiz-start-overlay');
-            const countdownOverlay = document.getElementById('countdown-overlay');
-            const countdownText = document.getElementById('countdown-text');
-            const speedQuizEndOverlay = document.getElementById('speed-quiz-end-overlay');
-            const finalScoreEl = document.getElementById('final-score');
-            const highScoreEl = document.getElementById('high-score');
-            const laserCanvas = document.getElementById('laser-canvas');
-            const laserCtx = laserCanvas.getContext('2d');
-            const backgroundCanvas = document.getElementById('background-canvas');
-            const bgCtx = backgroundCanvas.getContext('2d');
-            const confettiCanvas = document.getElementById('confetti-canvas');
-            const confettiCtx = confettiCanvas.getContext('2d');
-            
-            let speedQuizScore = 0;
-            let timerInterval;
-            let speedQuizCurrentQuestion = {};
-            let bubbles = [];
-            let gameAnimationId;
-            let stars = [];
-            let particles = [];
-            let lasers = [];
-            let confetti = [];
-            let currentQuestionIndex = 0;
-            const MAX_QUESTIONS = 10;
-            
-            const speedQuizQuestions = flashcards.map(f => {
-                const wrongAnswers = flashcards
-                    .filter(wa => wa.term !== f.term)
-                    .sort(() => 0.5 - Math.random())
-                    .slice(0, 3)
-                    .map(wa => wa.term);
-                return {
-                    question: f.definition,
-                    options: [f.term, ...wrongAnswers].sort(() => 0.5 - Math.random()),
-                    correctAnswer: f.term
-                }
-            });
-
-            const setupConfetti = () => {
-                const gameRect = speedQuizGameArea.getBoundingClientRect();
-                confettiCanvas.width = gameRect.width;
-                confettiCanvas.height = gameRect.height;
-                confetti = [];
-                const confettiCount = 200;
-                const colors = ['#f9a8d4', '#a78bfa', '#818cf8', '#60a5fa', '#fde047'];
-                for(let i = 0; i < confettiCount; i++) {
-                    confetti.push({
-                        x: Math.random() * gameRect.width,
-                        y: -Math.random() * gameRect.height,
-                        radius: Math.random() * 4 + 2,
-                        color: colors[Math.floor(Math.random() * colors.length)],
-                        speed: Math.random() * 3 + 2,
-                        angle: Math.random() * Math.PI * 2,
-                        spin: (Math.random() - 0.5) * 0.1
-                    });
-                }
-            };
-            const drawConfetti = () => {
-                confettiCtx.clearRect(0, 0, confettiCanvas.width, confettiCanvas.height);
-                confetti.forEach(c => {
-                    confettiCtx.fillStyle = c.color;
-                    confettiCtx.beginPath();
-                    confettiCtx.save();
-                    confettiCtx.translate(c.x, c.y);
-                    confettiCtx.rotate(c.angle);
-                    confettiCtx.fillRect(-c.radius, -c.radius / 2, c.radius * 2, c.radius);
-                    confettiCtx.restore();
-                });
-            };
-            const updateConfetti = () => {
-                confetti.forEach(c => {
-                    c.y += c.speed;
-                    c.angle += c.spin;
-                    if(c.y > confettiCanvas.height) {
-                        c.y = -10;
-                        c.x = Math.random() * confettiCanvas.width;
-                    }
-                });
-            };
-
-
-            const setupStarfield = () => {
-                const gameRect = speedQuizGameArea.getBoundingClientRect();
-                backgroundCanvas.width = gameRect.width;
-                backgroundCanvas.height = gameRect.height;
-                stars = [];
-                for (let i = 0; i < 100; i++) {
-                    stars.push({
-                        x: Math.random() * gameRect.width,
-                        y: Math.random() * gameRect.height,
-                        radius: Math.random() * 1.5,
-                        speed: Math.random() * 0.5 + 0.2
-                    });
-                }
-            }
-
-            const drawStarfield = () => {
-                bgCtx.clearRect(0, 0, backgroundCanvas.width, backgroundCanvas.height);
-                bgCtx.fillStyle = 'white';
-                stars.forEach(star => {
-                    bgCtx.beginPath();
-                    bgCtx.arc(star.x, star.y, star.radius, 0, Math.PI * 2);
-                    bgCtx.fill();
-                });
-            }
-
-            const updateStarfield = () => {
-                stars.forEach(star => {
-                    star.y += star.speed;
-                    if (star.y > backgroundCanvas.height) {
-                        star.y = 0;
-                        star.x = Math.random() * backgroundCanvas.width;
-                    }
-                });
-            }
-
-             const createHitRing = (x, y, color) => {
-                particles.push({
-                    x, y, color,
-                    radius: 20,
-                    life: 30,
-                    type: 'ring'
-                });
-            }
-            
-            const drawLasers = () => {
-                 lasers.forEach(laser => {
-                    laserCtx.beginPath();
-                    laserCtx.moveTo(laser.startX, laser.startY);
-                    laserCtx.lineTo(laser.x, laser.y);
-                    laserCtx.strokeStyle = 'white';
-                    laserCtx.lineWidth = 3;
-                    laserCtx.shadowColor = '#7DF0E5';
-                    laserCtx.shadowBlur = 15;
-                    laserCtx.stroke();
-                });
-                laserCtx.shadowBlur = 0;
-            }
-
-            const drawParticles = () => {
-                particles.forEach(p => {
-                    if (p.type === 'ring') {
-                        laserCtx.beginPath();
-                        laserCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-                        laserCtx.strokeStyle = `rgba(255, 255, 255, ${p.life / 30})`;
-                        laserCtx.lineWidth = 2;
-                        laserCtx.stroke();
-                    }
-                });
-                laserCtx.globalAlpha = 1.0;
-            }
-
-            const updateLasersAndParticles = () => {
-                 for (let i = lasers.length - 1; i >= 0; i--) {
-                    const l = lasers[i];
-                    l.progress += l.speed;
-                    l.x = l.startX + l.dx * l.progress;
-                    l.y = l.startY + l.dy * l.progress;
-                    
-                    if (l.progress >= 1) {
-                         const bubble = bubbles.find(b => b.id === l.targetId);
-                        if(bubble) {
-                             createHitRing(l.endX, l.endY);
-                             if (bubble.el.dataset.isCorrect === 'true') {
-                                 bubble.isHit = true;
-                            } else {
-                                 bubble.el.style.animation = 'shake 0.5s';
-                                 setTimeout(() => { bubble.el.style.animation = '' }, 500);
-                            }
-                        }
-                        lasers.splice(i, 1);
-                    }
-                }
-                
-                for (let i = particles.length - 1; i >= 0; i--) {
-                    const p = particles[i];
-                    if (p.type === 'ring') {
-                        p.radius += 2;
-                    }
-                    p.life--;
-                    if (p.life <= 0) {
-                        particles.splice(i, 1);
-                    }
-                }
-            }
-            
-            const startCountdown = () => {
-                speedQuizStartOverlay.classList.add('hidden');
-                speedQuizEndOverlay.classList.add('hidden');
-                countdownOverlay.classList.remove('hidden');
-                countdownOverlay.classList.add('flex');
-                countdownText.classList.remove('countdown-number');
-                void countdownText.offsetWidth;
-                countdownText.classList.add('countdown-number');
-                let count = 3;
-                countdownText.textContent = count;
-                const countdownInterval = setInterval(() => {
-                    count--;
-                    if(count > 0) {
-                        countdownText.textContent = count;
-                        countdownText.classList.remove('countdown-number');
-                        void countdownText.offsetWidth;
-                        countdownText.classList.add('countdown-number');
-                    } else if (count === 0) {
-                        countdownText.textContent = "BLAST!";
-                        countdownText.classList.remove('countdown-number');
-                        void countdownText.offsetWidth;
-                        countdownText.classList.add('countdown-number');
-                    }
-                    else {
-                        clearInterval(countdownInterval);
-                        countdownOverlay.classList.add('hidden');
-                        countdownOverlay.classList.remove('flex');
-                        startGame();
-                    }
-                }, 1000);
-            }
-
-            const startGame = () => {
-                speedQuizQuestionArea.classList.remove('opacity-0');
-                speedQuizScore = 0;
-                speedQuizScoreEl.textContent = speedQuizScore;
-                currentQuestionIndex = 0;
-                setupStarfield();
-                loadNewQuestion(true);
-                gameLoop();
-            }
-
-              const resetPerQuestionTimer = () => {
-                clearInterval(timerInterval);
-                let timeLeft = 10;
-                speedQuizTimerEl.textContent = timeLeft;
-                timerInterval = setInterval(() => {
-                    timeLeft--;
-                    speedQuizTimerEl.textContent = timeLeft;
-                    if (timeLeft <= 0) {
-                        clearInterval(timerInterval);
-                        bubbles.forEach(b => b.el.style.pointerEvents = 'none');
-                        const correctBubble = bubbles.find(b => b.el.dataset.answer === speedQuizCurrentQuestion.correctAnswer);
-                        if (correctBubble) {
-                            correctBubble.el.style.transition = 'background-color 0.2s';
-                            correctBubble.el.style.backgroundColor = '#16a34a'; // green-600
-                        }
-                        setTimeout(() => {
-                            currentQuestionIndex++;
-                            loadNewQuestion();
-                        }, 1500);
-                    }
-                }, 1000);
-            }
-
-            const endGame = (isSilent = false) => {
-                clearInterval(timerInterval);
-                cancelAnimationFrame(gameAnimationId);
-                gameAnimationId = null;
-                timerInterval = null;
-                speedQuizQuestionArea.classList.add('opacity-0');
-
-                if (isSilent) return;
-
-                const user = auth.currentUser;
-                if (user) {
-                    const userDocRef = db.collection('users').doc(user.uid);
-                    userDocRef.get().then(doc => {
-                        const currentHighScore = (doc.exists && doc.data().highScore) ? doc.data().highScore : 0;
-                        if (speedQuizScore > currentHighScore) {
-                            userDocRef.set({ highScore: speedQuizScore }, { merge: true });
-                            highScoreEl.textContent = speedQuizScore;
-                        } else {
-                            highScoreEl.textContent = currentHighScore;
-                        }
-                    });
-                }
-
-
-                finalScoreEl.textContent = speedQuizScore;
-                speedQuizEndOverlay.classList.remove('hidden');
-                speedQuizEndOverlay.classList.add('flex');
-                setupConfetti();
-
-                bubbles.forEach(b => b.el.remove());
-                bubbles = [];
-                particles = [];
-                lasers = [];
-            }
-            
-            const gameLoop = () => {
-                const gameRect = speedQuizGameArea.getBoundingClientRect();
-                if (laserCanvas.width !== gameRect.width || laserCanvas.height !== gameRect.height) {
-                    laserCanvas.width = gameRect.width;
-                    laserCanvas.height = gameRect.height;
-                    backgroundCanvas.width = gameRect.width;
-                    backgroundCanvas.height = gameRect.height;
-                    confettiCanvas.width = gameRect.width;
-                    confettiCanvas.height = gameRect.height;
-                }
-
-                laserCtx.clearRect(0, 0, laserCanvas.width, laserCanvas.height);
-                
-                if (!timerInterval && !speedQuizEndOverlay.classList.contains('hidden')) {
-                    if(confetti.length > 0) {
-                        updateConfetti();
-                        drawConfetti();
-                    }
-                } else {
-                    updateBubbles();
-                    updateStarfield();
-                    drawStarfield();
-                    updateLasersAndParticles();
-                }
-
-                drawLasers();
-                drawParticles();
-                gameAnimationId = requestAnimationFrame(gameLoop);
-            }
-
-            const updateBubbles = () => {
-                const gameRect = speedQuizGameArea.getBoundingClientRect();
-                bubbles.forEach(bubble => {
-                     if (bubble.isHit) {
-                        bubble.el.style.opacity = Math.max(0, parseFloat(bubble.el.style.opacity) - 0.05);
-                        return;
-                    }
-
-                    bubble.x += bubble.vx;
-                    bubble.y += bubble.vy;
-
-                    if (bubble.x <= 0 || bubble.x + bubble.el.offsetWidth >= gameRect.width) {
-                        bubble.vx *= -1; 
-                    }
-                    if (bubble.y <= 64 || bubble.y + bubble.el.offsetHeight >= gameRect.height - 120) {
-                        bubble.vy *= -1;
-                    }
-
-                    bubble.x = Math.max(0, Math.min(bubble.x, gameRect.width - bubble.el.offsetWidth));
-                    bubble.y = Math.max(64, Math.min(bubble.y, gameRect.height - 120 - bubble.el.offsetHeight));
-
-                    bubble.el.style.transform = `translate(${bubble.x}px, ${bubble.y}px)`;
-                });
-            }
-
-              const loadNewQuestion = (isFirstQuestion = false) => {
-                if (currentQuestionIndex >= MAX_QUESTIONS) {
-                    endGame();
-                    return;
-                }
-                
-                speedQuizQuestionCounterEl.textContent = `${currentQuestionIndex + 1}/${MAX_QUESTIONS}`;
-                resetPerQuestionTimer();
-                speedQuizCurrentQuestion = speedQuizQuestions[Math.floor(Math.random() * speedQuizQuestions.length)];
-                speedQuizQuestionTextEl.innerHTML = speedQuizCurrentQuestion.question;
-                
-                const gameRect = speedQuizGameArea.getBoundingClientRect();
-
-                if (isFirstQuestion) {
-                    bubbles.forEach(b => b.el.remove());
-                    bubbles = [];
-                    speedQuizCurrentQuestion.options.forEach((option, index) => {
-                         const bubbleEl = document.createElement('div');
-                        bubbleEl.classList.add('bubble', 'absolute', 'cursor-pointer', 'flex', 'items-center', 'justify-center', 'text-center', 'p-2', 'text-white', 'font-semibold', 'rounded-full', 'bg-purple-500/70', 'backdrop-blur-sm', 'border', 'border-purple-300/50', 'shadow-lg', 'transition-opacity', 'duration-300');
-                        bubbleEl.style.width = '140px';
-                        bubbleEl.style.height = '140px';
-                        bubbleEl.style.fontSize = '14px';
-                        bubbleEl.style.zIndex = '10';
-                        
-                        const bubbleId = `bubble-${Date.now()}-${index}`;
-
-                        const bubble = {
-                            id: bubbleId,
-                            el: bubbleEl,
-                            isHit: false,
-                            x: Math.random() * (gameRect.width - 140),
-                            y: (Math.random() * (gameRect.height - 420)) + 80,
-                            vx: (Math.random() - 0.5) * 2,
-                            vy: (Math.random() - 0.5) * 2,
-                        };
-                        bubbleEl.dataset.id = bubbleId;
-                        bubbles.push(bubble);
-                        speedQuizGameArea.appendChild(bubbleEl);
-                        bubbleEl.addEventListener('click', handleBubbleClick);
-                    });
-                }
-                
-                const shuffledOptions = [...speedQuizCurrentQuestion.options].sort(() => 0.5 - Math.random());
-                bubbles.forEach((bubble, index) => {
-                    bubble.el.innerHTML = shuffledOptions[index];
-                    bubble.el.dataset.answer = shuffledOptions[index];
-                    bubble.isHit = false;
-                    bubble.el.style.opacity = 1;
-                    bubble.el.style.pointerEvents = 'auto';
-                    bubble.el.style.backgroundColor = '';
-                });
-            }
-            
-            const shootLaser = (targetBubble) => {
-                const shooter = document.getElementById('shooter-container');
-                const shooterRect = shooter.getBoundingClientRect();
-                const gameAreaRect = speedQuizGameArea.getBoundingClientRect();
-                const bubbleRect = targetBubble.getBoundingClientRect();
-
-                const startX = shooterRect.left + shooterRect.width / 2 - gameAreaRect.left;
-                const startY = shooterRect.top - gameAreaRect.top;
-                
-                const centerX = bubbleRect.left + bubbleRect.width / 2 - gameAreaRect.left;
-                const centerY = bubbleRect.top + bubbleRect.height / 2 - gameAreaRect.top;
-                
-                const distance = Math.sqrt(Math.pow(centerX - startX, 2) + Math.pow(centerY - startY, 2));
-                const laserSpeed = 1 / (distance / 30);
-
-                lasers.push({
-                    startX, startY, endX: centerX, endY: centerY,
-                    x: startX, y: startY,
-                    dx: centerX - startX, dy: centerY - startY,
-                    progress: 0,
-                    speed: laserSpeed,
-                    targetId: targetBubble.dataset.id
-                });
-            }
-
-            const handleBubbleClick = (e) => {
-                if (!timerInterval || lasers.length > 0) return; 
-                clearInterval(timerInterval);
-
-                const selectedBubbleEl = e.currentTarget;
-                const selectedAnswer = selectedBubbleEl.dataset.answer;
-                
-                bubbles.forEach(b => b.el.style.pointerEvents = 'none');
-                
-                const isCorrect = selectedAnswer === speedQuizCurrentQuestion.correctAnswer;
-                selectedBubbleEl.dataset.isCorrect = isCorrect;
-                
-                shootLaser(selectedBubbleEl);
-                
-                setTimeout(() => {
-                    if (isCorrect) {
-                        speedQuizScore += 10;
-                        speedQuizScoreEl.textContent = speedQuizScore;
-                    } else {
-                        speedQuizScore = Math.max(0, speedQuizScore - 5);
-                        speedQuizScoreEl.textContent = speedQuizScore;
-                        const correctBubble = bubbles.find(b => b.el.dataset.answer === speedQuizCurrentQuestion.correctAnswer);
-                        if (correctBubble) {
-                             correctBubble.el.style.transition = 'background-color 0.2s';
-                             correctBubble.el.style.backgroundColor = '#16a34a';
-                        }
-                    }
-
-                    setTimeout(() => {
-                        currentQuestionIndex++;
-                        loadNewQuestion();
-                    }, 1000);
-
-                }, 500);
-            }
-
-            document.getElementById('speed-quiz-start-btn').addEventListener('click', startCountdown);
-            document.getElementById('speed-quiz-restart-btn').addEventListener('click', () => {
-                 speedQuizEndOverlay.classList.remove('flex');
-                 speedQuizEndOverlay.classList.add('hidden');
-                 startCountdown();
-            });
-
-            // --- Set Operations Game Logic ---
-            const setOpGameContent = document.getElementById('set-operations-game-content');
-            const setOpScoreEl = document.getElementById('set-op-score');
-            const setOpQuestionEl = document.getElementById('set-op-question');
-            const setADisplay = document.getElementById('set-a-display');
-            const setBDisplay = document.getElementById('set-b-display');
-            const dropZone = document.getElementById('set-op-drop-zone');
-            const elementPool = document.getElementById('set-op-element-pool');
-            const checkBtn = document.getElementById('set-op-check-btn');
-            const resetBtn = document.getElementById('set-op-reset-btn');
-            const feedbackEl = document.getElementById('set-op-feedback');
-
-            let setOpScore = 0;
-            let currentSetA = [];
-            let currentSetB = [];
-            let currentOperation = '';
-            let currentCorrectAnswer = [];
-            
-            const operations = [
-                { type: 'union', symbol: '∪', label: 'ยูเนียน' },
-                { type: 'intersection', symbol: '∩', label: 'อินเตอร์เซกชัน' },
-                { type: 'differenceA', symbol: '−', label: 'ผลต่าง (A - B)' },
-                { type: 'differenceB', symbol: '−', label: 'ผลต่าง (B - A)' }
-            ];
-
-            function generateRandomSet(size, min, max) {
-                const s = new Set();
-                while(s.size < size) {
-                    s.add(Math.floor(Math.random() * (max - min + 1)) + min);
-                }
-                return Array.from(s).sort((a,b) => a-b);
-            }
-
-            function generateSetOpProblem() {
-                feedbackEl.textContent = '';
-                currentSetA = generateRandomSet(Math.floor(Math.random() * 3) + 3, 1, 10); // 3-5 elements
-                currentSetB = generateRandomSet(Math.floor(Math.random() * 3) + 3, 1, 10);
-                currentOperation = operations[Math.floor(Math.random() * operations.length)];
-
-                // Calculate Correct Answer
-                const setA = new Set(currentSetA);
-                const setB = new Set(currentSetB);
-                switch(currentOperation.type) {
-                    case 'union':
-                        currentCorrectAnswer = Array.from(new Set([...currentSetA, ...currentSetB])).sort((a,b)=>a-b);
-                        setOpQuestionEl.textContent = `จงหา: A ${currentOperation.symbol} B`;
-                        break;
-                    case 'intersection':
-                        currentCorrectAnswer = currentSetA.filter(x => setB.has(x)).sort((a,b)=>a-b);
-                        setOpQuestionEl.textContent = `จงหา: A ${currentOperation.symbol} B`;
-                        break;
-                    case 'differenceA':
-                        currentCorrectAnswer = currentSetA.filter(x => !setB.has(x)).sort((a,b)=>a-b);
-                         setOpQuestionEl.textContent = `จงหา: A ${currentOperation.symbol} B`;
-                        break;
-                    case 'differenceB':
-                         currentCorrectAnswer = currentSetB.filter(x => !setA.has(x)).sort((a,b)=>a-b);
-                         setOpQuestionEl.textContent = `จงหา: B ${currentOperation.symbol} A`;
-                        break;
-                }
-                
-                // Populate UI
-                setADisplay.textContent = `{ ${currentSetA.join(', ')} }`;
-                setBDisplay.textContent = `{ ${currentSetB.join(', ')} }`;
-
-                // Create element pool
-                const allElements = Array.from(new Set([...currentSetA, ...currentSetB, ...generateRandomSet(3, 1, 15)]));
-                elementPool.innerHTML = '';
-                allElements.sort(() => 0.5 - Math.random()).forEach(el => {
-                    const elDiv = document.createElement('div');
-                    elDiv.className = 'set-op-element';
-                    elDiv.textContent = el;
-                    elDiv.draggable = true;
-                    elDiv.dataset.value = el;
-                    elementPool.appendChild(elDiv);
-                });
-
-                resetAnswer();
-            }
-
-            function startSetOpGame() {
-                setOpScore = 0;
-                setOpScoreEl.textContent = setOpScore;
-                generateSetOpProblem();
-            }
-            
-            function checkAnswer() {
-                const droppedElements = Array.from(dropZone.children);
-                const userAnswer = droppedElements.map(el => parseInt(el.dataset.value)).sort((a,b)=>a-b);
-
-                const isCorrect = JSON.stringify(userAnswer) === JSON.stringify(currentCorrectAnswer);
-
-                if (isCorrect) {
-                    setOpScore += 10;
-                    setOpScoreEl.textContent = setOpScore;
-                    feedbackEl.textContent = 'ถูกต้อง!';
-                    feedbackEl.className = 'text-center mb-4 h-6 font-semibold text-green-600';
-                    setTimeout(generateSetOpProblem, 1500);
-                } else {
-                    feedbackEl.textContent = 'ลองอีกครั้ง!';
-                    feedbackEl.className = 'text-center mb-4 h-6 font-semibold text-red-600';
-                    dropZone.classList.add('animate-shake'); // Simple shake animation
-                    setTimeout(() => {
-                        feedbackEl.textContent = '';
-                        dropZone.classList.remove('animate-shake');
-                    }, 1500);
-                }
-            }
-            
-            function resetAnswer() {
-                dropZone.innerHTML = '';
-                Array.from(elementPool.children).forEach(el => {
-                    el.classList.remove('dragged');
-                    el.draggable = true;
-                });
-            }
-
-            // Drag and Drop Logic
-            let draggedItem = null;
-            
-            elementPool.addEventListener('dragstart', (e) => {
-                if (e.target.classList.contains('set-op-element') && !e.target.classList.contains('dragged')) {
-                    draggedItem = e.target;
-                    setTimeout(() => e.target.style.display = 'none', 0);
-                }
-            });
-
-            elementPool.addEventListener('dragend', (e) => {
-                if (draggedItem) {
-                    setTimeout(() => {
-                        draggedItem.style.display = 'block';
-                        draggedItem = null;
-                    }, 0);
-                }
-            });
-
-            dropZone.addEventListener('dragover', e => e.preventDefault());
-            dropZone.addEventListener('dragenter', e => {
-                e.preventDefault();
-                dropZone.classList.add('drag-over');
-            });
-            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
-            dropZone.addEventListener('drop', (e) => {
-                e.preventDefault();
-                if(draggedItem) {
-                    const newEl = draggedItem.cloneNode(true);
-                    newEl.draggable = false;
-                    newEl.addEventListener('click', (ev) => {
-                        const originalEl = Array.from(elementPool.children).find(child => child.dataset.value === ev.target.dataset.value);
-                        if(originalEl) {
-                           originalEl.classList.remove('dragged');
-                           originalEl.draggable = true;
-                        }
-                        ev.target.remove();
-                    });
-                    dropZone.appendChild(newEl);
-                    draggedItem.classList.add('dragged');
-                    draggedItem.draggable = false;
-                }
-                dropZone.classList.remove('drag-over');
-            });
-
-
-            checkBtn.addEventListener('click', checkAnswer);
-            resetBtn.addEventListener('click', resetAnswer);
-
-             // --- Venn Diagram Game Logic (2 sets) ---
-            const vennScoreEl = document.getElementById('venn-score');
-            const vennUniverseSetEl = document.getElementById('venn-universe-set');
-            const vennElementPool = document.getElementById('venn-element-pool');
-            const vennDropAreas = {
-                a: document.getElementById('venn-drop-a'),
-                b: document.getElementById('venn-drop-b'),
-                intersection: document.getElementById('venn-drop-intersection'),
-                universe: document.getElementById('venn-drop-universe'),
-            };
-            const vennCheckBtn = document.getElementById('venn-check-btn');
-            const vennFeedbackEl = document.getElementById('venn-feedback');
-            
-            let vennScore = 0;
-            let vennProblem = {};
-
-            function startVennDiagramGame() {
-                vennScore = 0;
-                vennScoreEl.textContent = vennScore;
-                generateVennProblem();
-            }
-
-            function generateVennProblem() {
-                vennFeedbackEl.textContent = '';
-                const U = Array.from({length: 12}, (_, i) => i + 1);
-                const A = new Set(generateRandomSet(5, 1, 12));
-                const B = new Set(generateRandomSet(5, 1, 12));
-
-                vennProblem = {
-                    U,
-                    A: Array.from(A).sort((a,b)=>a-b),
-                    B: Array.from(B).sort((a,b)=>a-b),
-                    solution: {
-                        a: [],
-                        b: [],
-                        intersection: [],
-                        universe: []
-                    }
-                };
-
-                U.forEach(num => {
-                    const inA = A.has(num);
-                    const inB = B.has(num);
-                    if (inA && inB) vennProblem.solution.intersection.push(num);
-                    else if (inA) vennProblem.solution.a.push(num);
-                    else if (inB) vennProblem.solution.b.push(num);
-                    else vennProblem.solution.universe.push(num);
-                });
-
-                vennUniverseSetEl.textContent = U.join(', ');
-                document.getElementById('venn-set-a-display').textContent = `{ ${vennProblem.A.join(', ')} }`;
-                document.getElementById('venn-set-b-display').textContent = `{ ${vennProblem.B.join(', ')} }`;
-                
-                vennElementPool.innerHTML = '';
-                U.sort(() => 0.5 - Math.random()).forEach(num => {
-                    const el = document.createElement('div');
-                    el.className = 'venn-element';
-                    el.textContent = num;
-                    el.draggable = true;
-                    el.dataset.value = num;
-                    vennElementPool.appendChild(el);
-                });
-
-                Object.values(vennDropAreas).forEach(area => area.innerHTML = '');
-            }
-            
-            function checkVennAnswer() {
-                let isCorrect = true;
-                for (const zone in vennDropAreas) {
-                    const userAnswers = Array.from(vennDropAreas[zone].children)
-                                            .map(el => parseInt(el.textContent))
-                                            .sort((a,b) => a - b);
-                    const correctAnswers = vennProblem.solution[zone].sort((a,b) => a - b);
-                    if (JSON.stringify(userAnswers) !== JSON.stringify(correctAnswers)) {
-                        isCorrect = false;
-                        break;
-                    }
-                }
-                
-                if(isCorrect) {
-                    vennScore += 10;
-                    vennScoreEl.textContent = vennScore;
-                    vennFeedbackEl.textContent = 'ยอดเยี่ยม! ถูกต้องทั้งหมด';
-                    vennFeedbackEl.className = 'text-center my-4 h-6 font-semibold text-green-600';
-                    setTimeout(generateVennProblem, 2000);
-                } else {
-                    vennFeedbackEl.textContent = 'มีบางส่วนยังไม่ถูกต้อง ลองดูอีกครั้งนะคะ';
-                    vennFeedbackEl.className = 'text-center my-4 h-6 font-semibold text-red-600';
-                }
-            }
-
-            // Venn Drag and Drop
-            let vennDraggedItem = null;
-
-            document.body.addEventListener('dragstart', e => {
-                if (e.target.classList.contains('venn-element')) {
-                    vennDraggedItem = e.target;
-                    setTimeout(() => e.target.classList.add('invisible'), 0);
-                }
-            });
-
-            document.body.addEventListener('dragend', e => {
-                 setTimeout(() => {
-                    if (vennDraggedItem) vennDraggedItem.classList.remove('invisible');
-                    vennDraggedItem = null;
-                 }, 0);
-            });
-
-            Object.values(vennDropAreas).forEach(area => {
-                area.addEventListener('dragover', e => e.preventDefault());
-                area.addEventListener('dragenter', e => {
-                    e.preventDefault();
-                    if (e.target.closest('.venn-drop-area')) {
-                        e.target.closest('.venn-drop-area').classList.add('drag-over');
-                    }
-                });
-                area.addEventListener('dragleave', (e) => {
-                     if (e.target.closest('.venn-drop-area')) {
-                         e.target.closest('.venn-drop-area').classList.remove('drag-over');
-                     }
-                });
-                area.addEventListener('drop', e => {
-                    e.preventDefault();
-                    const dropTarget = e.target.closest('.venn-drop-area');
-                     if(vennDraggedItem && dropTarget) {
-                        dropTarget.appendChild(vennDraggedItem);
-                        vennDraggedItem.classList.remove('invisible');
-                    }
-                    dropTarget.classList.remove('drag-over');
-                });
-            });
-            
-             vennElementPool.addEventListener('dragover', e => e.preventDefault());
-             vennElementPool.addEventListener('dragenter', e => {
-                e.preventDefault();
-                e.target.closest('#venn-element-pool').classList.add('drag-over');
-             });
-            vennElementPool.addEventListener('dragleave', e => e.target.closest('#venn-element-pool').classList.remove('drag-over'));
-            vennElementPool.addEventListener('drop', e => {
-                 e.preventDefault();
-                 const dropTarget = e.target.closest('#venn-element-pool');
-                 if(vennDraggedItem && dropTarget) {
-                    dropTarget.appendChild(vennDraggedItem);
-                    vennDraggedItem.classList.remove('invisible');
-                 }
-                 dropTarget.classList.remove('drag-over');
-            });
-
-
-            vennCheckBtn.addEventListener('click', checkVennAnswer);
-
-            // --- Venn Diagram Game Logic (3 sets) ---
-            const venn3ScoreEl = document.getElementById('venn-3-score');
-            const venn3UniverseSetEl = document.getElementById('venn-3-universe-set');
-            const venn3SetADisplay = document.getElementById('venn-3-set-a-display');
-            const venn3SetBDisplay = document.getElementById('venn-3-set-b-display');
-            const venn3SetCDisplay = document.getElementById('venn-3-set-c-display');
-            const venn3ElementPool = document.getElementById('venn-3-element-pool');
-            const venn3DropAreas = {
-                a_only: document.getElementById('venn-3-drop-a'),
-                b_only: document.getElementById('venn-3-drop-b'),
-                c_only: document.getElementById('venn-3-drop-c'),
-                ab_only: document.getElementById('venn-3-drop-ab'),
-                ac_only: document.getElementById('venn-3-drop-ac'),
-                bc_only: document.getElementById('venn-3-drop-bc'),
-                abc_intersect: document.getElementById('venn-3-drop-abc'),
-                universe: document.getElementById('venn-3-drop-universe'),
-            };
-            const venn3CheckBtn = document.getElementById('venn-3-check-btn');
-            const venn3FeedbackEl = document.getElementById('venn-3-feedback');
-            
-            let venn3Score = 0;
-            let venn3Problem = {};
-
-            function startVenn3DiagramGame() {
-                venn3Score = 0;
-                venn3ScoreEl.textContent = venn3Score;
-                generateVenn3Problem();
-            }
-
-            function generateVenn3Problem() {
-                venn3FeedbackEl.textContent = '';
-                const U = Array.from({length: 15}, (_, i) => i + 1);
-                const A = new Set(generateRandomSet(6, 1, 15));
-                const B = new Set(generateRandomSet(6, 1, 15));
-                const C = new Set(generateRandomSet(6, 1, 15));
-
-                venn3Problem = {
-                    U,
-                    A: Array.from(A).sort((a,b)=>a-b),
-                    B: Array.from(B).sort((a,b)=>a-b),
-                    C: Array.from(C).sort((a,b)=>a-b),
-                    solution: {
-                        a_only: [], b_only: [], c_only: [],
-                        ab_only: [], ac_only: [], bc_only: [],
-                        abc_intersect: [], universe: []
-                    }
-                };
-
-                U.forEach(num => {
-                    const inA = A.has(num);
-                    const inB = B.has(num);
-                    const inC = C.has(num);
-                    if (inA && inB && inC) venn3Problem.solution.abc_intersect.push(num);
-                    else if (inA && inB) venn3Problem.solution.ab_only.push(num);
-                    else if (inA && inC) venn3Problem.solution.ac_only.push(num);
-                    else if (inB && inC) venn3Problem.solution.bc_only.push(num);
-                    else if (inA) venn3Problem.solution.a_only.push(num);
-                    else if (inB) venn3Problem.solution.b_only.push(num);
-                    else if (inC) venn3Problem.solution.c_only.push(num);
-                    else venn3Problem.solution.universe.push(num);
-                });
-
-                venn3UniverseSetEl.textContent = U.join(', ');
-                venn3SetADisplay.textContent = `{ ${venn3Problem.A.join(', ')} }`;
-                venn3SetBDisplay.textContent = `{ ${venn3Problem.B.join(', ')} }`;
-                venn3SetCDisplay.textContent = `{ ${venn3Problem.C.join(', ')} }`;
-                
-                venn3ElementPool.innerHTML = '';
-                U.sort(() => 0.5 - Math.random()).forEach(num => {
-                    const el = document.createElement('div');
-                    el.className = 'venn-element';
-                    el.textContent = num;
-                    el.draggable = true;
-                    el.dataset.value = num;
-                    venn3ElementPool.appendChild(el);
-                });
-                
-                Object.values(venn3DropAreas).forEach(area => area.innerHTML = '');
-            }
-
-            function checkVenn3Answer() {
-                 let isCorrect = true;
-                for (const zone in venn3DropAreas) {
-                    const userAnswers = Array.from(venn3DropAreas[zone].children)
-                                            .map(el => parseInt(el.textContent))
-                                            .sort((a,b) => a - b);
-                    const correctAnswers = venn3Problem.solution[zone].sort((a,b) => a - b);
-                    if (JSON.stringify(userAnswers) !== JSON.stringify(correctAnswers)) {
-                        isCorrect = false;
-                        break;
-                    }
-                }
-                
-                if(isCorrect) {
-                    venn3Score += 15;
-                    venn3ScoreEl.textContent = venn3Score;
-                    venn3FeedbackEl.textContent = 'สุดยอด! ถูกต้องทั้งหมด';
-                    venn3FeedbackEl.className = 'text-center my-4 h-6 font-semibold text-green-600';
-                    setTimeout(generateVenn3Problem, 2000);
-                } else {
-                    venn3FeedbackEl.textContent = 'เกือบแล้ว! ลองตรวจสอบอีกครั้งนะคะ';
-                    venn3FeedbackEl.className = 'text-center my-4 h-6 font-semibold text-red-600';
-                }
-            }
-
-             venn3CheckBtn.addEventListener('click', checkVenn3Answer);
-
-            const quizModal = document.getElementById('quiz-modal');
-            const quizProgressBar = document.getElementById('quiz-progress-bar');
-            const quizLoadingModal = document.getElementById('ai-quiz-loading-modal');
-            const quizContent = document.getElementById('quiz-content');
-            
-            let staticQuizQuestions = [
-                { question: "ข้อใดคือสัญลักษณ์ของเซตว่าง?", options: ["{0}", "{}", "0", "∅"], correctAnswer: "∅" },
-                { question: "ถ้า A = {1, 2, 3} แล้ว n(A) เท่ากับเท่าใด?", options: ["1", "2", "3", "6"], correctAnswer: "3" },
-                { question: "A ∪ B หมายถึงอะไร?", options: ["สมาชิกที่อยู่ใน A หรือ B", "สมาชิกที่อยู่ใน A และ B", "สมาชิกที่อยู่ใน A แต่ไม่อยู่ใน B", "สมาชิกที่ไม่อยู่ใน A และ B"], correctAnswer: "สมาชิกที่อยู่ใน A หรือ B" },
-            ];
-            let quizQuestions = [...staticQuizQuestions];
-
-            let currentQuizQuestions = [];
-            let dailyQuizCurrentQuestionIndex = 0;
-            let score = 0;
-            
-              const generateQuizWithGemini = async () => {
-                quizLoadingModal.classList.remove('hidden');
-                console.log("Simulating AI quiz generation... using static fallback questions.");
-                
-                return new Promise(resolve => {
-                    setTimeout(() => {
-                        quizQuestions = [...staticQuizQuestions];
-                        quizLoadingModal.classList.add('hidden');
-                        resolve();
-                    }, 1500);
-                });
-            };
-
-
-            const startQuiz = async () => {
-                await generateQuizWithGemini();
-                currentQuizQuestions = [...quizQuestions].sort(() => 0.5 - Math.random());
-                dailyQuizCurrentQuestionIndex = 0;
-                score = 0;
-                quizModal.classList.remove('hidden');
-                showQuizQuestion();
-            };
-
-            const showQuizQuestion = () => {
-                 const progress = ((dailyQuizCurrentQuestionIndex) / currentQuizQuestions.length) * 100;
-                 quizProgressBar.style.width = `${progress}%`;
-
-                if (dailyQuizCurrentQuestionIndex < currentQuizQuestions.length) {
-                    const q = currentQuizQuestions[dailyQuizCurrentQuestionIndex];
-                    let optionsHtml = q.options.map(option =>
-                        `<button class="quiz-option w-full text-left p-4 border border-slate-200 rounded-lg hover:bg-slate-100 hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200">${option}</button>`
-                    ).join('');
-
-                    quizContent.innerHTML = `
-                         <div>
-                             <p class="text-slate-500 mb-2">คำถามที่ ${dailyQuizCurrentQuestionIndex + 1} จาก ${currentQuizQuestions.length}</p>
-                             <p class="text-2xl font-semibold text-slate-900 mb-8">${q.question}</p>
-                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">${optionsHtml}</div>
-                         </div>
-                    `;
-
-                    document.querySelectorAll('.quiz-option').forEach(button => {
-                        button.addEventListener('click', handleAnswer);
-                    });
-                } else {
-                    showQuizResult();
-                }
-            };
-
-            const handleAnswer = (e) => {
-                const selectedAnswer = e.target.innerHTML;
-                const correctAnswer = currentQuizQuestions[dailyQuizCurrentQuestionIndex].correctAnswer;
-
-                if (selectedAnswer === correctAnswer) {
-                    score++;
-                    e.target.classList.remove('border-slate-200', 'hover:bg-slate-100');
-                    e.target.classList.add('bg-green-100', 'border-green-500');
-                } else {
-                     e.target.classList.remove('border-slate-200', 'hover:bg-slate-100');
-                     e.target.classList.add('bg-red-100', 'border-red-500');
-                }
-                document.querySelectorAll('.quiz-option').forEach(button => {
-                    button.disabled = true;
-                    if(button.innerHTML === correctAnswer) {
-                        button.classList.add('!bg-green-100', '!border-green-500');
-                    }
-                });
-
-
-                setTimeout(() => {
-                    dailyQuizCurrentQuestionIndex++;
-                    showQuizQuestion();
-                }, 1500);
-            };
-
-            const showQuizResult = () => {
-                 quizProgressBar.style.width = `100%`;
-                quizContent.innerHTML = `
-                      <div class="text-center">
-                          <h3 class="text-4xl font-bold text-slate-800 mb-4">ทำแบบทดสอบเสร็จแล้ว!</h3>
-                          <p class="text-2xl text-slate-600 mb-8">คุณได้คะแนน <span class="font-bold text-indigo-600">${score}</span> จาก ${currentQuizQuestions.length} คะแนน</p>
-                          <button id="close-quiz-result-btn" class="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300">กลับไปที่หน้าหลัก</button>
-                      </div>
-                `;
-                document.getElementById('close-quiz-result-btn').addEventListener('click', closeQuiz);
-            };
-            
-            const closeQuiz = () => {
-                quizModal.classList.add('hidden');
-            };
-            
-            document.getElementById('close-quiz-btn').addEventListener('click', closeQuiz);
-            document.getElementById('start-quiz-btn').addEventListener('click', startQuiz);
-
-        });
-    </script>
-
-</body>
-
-</html>
+                            <h3 class="text-xl font-semibold mb-4">หาเพื่อนเรียนด้วยกัน</h3>
+                            <ul class="space-y-3">
+                                <li class="flex items-center justify-between">
+                                    <span class="
 
