@@ -280,6 +280,77 @@
         .avatar-selection img.selected {
             border-color: #4f46e5; /* indigo-600 */
         }
+
+        /* --- Set Operations Game Styles --- */
+        #set-op-drop-zone.drag-over {
+            background-color: #dbeafe; /* blue-100 */
+            border-color: #6366f1; /* indigo-500 */
+        }
+        #set-op-element-pool .set-op-element, #set-op-drop-zone .set-op-element {
+            cursor: grab;
+            background-color: white;
+            padding: 8px 16px;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-family: monospace;
+            font-size: 1.25rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s;
+        }
+        #set-op-element-pool .set-op-element:hover {
+            transform: scale(1.1);
+        }
+
+        #set-op-drop-zone .set-op-element {
+            background-color: #e0e7ff; /* indigo-100 */
+            cursor: pointer; /* Can click to remove */
+        }
+
+        #set-op-element-pool .dragged {
+            opacity: 0.5;
+            background-color: #e5e7eb;
+        }
+         /* --- Venn Diagram Game Styles --- */
+        #venn-diagram-container {
+            position: relative;
+        }
+        #venn-diagram-svg {
+            width: 100%;
+            height: auto;
+        }
+        .venn-zone.drag-over-bg {
+            fill: rgba(165, 243, 195, 0.5); /* A light green */
+        }
+        .venn-drop-area {
+            position: absolute;
+            border-radius: 8px;
+            min-height: 40px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            padding: 6px;
+            align-items: flex-start;
+            justify-content: center;
+        }
+         .venn-drop-area.drag-over {
+            background-color: rgba(199, 210, 254, 0.5);
+         }
+        .venn-element {
+             cursor: grab;
+            background-color: white;
+            color: #1e293b;
+            padding: 4px 12px;
+            border-radius: 9999px;
+            font-weight: 600;
+            font-family: monospace;
+            font-size: 1.1rem;
+            box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+            transition: transform 0.2s;
+            user-select: none;
+        }
+        .venn-element.dragged {
+            opacity: 0.5;
+        }
     </style>
 </head>
 
@@ -374,7 +445,7 @@
             <div class="mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
                     <div class="flex-shrink-0">
-                        <h1 class="text-2xl font-bold text-indigo-600">Set Theory Hub</h1>
+                        <h1 class="text-2xl font-bold text-indigo-600">SucSet</h1>
                     </div>
 
                     <!-- Right side of navbar for desktop -->
@@ -478,7 +549,7 @@
                                                 • เซตของจำนวนนับที่น้อยกว่า 1 (ไม่มีใช่ไหมคะ?)<br>
                                                 • เซตของคนที่อายุเกิน 200 ปี (ตอนนี้ก็ยังไม่มีเนอะ)<br><br>
                                                 <strong>สัญลักษณ์ของเซตว่าง:</strong><br>
-                                                • เราจะใช้สัญลักษณ์ &empty; (วงกลมมีขีดทับ) หรือ {} ค่ะ<br><br>
+                                                • เราจะใช้สัญลักษณ์ ∅ (วงกลมมีขีดทับ) หรือ {} ค่ะ<br><br>
                                                 จำง่าย ๆ ว่าเป็นเซตที่ "ว่างเปล่า" นั่นเองค่ะ
                                             </p>
                                         </div>
@@ -499,7 +570,7 @@
             <section id="recap-arcade" class="app-section hidden">
                  <div id="arcade-menu">
                     <h2 class="text-3xl font-bold text-slate-800 mb-6">อาเขตทบทวน</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-2 transition-all duration-300" id="start-flashcard-mode">
                             <div class="flex justify-center mb-4">
                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-blue-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -516,7 +587,26 @@
                                 </svg>
                              </div>
                              <h3 class="text-2xl font-bold text-slate-800 mb-2">โหมดทดสอบความเร็ว</h3>
-                            <p class="text-slate-600">ตอบคำถามแข่งกับเวลา 30 วินาทีเพื่อทำคะแนนสูงสุด!</p>
+                            <p class="text-slate-600">ตอบคำถาม 10 ข้อ ข้อละ 10 วินาทีเพื่อทำคะแนนสูงสุด!</p>
+                        </div>
+                        <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-green-500/20 hover:-translate-y-2 transition-all duration-300" id="start-set-operations-game">
+                            <div class="flex justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-green-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 11.25V15.75M11.25 11.25V15.75M8.25 15.75V11.25m3-3V6.75m3.75 6.75V6.75m3-3h-15a1.5 1.5 0 00-1.5 1.5v15a1.5 1.5 0 001.5 1.5h15a1.5 1.5 0 001.5-1.5v-15a1.5 1.5 0 00-1.5-1.5z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-800 mb-2">เกมดำเนินการเซต</h3>
+                            <p class="text-slate-600">ฝึกฝนยูเนียน, อินเตอร์เซกชัน และผลต่างโดยการลากและวาง</p>
+                        </div>
+                         <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-teal-500/20 hover:-translate-y-2 transition-all duration-300" id="start-venn-diagram-game">
+                            <div class="flex justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-teal-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                  <circle cx="10.5" cy="10.5" r="7.5" />
+                                  <circle cx="13.5" cy="13.5" r="7.5" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-800 mb-2">เกมแผนภาพเวนน์</h3>
+                            <p class="text-slate-600">จัดเรียงตัวเลขในแผนภาพเวนน์ให้ถูกต้อง</p>
                         </div>
                     </div>
                      <div class="mt-8 bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30">
@@ -535,8 +625,8 @@
                     </div>
                  </div>
 
-                 <!-- Flashcard Mode Content -->
-                 <div id="flashcard-mode-content" class="hidden flex-col items-center">
+                <!-- Flashcard Mode Content -->
+                <div id="flashcard-mode-content" class="hidden flex-col items-center">
                     <button class="back-to-arcade-menu mb-6 text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
                     <div id="flashcard-container" class="relative w-full max-w-lg h-72 perspective-1000">
                         <div id="flashcard-inner" class="relative w-full h-full text-center flip-card-inner">
@@ -559,34 +649,37 @@
                 <!-- Speed Quiz Mode Content -->
                 <div id="speed-quiz-mode-content" class="hidden">
                      <div id="speed-quiz-game-area" class="relative w-full max-w-3xl mx-auto h-[80vh] rounded-2xl shadow-2xl overflow-hidden bg-[#0B0F29]">
-                        <div class="absolute top-0 left-0 w-full h-16 bg-[#1D244F] z-30 flex items-center justify-between px-4">
-                            <div class="flex items-center space-x-2">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                <span id="speed-quiz-score-top" class="text-white font-bold text-lg">0</span>
-                            </div>
+                         <div class="absolute top-0 left-0 w-full h-16 bg-[#1D244F] z-30 flex items-center justify-between px-4">
                              <div class="flex items-center space-x-2">
+                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                 <span id="speed-quiz-score-top" class="text-white font-bold text-lg">0</span>
+                             </div>
+                             <div>
+                                <span id="speed-quiz-question-counter-top" class="text-white font-bold text-lg">1/10</span>
+                             </div>
+                              <div class="flex items-center space-x-2">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                <span id="speed-quiz-timer-top" class="text-white font-bold text-lg">30</span>
-                            </div>
-                            <button class="back-to-arcade-menu text-white">
-                                 <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                            </button>
-                        </div>
+                                 <span id="speed-quiz-timer-top" class="text-white font-bold text-lg">10</span>
+                             </div>
+                             <button class="back-to-arcade-menu text-white">
+                                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                             </button>
+                         </div>
 
-                        <canvas id="background-canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
-                        <canvas id="laser-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></canvas>
-                        <canvas id="confetti-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-50"></canvas>
+                         <canvas id="background-canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
+                         <canvas id="laser-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></canvas>
+                         <canvas id="confetti-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-50"></canvas>
                         
-                         <div id="speed-quiz-start-overlay" class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-40">
-                            <h3 class="text-4xl font-bold text-white mb-2">โหมดทดสอบความเร็ว</h3>
-                             <p class="text-white/80 mb-6">ยิงคำตอบที่ถูกต้องก่อนเวลาจะหมด!</p>
-                            <button id="speed-quiz-start-btn" class="aurora-button px-10 py-4 font-bold rounded-lg text-lg">เริ่มเกม</button>
-                        </div>
-                        <div id="countdown-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/80 flex-col items-center justify-center z-40 text-white text-9xl font-bold">
-                            <span id="countdown-text" class="countdown-number">3</span>
-                        </div>
-                        <div id="speed-quiz-end-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/90 backdrop-blur-md flex-col items-center justify-center z-40 p-8">
-                           <div class="w-full max-w-md text-center">
+                          <div id="speed-quiz-start-overlay" class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-40">
+                             <h3 class="text-4xl font-bold text-white mb-2">โหมดทดสอบความเร็ว</h3>
+                              <p class="text-white/80 mb-6">ยิงคำตอบที่ถูกต้องก่อนเวลาจะหมด!</p>
+                             <button id="speed-quiz-start-btn" class="aurora-button px-10 py-4 font-bold rounded-lg text-lg">เริ่มเกม</button>
+                         </div>
+                         <div id="countdown-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/80 flex-col items-center justify-center z-40 text-white text-9xl font-bold">
+                             <span id="countdown-text" class="countdown-number">3</span>
+                         </div>
+                         <div id="speed-quiz-end-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/90 backdrop-blur-md flex-col items-center justify-center z-40 p-8">
+                            <div class="w-full max-w-md text-center">
                                <img src="https://img.icons8.com/plasticine/100/000000/trophy.png" alt="Trophy" class="mx-auto mb-4 h-24 w-24"/>
                                <h3 class="text-3xl font-bold text-white mb-2">ทำได้ดีมาก!</h3>
                                <p class="text-white/80 text-lg mb-6">นี่คือคะแนนสุดท้ายของคุณ</p>
@@ -601,27 +694,166 @@
                                    </div>
                                </div>
                                <button id="speed-quiz-restart-btn" class="aurora-button mt-8 w-full py-3 font-bold rounded-lg text-lg">เล่นอีกครั้ง</button>
-                                <button class="back-to-arcade-menu mt-4 w-full py-3 font-semibold rounded-lg text-white/70 hover:text-white transition-colors">กลับไปเลือกโหมด</button>
+                                 <button class="back-to-arcade-menu mt-4 w-full py-3 font-semibold rounded-lg text-white/70 hover:text-white transition-colors">กลับไปเลือกโหมด</button>
                            </div>
-                        </div>
+                         </div>
                         
-                        <!-- Game elements -->
-                        <div id="speed-quiz-question-area" class="absolute top-20 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-black/40 backdrop-blur-sm p-4 rounded-lg text-white text-center z-30 opacity-100 transition-opacity duration-300">
-                             <p id="speed-quiz-question-text" class="text-xl font-semibold"></p>
+                         <!-- Game elements -->
+                         <div id="speed-quiz-question-area" class="absolute top-20 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-black/40 backdrop-blur-sm p-4 rounded-lg text-white text-center z-30 opacity-100 transition-opacity duration-300">
+                              <p id="speed-quiz-question-text" class="text-xl font-semibold"></p>
+                         </div>
+
+                         <div id="shooter-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 w-24 h-24 z-30">
+                              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                  <path d="M50 0C48.4488 4.29171 44.2917 8.44876 40 10C35.7083 11.5512 30.5833 11.5512 25 10C19.4167 8.44876 15.2596 4.29171 10 0L0 15C4.29171 19.7404 8.44876 24.2211 10 30C11.5512 35.7789 11.5512 41.6667 10 45C8.44876 50.5556 4.29171 55.2596 0 60L10 90C19.4167 85.5833 29.2596 80.7596 40 80H60C70.7404 80.7596 80.5833 85.5833 90 90L100 60C95.7083 55.2596 91.5512 50.5556 90 45C88.4488 39.4444 88.4488 33.5556 90 30C91.5512 24.4444 95.7083 19.7404 100 15L90 0C80.5833 4.41667 70.7404 8.44876 60 10C55.7083 11.5512 51.5512 11.5512 50 10V0Z" fill="url(#paint0_linear_1_2)"/>
+                                  <circle cx="50" cy="45" r="12" fill="#24294A" stroke="white" stroke-width="2"/>
+                                  <circle cx="50" cy="45" r="5" fill="#7DF0E5"/>
+                                  <defs>
+                                  <linearGradient id="paint0_linear_1_2" x1="50" y1="0" x2="50" y2="90" gradientUnits="userSpaceOnUse">
+                                  <stop stop-color="#3D457F"/>
+                                  <stop offset="1" stop-color="#24294A"/>
+                                  </linearGradient>
+                                  </defs>
+                              </svg>
+                         </div>
+                    </div>
+                </div>
+
+                <!-- Set Operations Game Content -->
+                <div id="set-operations-game-content" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-slate-800">เกมดำเนินการเซต</h2>
+                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
+                    </div>
+
+                    <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 max-w-4xl mx-auto">
+                        <!-- Game Info Header -->
+                        <div class="flex justify-between items-center border-b border-slate-200 pb-4 mb-6">
+                            <div>
+                                <p id="set-op-question" class="text-xl font-semibold text-slate-800"></p>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-slate-600">คะแนน</p>
+                                <p id="set-op-score" class="text-2xl font-bold text-green-600">0</p>
+                            </div>
                         </div>
 
-                        <div id="shooter-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 w-24 h-24 z-30">
-                             <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M50 0C48.4488 4.29171 44.2917 8.44876 40 10C35.7083 11.5512 30.5833 11.5512 25 10C19.4167 8.44876 15.2596 4.29171 10 0L0 15C4.29171 19.7404 8.44876 24.2211 10 30C11.5512 35.7789 11.5512 41.6667 10 45C8.44876 50.5556 4.29171 55.2596 0 60L10 90C19.4167 85.5833 29.2596 80.7596 40 80H60C70.7404 80.7596 80.5833 85.5833 90 90L100 60C95.7083 55.2596 91.5512 50.5556 90 45C88.4488 39.4444 88.4488 33.5556 90 30C91.5512 24.4444 95.7083 19.7404 100 15L90 0C80.5833 4.41667 70.7404 8.44876 60 10C55.7083 11.5512 51.5512 11.5512 50 10V0Z" fill="url(#paint0_linear_1_2)"/>
-                                <circle cx="50" cy="45" r="12" fill="#24294A" stroke="white" stroke-width="2"/>
-                                <circle cx="50" cy="45" r="5" fill="#7DF0E5"/>
-                                <defs>
-                                <linearGradient id="paint0_linear_1_2" x1="50" y1="0" x2="50" y2="90" gradientUnits="userSpaceOnUse">
-                                <stop stop-color="#3D457F"/>
-                                <stop offset="1" stop-color="#24294A"/>
-                                </linearGradient>
-                                </defs>
-                            </svg>
+                        <!-- Sets Display -->
+                        <div class="flex justify-around mb-6 text-center">
+                            <div>
+                                <p class="font-bold text-lg">เซต A</p>
+                                <p id="set-a-display" class="text-2xl p-2 bg-blue-100/80 rounded-lg font-mono"></p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-lg">เซต B</p>
+                                <p id="set-b-display" class="text-2xl p-2 bg-purple-100/80 rounded-lg font-mono"></p>
+                            </div>
+                        </div>
+                        
+                        <!-- Drop Zone -->
+                        <div class="mb-6">
+                            <p class="font-bold text-lg text-center mb-2">เซตคำตอบ (ลากตัวเลขมาวางที่นี่)</p>
+                            <div id="set-op-drop-zone" class="min-h-[80px] bg-slate-100/80 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border-2 border-dashed border-slate-300">
+                                <!-- Dropped elements will go here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Draggable Elements Pool -->
+                         <div class="mb-6">
+                            <p class="font-bold text-lg text-center mb-2">ตัวเลือก</p>
+                            <div id="set-op-element-pool" class="min-h-[80px] bg-white/50 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border border-slate-200">
+                                <!-- Draggable elements will go here -->
+                            </div>
+                        </div>
+                        
+                        <!-- Controls -->
+                        <div id="set-op-feedback" class="text-center mb-4 h-6 font-semibold"></div>
+                        <div class="flex justify-center space-x-4">
+                             <button id="set-op-reset-btn" class="px-6 py-2 bg-white/70 backdrop-blur-xl border border-white/30 rounded-lg hover:bg-white/80 transition-colors duration-300">ล้างคำตอบ</button>
+                            <button id="set-op-check-btn" class="px-8 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300">ตรวจคำตอบ</button>
+                        </div>
+                    </div>
+                </div>
+                
+                 <!-- Venn Diagram Game Content -->
+                <div id="venn-diagram-game-content" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-slate-800">เกมแผนภาพเวนน์</h2>
+                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
+                    </div>
+
+                    <div class="bg-white/70 backdrop-blur-xl p-6 sm:p-8 rounded-xl shadow-lg border border-white/30 max-w-5xl mx-auto">
+                        <!-- Game Info Header -->
+                        <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-200 pb-4 mb-6 gap-4">
+                            <div class="text-center sm:text-left">
+                                 <p class="text-lg font-semibold text-slate-800">ลากตัวเลขไปยังบริเวณที่ถูกต้องในแผนภาพ</p>
+                                 <p class="text-slate-600">Universal Set U = { <span id="venn-universe-set"></span> }</p>
+                            </div>
+                            <div class="text-right bg-white/50 p-3 rounded-lg">
+                                <p class="text-slate-600">คะแนน</p>
+                                <p id="venn-score" class="text-2xl font-bold text-teal-600">0</p>
+                            </div>
+                        </div>
+                        
+                         <!-- Sets Display -->
+                        <div class="flex justify-around mb-6 text-center">
+                            <div>
+                                <p class="font-bold text-lg">เซต A</p>
+                                <p id="venn-set-a-display" class="text-xl p-2 bg-blue-100/80 rounded-lg font-mono"></p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-lg">เซต B</p>
+                                <p id="venn-set-b-display" class="text-xl p-2 bg-purple-100/80 rounded-lg font-mono"></p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+                            <!-- Draggable Elements Pool -->
+                            <div class="lg:order-1">
+                                <p class="font-bold text-lg text-center mb-2">ตัวเลขสำหรับจัดเรียง</p>
+                                <div id="venn-element-pool" class="min-h-[150px] bg-slate-100/80 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border-2 border-dashed border-slate-300">
+                                    <!-- Draggable elements will go here -->
+                                </div>
+                            </div>
+
+                            <!-- Venn Diagram -->
+                            <div id="venn-diagram-container" class="relative lg:col-span-2 lg:order-2">
+                                 <svg id="venn-diagram-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
+                                    <defs>
+                                        <mask id="maskA">
+                                            <rect width="100%" height="100%" fill="white"/>
+                                            <circle cx="130" cy="60" r="40" fill="black" />
+                                        </mask>
+                                        <mask id="maskB">
+                                            <rect width="100%" height="100%" fill="white"/>
+                                            <circle cx="70" cy="60" r="40" fill="black" />
+                                        </mask>
+                                    </defs>
+                                    
+                                    <rect id="venn-zone-universe" class="venn-zone" width="200" height="120" rx="10" ry="10" fill="#f1f5f9" stroke="#cbd5e1" />
+                                    
+                                    <circle id="venn-zone-a" class="venn-zone" cx="70" cy="60" r="40" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="1.5" mask="url(#maskA)" />
+                                    <circle id="venn-zone-b" class="venn-zone" cx="130" cy="60" r="40" fill="rgba(168, 85, 247, 0.2)" stroke="#a855f7" stroke-width="1.5" mask="url(#maskB)" />
+                                    
+                                    <path id="venn-zone-intersection" class="venn-zone" d="M 100 94.64 C 83.43 94.64 68.43 83.43 62.22 68.43 C 68.43 53.43 83.43 42.22 100 42.22 C 116.57 42.22 131.57 53.43 137.78 68.43 C 131.57 83.43 116.57 94.64 100 94.64 Z" fill="rgba(107, 33, 168, 0.3)" />
+
+                                    <!-- Labels -->
+                                    <text x="35" y="30" font-family="Mitr" font-size="10" fill="#3b82f6" font-weight="bold">A</text>
+                                    <text x="160" y="30" font-family="Mitr" font-size="10" fill="#a855f7" font-weight="bold">B</text>
+                                </svg>
+                                
+                                <!-- Drop Areas over the SVG -->
+                                <div id="venn-drop-universe" data-zone="universe" class="venn-drop-area" style="top: 0; left: 0; width: 100%; height: 100%;"></div>
+                                <div id="venn-drop-a" data-zone="a" class="venn-drop-area" style="top: 25%; left: 10%; width: 30%; height: 50%; border-radius: 50%;"></div>
+                                <div id="venn-drop-b" data-zone="b" class="venn-drop-area" style="top: 25%; right: 10%; width: 30%; height: 50%; border-radius: 50%;"></div>
+                                <div id="venn-drop-intersection" data-zone="intersection" class="venn-drop-area" style="top: 30%; left: 42%; width: 16%; height: 40%;"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- Controls -->
+                        <div id="venn-feedback" class="text-center my-4 h-6 font-semibold"></div>
+                        <div class="flex justify-center space-x-4 mt-4">
+                            <button id="venn-check-btn" class="px-8 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300">ตรวจคำตอบ</button>
                         </div>
                     </div>
                 </div>
@@ -673,73 +905,66 @@
             <section id="friends-challenge" class="app-section hidden">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">ท้าทายเพื่อน: แบบทดสอบประจำวัน</h2>
                  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                     <!-- Quiz Starter -->
-                     <div class="md:col-span-2 bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-8 text-center flex flex-col justify-center items-center">
-                         <h3 class="text-2xl font-semibold mb-2 text-slate-800">ทดสอบความรู้เรื่องเซต!</h3>
-                         <p class="text-slate-600 mb-6">ตอบคำถาม 30 ข้อเพื่อเก็บคะแนนและไต่อันดับไปกับเพื่อนๆ<br><span class="text-xs text-indigo-500 font-semibold">ขับเคลื่อนด้วย Gemini AI</span></p>
-                         <button id="start-quiz-btn" class="aurora-button px-10 py-4 font-bold rounded-lg transition-all duration-300 shadow-lg text-lg">เริ่มทำแบบทดสอบประจำวัน</button>
-                     </div>
-                     <!-- Leaderboard -->
-                     <div class="bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
-                        <h3 class="text-xl font-semibold mb-4">ตารางคะแนน</h3>
-                        <ol class="space-y-4">
-                           <li class="flex items-center space-x-3">
+                      <!-- Quiz Starter -->
+                      <div class="md:col-span-2 bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-8 text-center flex flex-col justify-center items-center">
+                           <h3 class="text-2xl font-semibold mb-2 text-slate-800">ทดสอบความรู้เรื่องเซต!</h3>
+                           <p class="text-slate-600 mb-6">ตอบคำถาม 30 ข้อเพื่อเก็บคะแนนและไต่อันดับไปกับเพื่อนๆ<br><span class="text-xs text-indigo-500 font-semibold">ขับเคลื่อนด้วย AI</span></p>
+                           <button id="start-quiz-btn" class="aurora-button px-10 py-4 font-bold rounded-lg transition-all duration-300 shadow-lg text-lg">เริ่มทำแบบทดสอบประจำวัน</button>
+                      </div>
+                      <!-- Leaderboard -->
+                      <div class="bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
+                         <h3 class="text-xl font-semibold mb-4">ตารางคะแนน</h3>
+                         <ol class="space-y-4">
+                            <li class="flex items-center space-x-3">
                                <span class="font-bold text-lg text-yellow-500">1</span>
                                <div class="flex-1">
                                    <p class="font-semibold text-slate-800">คุณ</p>
                                    <p class="text-sm text-slate-500">150 คะแนน | สตรีค 5 🔥</p>
                                </div>
-                           </li>
-                           <li class="flex items-center space-x-3">
+                            </li>
+                            <li class="flex items-center space-x-3">
                                <span class="font-bold text-lg text-slate-400">2</span>
                                <div class="flex-1">
                                    <p class="font-semibold text-slate-800">สมชาย</p>
                                    <p class="text-sm text-slate-500">125 คะแนน | สตรีค 3</p>
                                </div>
-                           </li>
-                           <li class="flex items-center space-x-3">
+                            </li>
+                            <li class="flex items-center space-x-3">
                                <span class="font-bold text-lg text-orange-400">3</span>
                                <div class="flex-1">
                                    <p class="font-semibold text-slate-800">สมศรี</p>
                                    <p class="text-sm text-slate-500">110 คะแนน | สตรีค 2</p>
                                </div>
-                           </li>
-                        </ol>
-                     </div>
+                            </li>
+                         </ol>
+                      </div>
                  </div>
             </section>
             
             <!-- Profile Page Section -->
             <section id="profile-page" class="app-section hidden">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">แก้ไขโปรไฟล์</h2>
-                <div class="max-w-4xl mx-auto bg-white/70 backdrop-blur-xl p-8 rounded-2xl shadow-lg border border-white/30">
-                    <form id="profile-form" class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                        <!-- Avatar Display -->
-                        <div class="md:col-span-1 flex flex-col items-center">
-                            <img id="profile-page-avatar" class="h-40 w-40 rounded-full object-cover border-4 border-white shadow-lg" src="" alt="Current Avatar">
-                             <p class="mt-4 text-slate-600 text-center text-sm">รูปโปรไฟล์ปัจจุบัน</p>
-                        </div>
-                        
-                        <!-- Form Fields -->
-                        <div class="md:col-span-2 space-y-6">
+                <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                    <form id="profile-form">
+                        <div class="flex flex-col items-center space-y-6">
+                            <img id="profile-page-avatar" class="h-32 w-32 rounded-full object-cover border-4 border-indigo-200" src="" alt="Current Avatar">
+                            
                             <div>
-                                <label for="profile-username" class="block text-lg font-semibold text-slate-800 mb-2">ชื่อผู้ใช้</label>
-                                <input type="text" id="profile-username" class="w-full border-slate-300 rounded-lg p-3 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                                <label for="profile-username" class="block text-sm font-medium text-slate-700 mb-1">ชื่อผู้ใช้</label>
+                                <input type="text" id="profile-username" class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
                             </div>
 
                             <div>
-                                <label class="block text-lg font-semibold text-slate-800 mb-2">เลือกรูปโปรไฟล์ใหม่</label>
+                                <label class="block text-sm font-medium text-slate-700 mb-2">เลือกรูปโปรไฟล์ใหม่</label>
                                 <div id="avatar-selection-grid" class="grid grid-cols-5 gap-4 avatar-selection">
                                     <!-- Avatars will be injected by JS -->
                                 </div>
                             </div>
                             
-                            <div class="pt-4">
-                                <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition-all duration-300 shadow-md hover:shadow-lg">
-                                    บันทึกการเปลี่ยนแปลง
-                                </button>
-                                <div id="profile-success-message" class="hidden text-center mt-4 text-green-600 font-semibold">บันทึกข้อมูลสำเร็จ!</div>
-                            </div>
+                            <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300">
+                                บันทึกการเปลี่ยนแปลง
+                            </button>
+                            <div id="profile-success-message" class="hidden text-green-600">บันทึกข้อมูลสำเร็จ!</div>
                         </div>
                     </form>
                 </div>
@@ -749,42 +974,36 @@
             <section id="settings-page" class="app-section hidden">
                  <h2 class="text-3xl font-bold text-slate-800 mb-6">การตั้งค่าบัญชี</h2>
                  <div class="max-w-2xl mx-auto space-y-8">
-                     <!-- Change Email Card -->
-                    <div class="bg-white/70 backdrop-blur-xl p-8 rounded-2xl shadow-lg border border-white/30">
-                        <div class="flex items-center mb-4">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
-                             <h3 class="text-xl font-bold text-slate-800">เปลี่ยนอีเมล</h3>
-                        </div>
-                         <form id="change-email-form" class="space-y-4">
+                      <!-- Change Email -->
+                     <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                          <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนอีเมล</h3>
+                          <form id="change-email-form" class="space-y-4">
                             <div id="email-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
                             <div id="email-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
                             <div>
                                 <label for="new-email" class="block text-sm font-medium text-slate-700 mb-1">อีเมลใหม่</label>
-                                <input type="email" id="new-email" required class="w-full border-slate-300 rounded-lg p-3 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                                <input type="email" id="new-email" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
                             </div>
-                            <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300 shadow-md hover:shadow-lg">
-                                บันทึกอีเมลใหม่
+                            <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
+                                เปลี่ยนอีเมล
                             </button>
-                         </form>
-                    </div>
-                    <!-- Change Password Card -->
-                    <div class="bg-white/70 backdrop-blur-xl p-8 rounded-2xl shadow-lg border border-white/30">
-                        <div class="flex items-center mb-4">
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-indigo-500 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                            <h3 class="text-xl font-bold text-slate-800">เปลี่ยนรหัสผ่าน</h3>
-                        </div>
-                         <form id="change-password-form" class="space-y-4">
+                          </form>
+                     </div>
+                     <!-- Change Password -->
+                     <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                          <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนรหัสผ่าน</h3>
+                          <form id="change-password-form" class="space-y-4">
                             <div id="password-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
                             <div id="password-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
                             <div>
                                 <label for="new-password" class="block text-sm font-medium text-slate-700 mb-1">รหัสผ่านใหม่</label>
-                                <input type="password" id="new-password" required class="w-full border-slate-300 rounded-lg p-3 focus:ring-indigo-500 focus:border-indigo-500 transition">
+                                <input type="password" id="new-password" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
                             </div>
-                             <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300 shadow-md hover:shadow-lg">
-                                บันทึกรหัสผ่านใหม่
+                             <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
+                                เปลี่ยนรหัสผ่าน
                             </button>
-                         </form>
-                    </div>
+                          </form>
+                     </div>
                  </div>
             </section>
         </div>
@@ -810,7 +1029,7 @@
         <div id="quiz-header" class="w-full max-w-4xl mx-auto mb-4">
             <div class="flex justify-between items-center mb-2">
                  <h2 class="text-xl font-bold text-slate-800">แบบทดสอบเรื่องเซต</h2>
-                 <button id="close-quiz-btn" class="text-slate-500 hover:text-slate-800 text-2xl font-bold">&times;</button>
+                 <button id="close-quiz-btn" class="text-slate-500 hover:text-slate-800 text-2xl font-bold">×</button>
             </div>
             <div class="w-full bg-slate-200 rounded-full h-2.5">
                 <div id="quiz-progress-bar" class="bg-indigo-600 h-2.5 rounded-full transition-all duration-300" style="width: 0%"></div>
@@ -841,7 +1060,7 @@
                     <button id="solver-chat-send" class="aurora-button px-4 py-2 rounded-lg font-semibold text-sm">ส่ง</button>
                 </div>
             </div>
-            <button id="close-ai-solver-btn" class="absolute top-3 right-3 text-slate-500 hover:text-slate-800 text-2xl font-bold transition-colors duration-300">&times;</button>
+            <button id="close-ai-solver-btn" class="absolute top-3 right-3 text-slate-500 hover:text-slate-800 text-2xl font-bold transition-colors duration-300">×</button>
         </div>
     </div>
 
@@ -852,7 +1071,7 @@
             apiKey: "AIzaSyDYi6Ozmf6vEWkWg49QC5MuyJAvt7a-xZc",
             authDomain: "secset-542cb.firebaseapp.com",
             projectId: "secset-542cb",
-            storageBucket: "secset-542cb.firebasestorage.app",
+            storageBucket: "secset-542cb.appspot.com",
             messagingSenderId: "735349862292",
             appId: "1:735349862292:web:a86d3f77dd3b7153d4a981",
             measurementId: "G-Y6V4MV1XGB"
@@ -863,7 +1082,6 @@
         const auth = firebase.auth();
         const db = firebase.firestore();
         
-        // A potential fix for connection issues in some environments.
         try {
             db.settings({ experimentalForceLongPolling: true });
         } catch(e) {
@@ -898,71 +1116,63 @@
             const playerDiv = document.getElementById('player');
             const ctx = canvas.getContext('2d');
 
-            // Match canvas size to player size
             const rect = playerDiv.getBoundingClientRect();
             canvas.width = rect.width;
             canvas.height = rect.height;
 
-            // Clear previous drawing
             ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-            // Calculate absolute coordinates
             const absX = canvas.width * x;
             const absY = canvas.height * y;
 
-            // Draw circle
             ctx.beginPath();
             ctx.arc(absX, absY, radius, 0, 2 * Math.PI);
             ctx.strokeStyle = 'rgba(255, 0, 0, 0.9)';
             ctx.lineWidth = 4;
             ctx.stroke();
 
-            // Show canvas and hide it after a delay
             canvas.classList.remove('hidden');
             setTimeout(() => {
                 canvas.classList.add('hidden');
-            }, 3000); // Highlight for 3 seconds
+            }, 3000);
         }
 
 
         document.addEventListener('DOMContentLoaded', () => {
 
-            // --- Constants and State ---
             const loginSection = document.getElementById('login-section');
             const mainApp = document.getElementById('main-app');
             const navLinks = document.querySelectorAll('.nav-link');
             const sections = document.querySelectorAll('.app-section');
             let currentSection = document.querySelector('.app-section:not(.hidden)');
-            let isTransitioning = false; // Transition lock
+            let isTransitioning = false;
             
             const avatarFiles = [
-                'Gemini_Generated_Image_llfog6llfog6llfo.jpg',
-                'Gemini_Generated_Image_llfog6llfog6llfo (1).jpg',
-                'Gemini_Generated_Image_llfog6llfog6llfo (2).jpg',
-                'Gemini_Generated_Image_llfog6llfog6llfo (3).jpg',
-                'Gemini_Generated_Image_llfog6llfog6llfo (4).jpg'
+                'https://api.dicebear.com/7.x/bottts/svg?seed=Annie',
+                'https://api.dicebear.com/7.x/bottts/svg?seed=Sammy',
+                'https://api.dicebear.com/7.x/bottts/svg?seed=Gizmo',
+                'https://api.dicebear.com/7.x/bottts/svg?seed=Midnight',
+                'https://api.dicebear.com/7.x/bottts/svg?seed=Peanut'
             ];
             
             const populateAvatarSelection = () => {
                 const grid = document.getElementById('avatar-selection-grid');
                 if (!grid) return;
-                grid.innerHTML = ''; // Clear existing
-                avatarFiles.forEach(file => {
+                grid.innerHTML = '';
+                avatarFiles.forEach(fileUrl => {
                     const img = document.createElement('img');
-                    img.src = encodeURI(file);
-                    img.dataset.filename = file;
+                    img.src = fileUrl;
+                    img.dataset.filename = fileUrl;
                     img.classList.add('h-16', 'w-16', 'rounded-full', 'object-cover');
                     grid.appendChild(img);
                 });
             };
             populateAvatarSelection();
 
-             // --- Navigation Logic ---
             const showMainApp = (user) => {
-                 // Update UI with basic info first to make it feel faster
                 const userName = user.displayName || user.email.split('@')[0];
                 const userEmail = user.email;
-                const photoURL = user.photoURL || encodeURI(avatarFiles[0]);
+                const photoURL = user.photoURL || avatarFiles[0];
 
                 document.getElementById('user-name-desktop').textContent = userName;
                 document.getElementById('user-name-dropdown').textContent = userName;
@@ -981,15 +1191,13 @@
                     setTimeout(() => mainApp.classList.remove('opacity-0'), 50); 
                 }, 500);
 
-                // Then, try to fetch detailed data from Firestore
                 db.collection('users').doc(user.uid).get().then(userDoc => {
                     if (!userDoc.exists) {
-                        console.warn("User document doesn't exist in Firestore. This might be the first login after signup.");
+                        console.warn("User document doesn't exist. This might be the first login.");
                         return;
                     }
                     const userData = userDoc.data();
                     
-                    // Update UI again with data from Firestore if it exists
                     const firestorePhotoURL = userData.photoURL || photoURL;
                     document.getElementById('profile-img-desktop').src = firestorePhotoURL;
                     document.getElementById('profile-img-mobile').src = firestorePhotoURL;
@@ -997,14 +1205,13 @@
 
                     document.querySelectorAll('#avatar-selection-grid img').forEach(img => {
                         img.classList.remove('selected');
-                        if (decodeURI(img.src).endsWith(decodeURI(firestorePhotoURL))) {
+                        if (img.src === firestorePhotoURL) {
                             img.classList.add('selected');
                         }
                     });
 
                 }).catch(error => {
                     console.error("Error fetching user data from Firestore:", error.code, error.message);
-                    alert(`เกิดปัญหาในการเชื่อมต่อฐานข้อมูล: ${error.message} กรุณาตรวจสอบ Firestore Rules ของคุณ`);
                 });
             };
 
@@ -1049,19 +1256,9 @@
                 auth.signInWithEmailAndPassword(email, password)
                     .catch(err => {
                         console.error("Login Error:", err.code, err.message);
-                        let friendlyMessage = "เกิดข้อผิดพลาดที่ไม่รู้จัก";
-                        switch (err.code) {
-                            case 'auth/user-not-found':
-                            case 'auth/wrong-password':
-                            case 'auth/invalid-credential':
-                            case 'auth/internal-error':
-                                friendlyMessage = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
-                                break;
-                            case 'auth/invalid-email':
-                                friendlyMessage = "รูปแบบอีเมลไม่ถูกต้อง";
-                                break;
-                             default:
-                                friendlyMessage = "อีเมลหรือรหัสผ่านไม่ถูกต้อง กรุณาลองใหม่อีกครั้ง";
+                        let friendlyMessage = "เกิดข้อผิดพลาด: อีเมลหรือรหัสผ่านไม่ถูกต้อง";
+                        if (err.code === 'auth/invalid-email' || err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+                            friendlyMessage = "อีเมลหรือรหัสผ่านไม่ถูกต้อง";
                         }
                         loginError.textContent = friendlyMessage;
                         loginError.classList.remove('hidden');
@@ -1083,14 +1280,12 @@
                 auth.createUserWithEmailAndPassword(email, password)
                     .then(userCredential => {
                         const user = userCredential.user;
-                        const randomAvatar = encodeURI(avatarFiles[Math.floor(Math.random() * avatarFiles.length)]);
+                        const randomAvatar = avatarFiles[Math.floor(Math.random() * avatarFiles.length)];
                         
-                        // Update profile in Auth
                         return user.updateProfile({
                             displayName: username,
                             photoURL: randomAvatar
                         }).then(() => {
-                            // Create user doc in Firestore
                             return db.collection('users').doc(user.uid).set({
                                 username: username,
                                 email: email,
@@ -1113,9 +1308,6 @@
                             case 'auth/weak-password':
                                 friendlyMessage = "รหัสผ่านต้องมีความยาวอย่างน้อย 6 ตัวอักษร";
                                 break;
-                            case 'permission-denied':
-                                friendlyMessage = "การเข้าถึงฐานข้อมูลถูกปฏิเสธ กรุณาตรวจสอบ Firestore Rules";
-                                break;
                             default:
                                 friendlyMessage = `เกิดข้อผิดพลาด: ${err.message}`;
                                 break;
@@ -1126,7 +1318,6 @@
             });
 
 
-            // Auth State Listener
             auth.onAuthStateChanged(user => {
                 if (user) {
                     showMainApp(user);
@@ -1180,12 +1371,10 @@
                 });
             });
 
-            // Mobile menu toggle
             document.getElementById('mobile-menu-button').addEventListener('click', () => {
                 document.getElementById('mobile-menu').classList.toggle('hidden');
             });
 
-            // --- Profile Dropdown & Logout Logic ---
             const profileMenu = document.getElementById('profile-menu');
             const profileMenuButton = document.getElementById('profile-menu-button');
             const profileMenuDropdown = document.getElementById('profile-menu-dropdown');
@@ -1213,16 +1402,13 @@
             logoutBtn.addEventListener('click', handleLogout);
             mobileLogoutBtn.addEventListener('click', handleLogout);
 
-             // --- Profile and Settings Page Logic ---
             const profileForm = document.getElementById('profile-form');
             const avatarSelectionGrid = document.getElementById('avatar-selection-grid');
             let selectedAvatarFile = null;
 
             avatarSelectionGrid.addEventListener('click', (e) => {
                 if (e.target.tagName === 'IMG') {
-                    // Remove selected class from all avatars
                     avatarSelectionGrid.querySelectorAll('img').forEach(img => img.classList.remove('selected'));
-                    // Add selected class to clicked avatar
                     e.target.classList.add('selected');
                     selectedAvatarFile = e.target.dataset.filename;
                 }
@@ -1240,23 +1426,22 @@
                         updates.displayName = newUsername;
                     }
                     if (selectedAvatarFile) {
-                        updates.photoURL = encodeURI(selectedAvatarFile);
+                        updates.photoURL = selectedAvatarFile;
                     }
 
                     user.updateProfile(updates).then(() => {
-                        // Also update firestore
                         const firestoreUpdates = {};
                          if (newUsername !== user.displayName) {
-                            firestoreUpdates.username = newUsername;
+                             firestoreUpdates.username = newUsername;
                         }
                         if (selectedAvatarFile) {
-                            firestoreUpdates.photoURL = encodeURI(selectedAvatarFile);
+                             firestoreUpdates.photoURL = selectedAvatarFile;
                         }
                         return db.collection('users').doc(user.uid).update(firestoreUpdates);
                     }).then(() => {
                         profileSuccessMessage.classList.remove('hidden');
                         setTimeout(() => profileSuccessMessage.classList.add('hidden'), 3000);
-                        showMainApp(auth.currentUser); // Refresh UI
+                        showMainApp(auth.currentUser);
                     }).catch(error => {
                         console.error("Error updating profile: ", error);
                     });
@@ -1279,13 +1464,13 @@
                     }).catch(error => {
                         emailErrorMessage.textContent = error.message;
                         emailErrorMessage.classList.remove('hidden');
-                         setTimeout(() => emailErrorMessage.classList.add('hidden'), 3000);
+                          setTimeout(() => emailErrorMessage.classList.add('hidden'), 3000);
                     });
                 }
             });
 
-             const changePasswordForm = document.getElementById('change-password-form');
-             changePasswordForm.addEventListener('submit', (e) => {
+              const changePasswordForm = document.getElementById('change-password-form');
+              changePasswordForm.addEventListener('submit', (e) => {
                 e.preventDefault();
                 const newPassword = document.getElementById('new-password').value;
                 const user = auth.currentUser;
@@ -1300,13 +1485,11 @@
                     }).catch(error => {
                         passwordErrorMessage.textContent = error.message;
                         passwordErrorMessage.classList.remove('hidden');
-                         setTimeout(() => passwordErrorMessage.classList.add('hidden'), 3000);
+                          setTimeout(() => passwordErrorMessage.classList.add('hidden'), 3000);
                     });
                 }
             });
 
-
-            // --- AI Solver Modal Logic ---
             const aiSolverModal = document.getElementById('ai-solver-modal');
             const openAiSolverBtn = document.getElementById('open-ai-solver-btn');
             const closeAiSolverBtn = document.getElementById('close-ai-solver-btn');
@@ -1322,87 +1505,26 @@
                     aiSolverModal.classList.add('hidden');
                 });
             }
-
-            // --- User Habit Simulation ---
-            const updateUserHabits = (prompt) => {
-                try {
-                    let habits = JSON.parse(localStorage.getItem('userHabits_setTheory')) || {};
-                    const keywords = ["เซต", "สับเซต", "เพาเวอร์เซต", "ยูเนียน", "อินเตอร์เซกชัน", "คอมพลีเมนต์"];
-                    
-                    keywords.forEach(keyword => {
-                        if (prompt.includes(keyword)) {
-                            habits[keyword] = (habits[keyword] || 0) + 1;
-                        }
-                    });
-                    
-                    localStorage.setItem('userHabits_setTheory', JSON.stringify(habits));
-                } catch (e) {
-                    console.error("Could not update user habits in localStorage:", e);
-                }
-            };
-
-            const getUserHabits = () => {
-                try {
-                    const habits = JSON.parse(localStorage.getItem('userHabits_setTheory')) || {};
-                    const sortedHabits = Object.entries(habits).sort((a, b) => b[1] - a[1]);
-                    
-                    if (sortedHabits.length > 0) {
-                        const topHabits = sortedHabits.slice(0, 2).map(item => item[0]);
-                        // This info is passed in English to the model
-                        return `The user seems particularly interested in these topics: ${topHabits.join(', ')}. Try to relate your answer to these topics if it makes sense.`;
-                    }
-                    return "";
-                } catch (e) {
-                    console.error("Could not retrieve user habits from localStorage:", e);
-                    return "";
-                }
-            };
-
-            // --- AI Call Logic ---
-            const callAIAPI = async (prompt, chatBoxId, persona, schema = null) => {
-                updateUserHabits(prompt);
-                const apiUrl = 'http://localhost:3000/api/generate';
-
-                const payload = {
-                    prompt: prompt,
-                    persona: persona,
-                    habitInfo: getUserHabits()
-                };
-
-                if (schema) {
-                    payload.schema = schema;
-                }
-
+            
+            const callGeminiAPI = (prompt, chatBoxId, persona) => {
                 const typingIndicatorId = `typing-${Date.now()}`;
-                if(chatBoxId) {
-                    appendMessage({ text: '' }, 'ai', chatBoxId, typingIndicatorId);
-                }
+                appendMessage({ text: '' }, 'ai', chatBoxId, typingIndicatorId);
 
-                try {
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify(payload)
-                    });
-
-                    if (!response.ok) {
-                        throw new Error(`Server error: ${response.status}`);
-                    }
-
-                    const result = await response.json();
-                    const text = result.text || "ขออภัยค่ะ มีบางอย่างผิดพลาด";
+                setTimeout(() => {
+                    let responseText = "";
+                    const lowerCasePrompt = prompt.toLowerCase();
                     
-                    if(chatBoxId) {
-                        updateTypingIndicator(typingIndicatorId, text, chatBoxId);
+                    if (lowerCasePrompt.includes("ยูเนียน")) {
+                        responseText = "<b>ยูเนียน (Union)</b> คือการนำสมาชิกทั้งหมดของเซตมารวมกันค่ะ สัญลักษณ์คือ ∪ ค่ะ เช่น {1, 2} ∪ {2, 3} จะได้ {1, 2, 3}";
+                    } else if (lowerCasePrompt.includes("อินเตอร์เซก")) {
+                        responseText = "<b>อินเตอร์เซกชัน (Intersection)</b> คือการหาสมาชิกที่ซ้ำกันในเซตค่ะ สัญลักษณ์คือ ∩ ค่ะ เช่น {1, 2} ∩ {2, 3} จะได้ {2}";
+                    } else if (persona === 'Problem Solver') {
+                        responseText = "สำหรับโจทย์ข้อนี้ ลองวาดแผนภาพเวนน์-ออยเลอร์เพื่อช่วยให้เห็นภาพชัดขึ้นนะคะ";
+                    } else {
+                        responseText = "ขออภัยค่ะ ลองถามคำถามอื่นเกี่ยวกับเซตได้ไหมคะ?";
                     }
-                    return result;
-
-                } catch (error) {
-                    console.error("Error calling backend:", error);
-                     if(chatBoxId) {
-                        updateTypingIndicator(typingIndicatorId, "ขออภัยค่ะ ไม่สามารถเชื่อมต่อกับ AI ได้ในขณะนี้ กรุณาลองใหม่อีกครั้งค่ะ", chatBoxId);
-                    }
-                }
+                    updateTypingIndicator(typingIndicatorId, responseText, chatBoxId);
+                }, 1500); 
             };
             
             const appendMessage = (message, sender, chatBoxId, elementId = null) => {
@@ -1421,28 +1543,13 @@
                     messageWrapper.classList.add('justify-end');
                     messageBubble.classList.add('bg-indigo-500/80', 'backdrop-blur-lg', 'border', 'border-white/20', 'text-white', 'p-3', 'rounded-lg', 'max-w-xs');
                     messageBubble.innerHTML = `<p class="text-sm">${text}</p>`;
-                } else { // AI
+                } else { 
                     messageWrapper.classList.add('justify-start');
                     messageBubble.classList.add('bg-white/60', 'backdrop-blur-lg', 'border', 'border-white/20', 'p-3', 'rounded-lg', 'max-w-xs');
                      if (text) {
                         messageBubble.innerHTML = `<p class="text-sm">${text}</p>`;
                     } else {
-                        // This is a typing indicator
                         messageBubble.innerHTML = `<div class="typing-indicator"><span></span><span></span><span></span></div>`;
-                    }
-                    // Handle actions like the "highlight" button
-                    if(message.actions) {
-                        const actionsContainer = document.createElement('div');
-                        actionsContainer.classList.add('mt-2', 'pt-2', 'border-t', 'border-slate-200/50');
-                        message.actions.forEach(action => {
-                            const button = document.createElement('button');
-                            button.classList.add('text-sm', 'font-semibold', 'text-indigo-600', 'hover:text-indigo-800', 'w-full', 'text-left');
-                            button.textContent = action.label;
-                            button.dataset.actionType = action.type;
-                            button.dataset.actionPayload = JSON.stringify(action.payload);
-                            actionsContainer.appendChild(button);
-                        });
-                        messageBubble.appendChild(actionsContainer);
                     }
                 }
                 
@@ -1460,7 +1567,6 @@
                  }
             };
             
-            // Event delegation for action buttons in chat
             document.getElementById('study-chat-box').addEventListener('click', (e) => {
                 if (e.target.dataset.actionType === 'highlight') {
                     const payload = JSON.parse(e.target.dataset.actionPayload);
@@ -1478,7 +1584,7 @@
                     if (prompt) {
                         appendMessage(prompt, 'user', chatBoxId);
                         input.value = '';
-                        callAIAPI(prompt, chatBoxId, persona);
+                        callGeminiAPI(prompt, chatBoxId, persona);
                     }
                 };
                 
@@ -1498,6 +1604,8 @@
             const arcadeMenu = document.getElementById('arcade-menu');
             const flashcardModeContent = document.getElementById('flashcard-mode-content');
             const speedQuizModeContent = document.getElementById('speed-quiz-mode-content');
+            const setOperationsGameContent = document.getElementById('set-operations-game-content');
+            const vennDiagramGameContent = document.getElementById('venn-diagram-game-content');
             const arcadeHighScoreEl = document.getElementById('arcade-high-score');
             
             const updateArcadeHighScore = () => {
@@ -1525,20 +1633,31 @@
                 arcadeMenu.classList.add('hidden');
                 speedQuizModeContent.classList.remove('hidden');
             });
+             document.getElementById('start-set-operations-game').addEventListener('click', () => {
+                arcadeMenu.classList.add('hidden');
+                setOperationsGameContent.classList.remove('hidden');
+                startSetOpGame();
+            });
+             document.getElementById('start-venn-diagram-game').addEventListener('click', () => {
+                arcadeMenu.classList.add('hidden');
+                vennDiagramGameContent.classList.remove('hidden');
+                startVennDiagramGame();
+            });
 
             document.querySelectorAll('.back-to-arcade-menu').forEach(button => {
                 button.addEventListener('click', () => {
                     flashcardModeContent.classList.add('hidden');
                     flashcardModeContent.classList.remove('flex');
                     speedQuizModeContent.classList.add('hidden');
+                    setOperationsGameContent.classList.add('hidden');
+                    vennDiagramGameContent.classList.add('hidden');
                     arcadeMenu.classList.remove('hidden');
-                    if (gameAnimationId) endGame(true); // End game without showing score
+                    if (gameAnimationId) endGame(true);
                     updateArcadeHighScore();
                 });
             });
 
 
-            // --- Flashcard Logic ---
             const flashcards = [
                 { term: "เซต (Set)", definition: "กลุ่มของสิ่งต่างๆ ที่เราสามารถกำหนดสมาชิกได้แน่นอน" },
                 { term: "สมาชิก (Element)", definition: "แต่ละสิ่งที่อยู่ในเซต" },
@@ -1576,13 +1695,13 @@
                 showCard(currentCardIndex);
             });
 
-            showCard(currentCardIndex); // Initial card
+            showCard(currentCardIndex);
 
 
             // --- Speed Quiz Game Logic ---
-            const speedQuizGameArea = document.getElementById('speed-quiz-game-area');
             const speedQuizTimerEl = document.getElementById('speed-quiz-timer-top');
             const speedQuizScoreEl = document.getElementById('speed-quiz-score-top');
+            const speedQuizQuestionCounterEl = document.getElementById('speed-quiz-question-counter-top');
             const speedQuizQuestionArea = document.getElementById('speed-quiz-question-area');
             const speedQuizQuestionTextEl = document.getElementById('speed-quiz-question-text');
             const speedQuizStartOverlay = document.getElementById('speed-quiz-start-overlay');
@@ -1598,7 +1717,6 @@
             const confettiCanvas = document.getElementById('confetti-canvas');
             const confettiCtx = confettiCanvas.getContext('2d');
             
-            let speedQuizTimer;
             let speedQuizScore = 0;
             let timerInterval;
             let speedQuizCurrentQuestion = {};
@@ -1608,6 +1726,8 @@
             let particles = [];
             let lasers = [];
             let confetti = [];
+            let currentQuestionIndex = 0;
+            const MAX_QUESTIONS = 10;
             
             const speedQuizQuestions = flashcards.map(f => {
                 const wrongAnswers = flashcards
@@ -1622,7 +1742,6 @@
                 }
             });
 
-             // --- Confetti setup ---
             const setupConfetti = () => {
                 const gameRect = speedQuizGameArea.getBoundingClientRect();
                 confettiCanvas.width = gameRect.width;
@@ -1666,7 +1785,6 @@
             };
 
 
-            // --- Starfield setup ---
             const setupStarfield = () => {
                 const gameRect = speedQuizGameArea.getBoundingClientRect();
                 backgroundCanvas.width = gameRect.width;
@@ -1702,7 +1820,6 @@
                 });
             }
 
-            // --- Particle Explosion setup ---
              const createHitRing = (x, y, color) => {
                 particles.push({
                     x, y, color,
@@ -1727,7 +1844,6 @@
             }
 
             const drawParticles = () => {
-                // Particles are drawn on the laser canvas to be on top
                 particles.forEach(p => {
                     if (p.type === 'ring') {
                         laserCtx.beginPath();
@@ -1737,7 +1853,7 @@
                         laserCtx.stroke();
                     }
                 });
-                laserCtx.globalAlpha = 1.0; // Reset alpha
+                laserCtx.globalAlpha = 1.0;
             }
 
             const updateLasersAndParticles = () => {
@@ -1753,10 +1869,10 @@
                              createHitRing(l.endX, l.endY);
                              if (bubble.el.dataset.isCorrect === 'true') {
                                  bubble.isHit = true;
-                             } else {
+                            } else {
                                  bubble.el.style.animation = 'shake 0.5s';
                                  setTimeout(() => { bubble.el.style.animation = '' }, 500);
-                             }
+                            }
                         }
                         lasers.splice(i, 1);
                     }
@@ -1780,7 +1896,7 @@
                 countdownOverlay.classList.remove('hidden');
                 countdownOverlay.classList.add('flex');
                 countdownText.classList.remove('countdown-number');
-                void countdownText.offsetWidth; // Trigger reflow
+                void countdownText.offsetWidth;
                 countdownText.classList.add('countdown-number');
                 let count = 3;
                 countdownText.textContent = count;
@@ -1789,12 +1905,12 @@
                     if(count > 0) {
                         countdownText.textContent = count;
                         countdownText.classList.remove('countdown-number');
-                        void countdownText.offsetWidth; // Trigger reflow
+                        void countdownText.offsetWidth;
                         countdownText.classList.add('countdown-number');
                     } else if (count === 0) {
                         countdownText.textContent = "BLAST!";
                         countdownText.classList.remove('countdown-number');
-                        void countdownText.offsetWidth; // Trigger reflow
+                        void countdownText.offsetWidth;
                         countdownText.classList.add('countdown-number');
                     }
                     else {
@@ -1810,20 +1926,31 @@
                 speedQuizQuestionArea.classList.remove('opacity-0');
                 speedQuizScore = 0;
                 speedQuizScoreEl.textContent = speedQuizScore;
+                currentQuestionIndex = 0;
                 setupStarfield();
-                startTimer();
-                nextSpeedQuestion(true); // isFirstQuestion = true
+                loadNewQuestion(true);
                 gameLoop();
             }
 
-            const startTimer = () => {
-                let timeLeft = 30;
+             const resetPerQuestionTimer = () => {
+                clearInterval(timerInterval);
+                let timeLeft = 10;
                 speedQuizTimerEl.textContent = timeLeft;
                 timerInterval = setInterval(() => {
                     timeLeft--;
                     speedQuizTimerEl.textContent = timeLeft;
                     if (timeLeft <= 0) {
-                        endGame();
+                        clearInterval(timerInterval);
+                        bubbles.forEach(b => b.el.style.pointerEvents = 'none');
+                        const correctBubble = bubbles.find(b => b.el.dataset.answer === speedQuizCurrentQuestion.correctAnswer);
+                        if (correctBubble) {
+                            correctBubble.el.style.transition = 'background-color 0.2s';
+                            correctBubble.el.style.backgroundColor = '#16a34a'; // green-600
+                        }
+                        setTimeout(() => {
+                            currentQuestionIndex++;
+                            loadNewQuestion();
+                        }, 1500);
                     }
                 }, 1000);
             }
@@ -1876,12 +2003,12 @@
 
                 laserCtx.clearRect(0, 0, laserCanvas.width, laserCanvas.height);
                 
-                if (!timerInterval) { // Paused or ended
+                if (!timerInterval && !speedQuizEndOverlay.classList.contains('hidden')) {
                     if(confetti.length > 0) {
                         updateConfetti();
                         drawConfetti();
                     }
-                } else { // Playing
+                } else {
                     updateBubbles();
                     updateStarfield();
                     drawStarfield();
@@ -1898,9 +2025,6 @@
                 bubbles.forEach(bubble => {
                      if (bubble.isHit) {
                         bubble.el.style.opacity = Math.max(0, parseFloat(bubble.el.style.opacity) - 0.05);
-                        if (parseFloat(bubble.el.style.opacity) <= 0) {
-                             // Will be handled by next question logic
-                        }
                         return;
                     }
 
@@ -1910,7 +2034,7 @@
                     if (bubble.x <= 0 || bubble.x + bubble.el.offsetWidth >= gameRect.width) {
                         bubble.vx *= -1; 
                     }
-                    if (bubble.y <= 64 || bubble.y + bubble.el.offsetHeight >= gameRect.height - 120) { // Keep away from top/bottom
+                    if (bubble.y <= 64 || bubble.y + bubble.el.offsetHeight >= gameRect.height - 120) {
                         bubble.vy *= -1;
                     }
 
@@ -1921,12 +2045,17 @@
                 });
             }
 
-            const nextSpeedQuestion = (isFirstQuestion = false) => {
-                if (!timerInterval) return;
-
+             const loadNewQuestion = (isFirstQuestion = false) => {
+                if (currentQuestionIndex >= MAX_QUESTIONS) {
+                    endGame();
+                    return;
+                }
+                
+                speedQuizQuestionCounterEl.textContent = `${currentQuestionIndex + 1}/${MAX_QUESTIONS}`;
+                resetPerQuestionTimer();
                 speedQuizCurrentQuestion = speedQuizQuestions[Math.floor(Math.random() * speedQuizQuestions.length)];
                 speedQuizQuestionTextEl.innerHTML = speedQuizCurrentQuestion.question;
-
+                
                 const gameRect = speedQuizGameArea.getBoundingClientRect();
 
                 if (isFirstQuestion) {
@@ -1958,7 +2087,6 @@
                     });
                 }
                 
-                // Assign new options to all bubbles
                 const shuffledOptions = [...speedQuizCurrentQuestion.options].sort(() => 0.5 - Math.random());
                 bubbles.forEach((bubble, index) => {
                     bubble.el.innerHTML = shuffledOptions[index];
@@ -1966,6 +2094,7 @@
                     bubble.isHit = false;
                     bubble.el.style.opacity = 1;
                     bubble.el.style.pointerEvents = 'auto';
+                    bubble.el.style.backgroundColor = '';
                 });
             }
             
@@ -1982,7 +2111,7 @@
                 const centerY = bubbleRect.top + bubbleRect.height / 2 - gameAreaRect.top;
                 
                 const distance = Math.sqrt(Math.pow(centerX - startX, 2) + Math.pow(centerY - startY, 2));
-                const laserSpeed = 1 / (distance / 30); // Adjust divisor for speed
+                const laserSpeed = 1 / (distance / 30);
 
                 lasers.push({
                     startX, startY, endX: centerX, endY: centerY,
@@ -1996,6 +2125,8 @@
 
             const handleBubbleClick = (e) => {
                 if (!timerInterval || lasers.length > 0) return; 
+                clearInterval(timerInterval);
+
                 const selectedBubbleEl = e.currentTarget;
                 const selectedAnswer = selectedBubbleEl.dataset.answer;
                 
@@ -2010,13 +2141,22 @@
                     if (isCorrect) {
                         speedQuizScore += 10;
                         speedQuizScoreEl.textContent = speedQuizScore;
-                        nextSpeedQuestion();
                     } else {
                         speedQuizScore = Math.max(0, speedQuizScore - 5);
-                         speedQuizScoreEl.textContent = speedQuizScore;
-                         bubbles.forEach(b => b.el.style.pointerEvents = 'auto');
+                        speedQuizScoreEl.textContent = speedQuizScore;
+                        const correctBubble = bubbles.find(b => b.el.dataset.answer === speedQuizCurrentQuestion.correctAnswer);
+                        if (correctBubble) {
+                             correctBubble.el.style.transition = 'background-color 0.2s';
+                             correctBubble.el.style.backgroundColor = '#16a34a';
+                        }
                     }
-                }, 500); // Wait for laser animation
+
+                    setTimeout(() => {
+                        currentQuestionIndex++;
+                        loadNewQuestion();
+                    }, 1000);
+
+                }, 500);
             }
 
             document.getElementById('speed-quiz-start-btn').addEventListener('click', startCountdown);
@@ -2026,8 +2166,324 @@
                  startCountdown();
             });
 
+            // --- Set Operations Game Logic ---
+            const setOpGameContent = document.getElementById('set-operations-game-content');
+            const setOpScoreEl = document.getElementById('set-op-score');
+            const setOpQuestionEl = document.getElementById('set-op-question');
+            const setADisplay = document.getElementById('set-a-display');
+            const setBDisplay = document.getElementById('set-b-display');
+            const dropZone = document.getElementById('set-op-drop-zone');
+            const elementPool = document.getElementById('set-op-element-pool');
+            const checkBtn = document.getElementById('set-op-check-btn');
+            const resetBtn = document.getElementById('set-op-reset-btn');
+            const feedbackEl = document.getElementById('set-op-feedback');
 
-            // --- Daily Quiz Logic ---
+            let setOpScore = 0;
+            let currentSetA = [];
+            let currentSetB = [];
+            let currentOperation = '';
+            let currentCorrectAnswer = [];
+            
+            const operations = [
+                { type: 'union', symbol: '∪', label: 'ยูเนียน' },
+                { type: 'intersection', symbol: '∩', label: 'อินเตอร์เซกชัน' },
+                { type: 'differenceA', symbol: '−', label: 'ผลต่าง (A - B)' },
+                { type: 'differenceB', symbol: '−', label: 'ผลต่าง (B - A)' }
+            ];
+
+            function generateRandomSet(size, min, max) {
+                const s = new Set();
+                while(s.size < size) {
+                    s.add(Math.floor(Math.random() * (max - min + 1)) + min);
+                }
+                return Array.from(s).sort((a,b) => a-b);
+            }
+
+            function generateSetOpProblem() {
+                feedbackEl.textContent = '';
+                currentSetA = generateRandomSet(Math.floor(Math.random() * 3) + 3, 1, 10); // 3-5 elements
+                currentSetB = generateRandomSet(Math.floor(Math.random() * 3) + 3, 1, 10);
+                currentOperation = operations[Math.floor(Math.random() * operations.length)];
+
+                // Calculate Correct Answer
+                const setA = new Set(currentSetA);
+                const setB = new Set(currentSetB);
+                switch(currentOperation.type) {
+                    case 'union':
+                        currentCorrectAnswer = Array.from(new Set([...currentSetA, ...currentSetB])).sort((a,b)=>a-b);
+                        setOpQuestionEl.textContent = `จงหา: A ${currentOperation.symbol} B`;
+                        break;
+                    case 'intersection':
+                        currentCorrectAnswer = currentSetA.filter(x => setB.has(x)).sort((a,b)=>a-b);
+                        setOpQuestionEl.textContent = `จงหา: A ${currentOperation.symbol} B`;
+                        break;
+                    case 'differenceA':
+                        currentCorrectAnswer = currentSetA.filter(x => !setB.has(x)).sort((a,b)=>a-b);
+                         setOpQuestionEl.textContent = `จงหา: A ${currentOperation.symbol} B`;
+                        break;
+                    case 'differenceB':
+                         currentCorrectAnswer = currentSetB.filter(x => !setA.has(x)).sort((a,b)=>a-b);
+                         setOpQuestionEl.textContent = `จงหา: B ${currentOperation.symbol} A`;
+                        break;
+                }
+                
+                // Populate UI
+                setADisplay.textContent = `{ ${currentSetA.join(', ')} }`;
+                setBDisplay.textContent = `{ ${currentSetB.join(', ')} }`;
+
+                // Create element pool
+                const allElements = Array.from(new Set([...currentSetA, ...currentSetB, ...generateRandomSet(3, 1, 15)]));
+                elementPool.innerHTML = '';
+                allElements.sort(() => 0.5 - Math.random()).forEach(el => {
+                    const elDiv = document.createElement('div');
+                    elDiv.className = 'set-op-element';
+                    elDiv.textContent = el;
+                    elDiv.draggable = true;
+                    elDiv.dataset.value = el;
+                    elementPool.appendChild(elDiv);
+                });
+
+                resetAnswer();
+            }
+
+            function startSetOpGame() {
+                setOpScore = 0;
+                setOpScoreEl.textContent = setOpScore;
+                generateSetOpProblem();
+            }
+            
+            function checkAnswer() {
+                const droppedElements = Array.from(dropZone.children);
+                const userAnswer = droppedElements.map(el => parseInt(el.dataset.value)).sort((a,b)=>a-b);
+
+                const isCorrect = JSON.stringify(userAnswer) === JSON.stringify(currentCorrectAnswer);
+
+                if (isCorrect) {
+                    setOpScore += 10;
+                    setOpScoreEl.textContent = setOpScore;
+                    feedbackEl.textContent = 'ถูกต้อง!';
+                    feedbackEl.className = 'text-center mb-4 h-6 font-semibold text-green-600';
+                    setTimeout(generateSetOpProblem, 1500);
+                } else {
+                    feedbackEl.textContent = 'ลองอีกครั้ง!';
+                    feedbackEl.className = 'text-center mb-4 h-6 font-semibold text-red-600';
+                    dropZone.classList.add('animate-shake'); // Simple shake animation
+                    setTimeout(() => {
+                        feedbackEl.textContent = '';
+                        dropZone.classList.remove('animate-shake');
+                    }, 1500);
+                }
+            }
+            
+            function resetAnswer() {
+                dropZone.innerHTML = '';
+                Array.from(elementPool.children).forEach(el => {
+                    el.classList.remove('dragged');
+                    el.draggable = true;
+                });
+            }
+
+            // Drag and Drop Logic
+            let draggedItem = null;
+            
+            elementPool.addEventListener('dragstart', (e) => {
+                if (e.target.classList.contains('set-op-element') && !e.target.classList.contains('dragged')) {
+                    draggedItem = e.target;
+                    setTimeout(() => e.target.style.display = 'none', 0);
+                }
+            });
+
+            elementPool.addEventListener('dragend', (e) => {
+                if (draggedItem) {
+                    setTimeout(() => {
+                        draggedItem.style.display = 'block';
+                        draggedItem = null;
+                    }, 0);
+                }
+            });
+
+            dropZone.addEventListener('dragover', e => e.preventDefault());
+            dropZone.addEventListener('dragenter', e => {
+                e.preventDefault();
+                dropZone.classList.add('drag-over');
+            });
+            dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+            dropZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                if(draggedItem) {
+                    const newEl = draggedItem.cloneNode(true);
+                    newEl.draggable = false;
+                    newEl.addEventListener('click', (ev) => {
+                        const originalEl = Array.from(elementPool.children).find(child => child.dataset.value === ev.target.dataset.value);
+                        if(originalEl) {
+                           originalEl.classList.remove('dragged');
+                           originalEl.draggable = true;
+                        }
+                        ev.target.remove();
+                    });
+                    dropZone.appendChild(newEl);
+                    draggedItem.classList.add('dragged');
+                    draggedItem.draggable = false;
+                }
+                dropZone.classList.remove('drag-over');
+            });
+
+
+            checkBtn.addEventListener('click', checkAnswer);
+            resetBtn.addEventListener('click', resetAnswer);
+
+             // --- Venn Diagram Game Logic ---
+            const vennScoreEl = document.getElementById('venn-score');
+            const vennUniverseSetEl = document.getElementById('venn-universe-set');
+            const vennElementPool = document.getElementById('venn-element-pool');
+            const vennDropAreas = {
+                a: document.getElementById('venn-drop-a'),
+                b: document.getElementById('venn-drop-b'),
+                intersection: document.getElementById('venn-drop-intersection'),
+                universe: document.getElementById('venn-drop-universe'),
+            };
+            const vennCheckBtn = document.getElementById('venn-check-btn');
+            const vennFeedbackEl = document.getElementById('venn-feedback');
+            
+            let vennScore = 0;
+            let vennProblem = {};
+
+            function startVennDiagramGame() {
+                vennScore = 0;
+                vennScoreEl.textContent = vennScore;
+                generateVennProblem();
+            }
+
+            function generateVennProblem() {
+                vennFeedbackEl.textContent = '';
+                const U = Array.from({length: 12}, (_, i) => i + 1);
+                const A = new Set(generateRandomSet(5, 1, 12));
+                const B = new Set(generateRandomSet(5, 1, 12));
+
+                vennProblem = {
+                    U,
+                    A: Array.from(A).sort((a,b)=>a-b),
+                    B: Array.from(B).sort((a,b)=>a-b),
+                    solution: {
+                        a: [],
+                        b: [],
+                        intersection: [],
+                        universe: []
+                    }
+                };
+
+                U.forEach(num => {
+                    const inA = A.has(num);
+                    const inB = B.has(num);
+                    if (inA && inB) vennProblem.solution.intersection.push(num);
+                    else if (inA) vennProblem.solution.a.push(num);
+                    else if (inB) vennProblem.solution.b.push(num);
+                    else vennProblem.solution.universe.push(num);
+                });
+
+                vennUniverseSetEl.textContent = U.join(', ');
+                document.getElementById('venn-set-a-display').textContent = `{ ${vennProblem.A.join(', ')} }`;
+                document.getElementById('venn-set-b-display').textContent = `{ ${vennProblem.B.join(', ')} }`;
+                
+                vennElementPool.innerHTML = '';
+                U.sort(() => 0.5 - Math.random()).forEach(num => {
+                    const el = document.createElement('div');
+                    el.className = 'venn-element';
+                    el.textContent = num;
+                    el.draggable = true;
+                    el.dataset.value = num;
+                    vennElementPool.appendChild(el);
+                });
+
+                Object.values(vennDropAreas).forEach(area => area.innerHTML = '');
+            }
+            
+            function checkVennAnswer() {
+                let isCorrect = true;
+                for (const zone in vennDropAreas) {
+                    const userAnswers = Array.from(vennDropAreas[zone].children)
+                                            .map(el => parseInt(el.textContent))
+                                            .sort((a,b) => a - b);
+                    const correctAnswers = vennProblem.solution[zone].sort((a,b) => a - b);
+                    if (JSON.stringify(userAnswers) !== JSON.stringify(correctAnswers)) {
+                        isCorrect = false;
+                        break;
+                    }
+                }
+                
+                if(isCorrect) {
+                    vennScore += 10;
+                    vennScoreEl.textContent = vennScore;
+                    vennFeedbackEl.textContent = 'ยอดเยี่ยม! ถูกต้องทั้งหมด';
+                    vennFeedbackEl.className = 'text-center my-4 h-6 font-semibold text-green-600';
+                    setTimeout(generateVennProblem, 2000);
+                } else {
+                    vennFeedbackEl.textContent = 'มีบางส่วนยังไม่ถูกต้อง ลองดูอีกครั้งนะคะ';
+                    vennFeedbackEl.className = 'text-center my-4 h-6 font-semibold text-red-600';
+                }
+            }
+
+            // Venn Drag and Drop
+            let vennDraggedItem = null;
+
+            document.body.addEventListener('dragstart', e => {
+                if (e.target.classList.contains('venn-element')) {
+                    vennDraggedItem = e.target;
+                    setTimeout(() => e.target.classList.add('invisible'), 0);
+                }
+            });
+
+            document.body.addEventListener('dragend', e => {
+                 setTimeout(() => {
+                    if (vennDraggedItem) vennDraggedItem.classList.remove('invisible');
+                    vennDraggedItem = null;
+                 }, 0);
+            });
+
+            Object.values(vennDropAreas).forEach(area => {
+                area.addEventListener('dragover', e => e.preventDefault());
+                area.addEventListener('dragenter', e => {
+                    e.preventDefault();
+                    if (e.target.closest('.venn-drop-area')) {
+                        e.target.closest('.venn-drop-area').classList.add('drag-over');
+                    }
+                });
+                area.addEventListener('dragleave', (e) => {
+                     if (e.target.closest('.venn-drop-area')) {
+                        e.target.closest('.venn-drop-area').classList.remove('drag-over');
+                     }
+                });
+                area.addEventListener('drop', e => {
+                    e.preventDefault();
+                    const dropTarget = e.target.closest('.venn-drop-area');
+                     if(vennDraggedItem && dropTarget) {
+                       dropTarget.appendChild(vennDraggedItem);
+                       vennDraggedItem.classList.remove('invisible');
+                    }
+                    dropTarget.classList.remove('drag-over');
+                });
+            });
+            
+             vennElementPool.addEventListener('dragover', e => e.preventDefault());
+             vennElementPool.addEventListener('dragenter', e => {
+                e.preventDefault();
+                e.target.closest('#venn-element-pool').classList.add('drag-over');
+             });
+            vennElementPool.addEventListener('dragleave', e => e.target.closest('#venn-element-pool').classList.remove('drag-over'));
+            vennElementPool.addEventListener('drop', e => {
+                 e.preventDefault();
+                 const dropTarget = e.target.closest('#venn-element-pool');
+                 if(vennDraggedItem && dropTarget) {
+                    dropTarget.appendChild(vennDraggedItem);
+                    vennDraggedItem.classList.remove('invisible');
+                 }
+                 dropTarget.classList.remove('drag-over');
+            });
+
+
+            vennCheckBtn.addEventListener('click', checkVennAnswer);
+
+
             const quizModal = document.getElementById('quiz-modal');
             const quizProgressBar = document.getElementById('quiz-progress-bar');
             const quizLoadingModal = document.getElementById('ai-quiz-loading-modal');
@@ -2038,78 +2494,51 @@
                 { question: "ถ้า A = {1, 2, 3} แล้ว n(A) เท่ากับเท่าใด?", options: ["1", "2", "3", "6"], correctAnswer: "3" },
                 { question: "A ∪ B หมายถึงอะไร?", options: ["สมาชิกที่อยู่ใน A หรือ B", "สมาชิกที่อยู่ใน A และ B", "สมาชิกที่อยู่ใน A แต่ไม่อยู่ใน B", "สมาชิกที่ไม่อยู่ใน A และ B"], correctAnswer: "สมาชิกที่อยู่ใน A หรือ B" },
             ];
-            let quizQuestions = [...staticQuizQuestions]; // Start with static questions as a fallback
+            let quizQuestions = [...staticQuizQuestions];
 
             let currentQuizQuestions = [];
-            let currentQuestionIndex = 0;
+            let dailyQuizCurrentQuestionIndex = 0;
             let score = 0;
             
-            const generateQuizWithAI = async () => {
+             const generateQuizWithGemini = async () => {
                 quizLoadingModal.classList.remove('hidden');
+                console.log("Simulating AI quiz generation... using static fallback questions.");
                 
-                // This part will now call your backend
-                try {
-                    const result = await callAIAPI(
-                        "สร้างแบบทดสอบปรนัย 30 ข้อเกี่ยวกับทฤษฎีเซตสำหรับนักเรียน ม.4 ของไทย แต่ละข้อมี 4 ตัวเลือก โดยมี 1 คำตอบที่ถูกต้อง",
-                        null, // no chatbox for this call
-                        "Quiz Generator",
-                        {
-                            type: "ARRAY",
-                            items: {
-                                type: "OBJECT",
-                                properties: {
-                                    "question": { "type": "STRING" },
-                                    "options": {
-                                        "type": "ARRAY",
-                                        "items": { "type": "STRING" }
-                                    },
-                                    "correctAnswer": { "type": "STRING" }
-                                },
-                                required: ["question", "options", "correctAnswer"]
-                            }
-                        }
-                    );
-                    
-                    if (result && result.text) {
-                         const generatedQuestions = JSON.parse(result.text);
-                         if (Array.isArray(generatedQuestions) && generatedQuestions.length > 0) {
-                            quizQuestions = generatedQuestions;
-                         }
-                    }
-                } catch (error) {
-                    console.error("Failed to generate quiz, using fallback.", error);
-                    quizQuestions = [...staticQuizQuestions]; // Use fallback on error
-                } finally {
-                    quizLoadingModal.classList.add('hidden');
-                }
+                return new Promise(resolve => {
+                    setTimeout(() => {
+                        quizQuestions = [...staticQuizQuestions];
+                        quizLoadingModal.classList.add('hidden');
+                        resolve();
+                    }, 1500);
+                });
             };
 
 
             const startQuiz = async () => {
-                await generateQuizWithAI(); // Generate new questions
+                await generateQuizWithGemini();
                 currentQuizQuestions = [...quizQuestions].sort(() => 0.5 - Math.random());
-                currentQuestionIndex = 0;
+                dailyQuizCurrentQuestionIndex = 0;
                 score = 0;
                 quizModal.classList.remove('hidden');
                 showQuizQuestion();
             };
 
             const showQuizQuestion = () => {
-                 const progress = ((currentQuestionIndex) / currentQuizQuestions.length) * 100;
+                 const progress = ((dailyQuizCurrentQuestionIndex) / currentQuizQuestions.length) * 100;
                  quizProgressBar.style.width = `${progress}%`;
 
-                if (currentQuestionIndex < currentQuizQuestions.length) {
-                    const q = currentQuizQuestions[currentQuestionIndex];
+                if (dailyQuizCurrentQuestionIndex < currentQuizQuestions.length) {
+                    const q = currentQuizQuestions[dailyQuizCurrentQuestionIndex];
                     let optionsHtml = q.options.map(option =>
                         `<button class="quiz-option w-full text-left p-4 border border-slate-200 rounded-lg hover:bg-slate-100 hover:border-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-200">${option}</button>`
                     ).join('');
 
                     quizContent.innerHTML = `
-                         <div>
-                             <p class="text-slate-500 mb-2">คำถามที่ ${currentQuestionIndex + 1} จาก ${currentQuizQuestions.length}</p>
-                             <p class="text-2xl font-semibold text-slate-900 mb-8">${q.question}</p>
-                             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">${optionsHtml}</div>
-                         </div>
+                          <div>
+                               <p class="text-slate-500 mb-2">คำถามที่ ${dailyQuizCurrentQuestionIndex + 1} จาก ${currentQuizQuestions.length}</p>
+                               <p class="text-2xl font-semibold text-slate-900 mb-8">${q.question}</p>
+                               <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">${optionsHtml}</div>
+                          </div>
                     `;
 
                     document.querySelectorAll('.quiz-option').forEach(button => {
@@ -2121,8 +2550,8 @@
             };
 
             const handleAnswer = (e) => {
-                const selectedAnswer = e.target.innerHTML; // Use innerHTML to correctly read &empty;
-                const correctAnswer = currentQuizQuestions[currentQuestionIndex].correctAnswer;
+                const selectedAnswer = e.target.innerHTML;
+                const correctAnswer = currentQuizQuestions[dailyQuizCurrentQuestionIndex].correctAnswer;
 
                 if (selectedAnswer === correctAnswer) {
                     score++;
@@ -2132,7 +2561,6 @@
                      e.target.classList.remove('border-slate-200', 'hover:bg-slate-100');
                      e.target.classList.add('bg-red-100', 'border-red-500');
                 }
-                 // Disable all options
                 document.querySelectorAll('.quiz-option').forEach(button => {
                     button.disabled = true;
                     if(button.innerHTML === correctAnswer) {
@@ -2142,7 +2570,7 @@
 
 
                 setTimeout(() => {
-                    currentQuestionIndex++;
+                    dailyQuizCurrentQuestionIndex++;
                     showQuizQuestion();
                 }, 1500);
             };
@@ -2151,9 +2579,9 @@
                  quizProgressBar.style.width = `100%`;
                 quizContent.innerHTML = `
                      <div class="text-center">
-                         <h3 class="text-4xl font-bold text-slate-800 mb-4">ทำแบบทดสอบเสร็จแล้ว!</h3>
-                         <p class="text-2xl text-slate-600 mb-8">คุณได้คะแนน <span class="font-bold text-indigo-600">${score}</span> จาก ${currentQuizQuestions.length} คะแนน</p>
-                         <button id="close-quiz-result-btn" class="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300">กลับไปที่หน้าหลัก</button>
+                          <h3 class="text-4xl font-bold text-slate-800 mb-4">ทำแบบทดสอบเสร็จแล้ว!</h3>
+                          <p class="text-2xl text-slate-600 mb-8">คุณได้คะแนน <span class="font-bold text-indigo-600">${score}</span> จาก ${currentQuizQuestions.length} คะแนน</p>
+                          <button id="close-quiz-result-btn" class="px-8 py-3 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300">กลับไปที่หน้าหลัก</button>
                      </div>
                 `;
                 document.getElementById('close-quiz-result-btn').addEventListener('click', closeQuiz);
