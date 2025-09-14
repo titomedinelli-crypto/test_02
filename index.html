@@ -7,7 +7,6 @@
     <title>ศูนย์การเรียนรู้เรื่องเซต</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
@@ -356,18 +355,14 @@
 
 <body class="antialiased text-slate-700">
 
-    <!-- =========== Login Section =========== -->
     <section id="login-section" class="relative min-h-screen w-full flex items-center justify-center overflow-hidden transition-opacity duration-500">
-        <!-- Animated Blobs -->
         <div class="absolute top-0 left-0 w-full h-full z-0">
             <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-purple-300 rounded-full animated-blob opacity-70" style="animation: blob-move-1 15s infinite ease;"></div>
             <div class="absolute top-1/2 right-1/4 w-80 h-80 bg-blue-300 rounded-full animated-blob opacity-60" style="animation: blob-move-2 18s infinite ease-in-out;"></div>
             <div class="absolute bottom-1/4 left-1/3 w-60 h-60 bg-indigo-300 rounded-full animated-blob opacity-50" style="animation: blob-move-3 12s infinite linear;"></div>
         </div>
 
-        <!-- Auth Container -->
         <div id="auth-container" class="relative z-10 w-full max-w-md p-8 space-y-8 bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl m-4">
-            <!-- Login View -->
             <div id="login-view">
                 <div class="text-center">
                     <h2 class="text-4xl font-bold text-slate-800">ยินดีต้อนรับ</h2>
@@ -396,7 +391,6 @@
                 </p>
             </div>
 
-            <!-- Signup View -->
             <div id="signup-view" class="hidden">
                  <div class="text-center">
                     <h2 class="text-4xl font-bold text-slate-800">สร้างบัญชีใหม่</h2>
@@ -431,16 +425,13 @@
         </div>
     </section>
 
-    <!-- =========== Main App Section =========== -->
     <main id="main-app" class="hidden opacity-0 transition-opacity duration-500 relative min-h-screen flex flex-col" style="animation: fadeIn 0.7s ease-out forwards;">
-        <!-- Animated Blobs Background -->
         <div class="fixed top-0 left-0 w-full h-full z-[-1]">
             <div class="absolute -top-20 -left-20 w-80 h-80 bg-purple-300 rounded-full animated-blob opacity-30" style="animation: blob-move-1 15s infinite ease;"></div>
             <div class="absolute top-1/2 right-1/4 w-96 h-96 bg-blue-300 rounded-full animated-blob opacity-20" style="animation: blob-move-2 18s infinite ease-in-out;"></div>
             <div class="absolute bottom-0 -right-20 w-72 h-72 bg-indigo-300 rounded-full animated-blob opacity-30" style="animation: blob-move-3 12s infinite linear;"></div>
         </div>
 
-        <!-- Header & Navigation -->
         <header class="bg-white/70 backdrop-blur-xl sticky top-0 z-40 shadow-sm border-b border-white/30">
             <div class="mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
@@ -448,7 +439,6 @@
                         <h1 class="text-2xl font-bold text-indigo-600">SucSet</h1>
                     </div>
 
-                    <!-- Right side of navbar for desktop -->
                     <div class="hidden md:flex items-center">
                         <nav class="flex space-x-8">
                             <a href="#study-zone" class="nav-link text-slate-500 hover:text-slate-800 px-3 py-2 text-md font-medium border-b-2 border-transparent transition-all duration-300 active">โซนเรียนรู้</a>
@@ -457,7 +447,6 @@
                             <a href="#friends-challenge" class="nav-link text-slate-500 hover:text-slate-800 px-3 py-2 text-md font-medium border-b-2 border-transparent transition-all duration-300">ท้าทายเพื่อน</a>
                         </nav>
 
-                        <!-- Profile Dropdown -->
                         <div class="relative ml-6" id="profile-menu">
                             <button id="profile-menu-button" type="button" class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-full">
                                 <span id="user-name-desktop" class="text-sm font-medium text-slate-700 hidden lg:block"></span>
@@ -477,7 +466,6 @@
                         </div>
                     </div>
                     
-                    <!-- Mobile menu button -->
                     <div class="md:hidden">
                         <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-lg text-indigo-600 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-300">
                             <span class="sr-only">Open main menu</span>
@@ -488,8 +476,7 @@
                     </div>
                 </div>
             </div>
-             <!-- Mobile menu, show/hide based on menu state. -->
-            <div class="md:hidden hidden" id="mobile-menu">
+             <div class="md:hidden hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-b border-slate-200">
                     <a href="#study-zone" class="nav-link text-slate-600 hover:bg-white/50 block px-3 py-2 rounded-md text-base font-medium active">โซนเรียนรู้</a>
                     <a href="#recap-arcade" class="nav-link text-slate-600 hover:bg-white/50 block px-3 py-2 rounded-md text-base font-medium">อาเขตทบทวน</a>
@@ -515,22 +502,18 @@
             </div>
         </header>
 
-        <!-- Content Sections -->
         <div class="flex-grow mx-auto py-8 px-4 sm:px-6 lg:px-8 w-full">
             <section id="study-zone" class="app-section">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">โซนเรียนรู้: พื้นฐานเรื่องเซต</h2>
                 <div class="bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30">
                     <div class="flex flex-col lg:flex-row gap-6">
 
-                        <!-- Left Column: Video -->
                         <div class="lg:w-[60%] w-full relative">
                             <div id="player" class="aspect-video rounded-lg overflow-hidden bg-black shadow-lg">
-                                <!-- YouTube Player will be inserted here by JS -->
-                            </div>
+                                </div>
                              <canvas id="video-overlay" class="hidden absolute top-0 left-0 w-full h-full pointer-events-none z-10"></canvas>
                         </div>
 
-                        <!-- Right Column: AI Chat -->
                         <div class="lg:w-[40%] w-full flex flex-col">
                             <div class="flex flex-col h-full border border-white/30 rounded-lg bg-white/50 backdrop-blur-sm">
                                 <div class="p-4 border-b border-white/30">
@@ -539,21 +522,12 @@
                                 </div>
                                 <div id="study-chat-box" class="flex-1 p-4 overflow-y-auto custom-scrollbar space-y-4" style="min-height: 250px;">
                                      <div class="flex justify-start">
-                                        <div class="bg-white/60 backdrop-blur-lg border border-white/20 p-3 rounded-lg max-w-xs">
+                                         <div class="bg-white/60 backdrop-blur-lg border border-white/20 p-3 rounded-lg max-w-xs">
                                              <p class="text-sm">
-                                                สวัสดีค่ะน้อง! มาคุยเรื่องเซตว่างกันนะคะ เข้าใจว่าดูคลิปมาแล้ว เดี๋ยวพี่น้องขอมสรุปให้ง่าย ๆ เลยค่ะ 😊<br><br>
-                                                <strong>เซตว่าง (Empty Set)</strong> ก็คือ:<br>
-                                                • <strong>เซตที่ไม่มีสมาชิกอยู่เลยแม้แต่ตัวเดียว</strong> ค่ะ<br>
-                                                • เหมือนกล่องเปล่า ๆ ที่ข้างในไม่มีอะไรอยู่เลยนั่นแหละค่ะ<br><br>
-                                                <strong>ตัวอย่างง่าย ๆ เช่น:</strong><br>
-                                                • เซตของจำนวนนับที่น้อยกว่า 1 (ไม่มีใช่ไหมคะ?)<br>
-                                                • เซตของคนที่อายุเกิน 200 ปี (ตอนนี้ก็ยังไม่มีเนอะ)<br><br>
-                                                <strong>สัญลักษณ์ของเซตว่าง:</strong><br>
-                                                • เราจะใช้สัญลักษณ์ ∅ (วงกลมมีขีดทับ) หรือ {} ค่ะ<br><br>
-                                                จำง่าย ๆ ว่าเป็นเซตที่ "ว่างเปล่า" นั่นเองค่ะ
+                                                สวัสดีค่ะ! น้องขอมเอง 😊 สงสัยเรื่องเซตตรงไหน ถามมาได้เลยน้าาา เช่น "ยูเนียนคืออะไร?" หรือ "สับเซตต่างกับเพาเวอร์เซตยังไง?"
                                             </p>
-                                        </div>
-                                    </div>
+                                         </div>
+                                     </div>
                                 </div>
                                 <div class="p-4 border-t border-white/30">
                                     <div class="flex space-x-2">
@@ -610,24 +584,23 @@
                         </div>
                     </div>
                      <div class="mt-8 bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30">
-                        <h3 class="text-xl font-bold text-slate-800 mb-4">สถิติและความคืบหน้า</h3>
-                        <div class="flex items-center space-x-4">
-                            <div class="bg-purple-100/80 p-3 rounded-full">
+                         <h3 class="text-xl font-bold text-slate-800 mb-4">สถิติและความคืบหน้า</h3>
+                         <div class="flex items-center space-x-4">
+                             <div class="bg-purple-100/80 p-3 rounded-full">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
                                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 11l3-3m0 0l3 3m-3-3v8m0-13a9 9 0 110 18 9 9 0 010-18z" />
                                 </svg>
-                            </div>
-                            <div>
-                                <p class="text-slate-600">คะแนนสูงสุด (โหมดทดสอบความเร็ว)</p>
-                                <p id="arcade-high-score" class="text-2xl font-bold text-slate-800">0</p>
-                            </div>
-                        </div>
+                             </div>
+                             <div>
+                                 <p class="text-slate-600">คะแนนสูงสุด (โหมดทดสอบความเร็ว)</p>
+                                 <p id="arcade-high-score" class="text-2xl font-bold text-slate-800">0</p>
+                             </div>
+                         </div>
                     </div>
                  </div>
 
-                <!-- Flashcard Mode Content -->
                 <div id="flashcard-mode-content" class="hidden flex-col items-center">
-                    <button class="back-to-arcade-menu mb-6 text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
+                    <button class="back-to-arcade-menu mb-6 text-indigo-600 hover:text-indigo-800">← กลับไปเลือกโหมด</button>
                     <div id="flashcard-container" class="relative w-full max-w-lg h-72 perspective-1000">
                         <div id="flashcard-inner" class="relative w-full h-full text-center flip-card-inner">
                             <div class="absolute w-full h-full p-6 bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 flex items-center justify-center flip-card-front">
@@ -646,7 +619,6 @@
                     </div>
                 </div>
 
-                <!-- Speed Quiz Mode Content -->
                 <div id="speed-quiz-mode-content" class="hidden">
                      <div id="speed-quiz-game-area" class="relative w-full max-w-3xl mx-auto h-[80vh] rounded-2xl shadow-2xl overflow-hidden bg-[#0B0F29]">
                          <div class="absolute top-0 left-0 w-full h-16 bg-[#1D244F] z-30 flex items-center justify-between px-4">
@@ -655,7 +627,7 @@
                                  <span id="speed-quiz-score-top" class="text-white font-bold text-lg">0</span>
                              </div>
                              <div>
-                                <span id="speed-quiz-question-counter-top" class="text-white font-bold text-lg">1/10</span>
+                                 <span id="speed-quiz-question-counter-top" class="text-white font-bold text-lg">1/10</span>
                              </div>
                               <div class="flex items-center space-x-2">
                                 <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
@@ -666,44 +638,43 @@
                              </button>
                          </div>
 
-                         <canvas id="background-canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
-                         <canvas id="laser-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></canvas>
-                         <canvas id="confetti-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-50"></canvas>
+                        <canvas id="background-canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
+                        <canvas id="laser-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></canvas>
+                        <canvas id="confetti-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-50"></canvas>
                         
                           <div id="speed-quiz-start-overlay" class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-40">
-                             <h3 class="text-4xl font-bold text-white mb-2">โหมดทดสอบความเร็ว</h3>
-                              <p class="text-white/80 mb-6">ยิงคำตอบที่ถูกต้องก่อนเวลาจะหมด!</p>
-                             <button id="speed-quiz-start-btn" class="aurora-button px-10 py-4 font-bold rounded-lg text-lg">เริ่มเกม</button>
+                              <h3 class="text-4xl font-bold text-white mb-2">โหมดทดสอบความเร็ว</h3>
+                               <p class="text-white/80 mb-6">ยิงคำตอบที่ถูกต้องก่อนเวลาจะหมด!</p>
+                              <button id="speed-quiz-start-btn" class="aurora-button px-10 py-4 font-bold rounded-lg text-lg">เริ่มเกม</button>
                          </div>
                          <div id="countdown-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/80 flex-col items-center justify-center z-40 text-white text-9xl font-bold">
                              <span id="countdown-text" class="countdown-number">3</span>
                          </div>
                          <div id="speed-quiz-end-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/90 backdrop-blur-md flex-col items-center justify-center z-40 p-8">
-                            <div class="w-full max-w-md text-center">
-                               <img src="https://img.icons8.com/plasticine/100/000000/trophy.png" alt="Trophy" class="mx-auto mb-4 h-24 w-24"/>
-                               <h3 class="text-3xl font-bold text-white mb-2">ทำได้ดีมาก!</h3>
-                               <p class="text-white/80 text-lg mb-6">นี่คือคะแนนสุดท้ายของคุณ</p>
-                               <div class="flex space-x-4 w-full">
-                                   <div class="w-1/2 bg-blue-500/20 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
-                                       <p class="text-blue-200 text-sm">คะแนนของคุณ</p>
-                                       <p id="final-score" class="text-white text-4xl font-bold">0</p>
-                                   </div>
-                                   <div class="w-1/2 bg-fuchsia-500/20 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
-                                       <p class="text-fuchsia-200 text-sm">คะแนนสูงสุด</p>
-                                       <p id="high-score" class="text-white text-4xl font-bold">0</p>
-                                   </div>
-                               </div>
-                               <button id="speed-quiz-restart-btn" class="aurora-button mt-8 w-full py-3 font-bold rounded-lg text-lg">เล่นอีกครั้ง</button>
+                             <div class="w-full max-w-md text-center">
+                                <img src="https://img.icons8.com/plasticine/100/000000/trophy.png" alt="Trophy" class="mx-auto mb-4 h-24 w-24"/>
+                                <h3 class="text-3xl font-bold text-white mb-2">ทำได้ดีมาก!</h3>
+                                <p class="text-white/80 text-lg mb-6">นี่คือคะแนนสุดท้ายของคุณ</p>
+                                <div class="flex space-x-4 w-full">
+                                     <div class="w-1/2 bg-blue-500/20 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
+                                         <p class="text-blue-200 text-sm">คะแนนของคุณ</p>
+                                         <p id="final-score" class="text-white text-4xl font-bold">0</p>
+                                     </div>
+                                     <div class="w-1/2 bg-fuchsia-500/20 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
+                                         <p class="text-fuchsia-200 text-sm">คะแนนสูงสุด</p>
+                                         <p id="high-score" class="text-white text-4xl font-bold">0</p>
+                                     </div>
+                                </div>
+                                <button id="speed-quiz-restart-btn" class="aurora-button mt-8 w-full py-3 font-bold rounded-lg text-lg">เล่นอีกครั้ง</button>
                                  <button class="back-to-arcade-menu mt-4 w-full py-3 font-semibold rounded-lg text-white/70 hover:text-white transition-colors">กลับไปเลือกโหมด</button>
-                           </div>
+                            </div>
                          </div>
                         
-                         <!-- Game elements -->
-                         <div id="speed-quiz-question-area" class="absolute top-20 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-black/40 backdrop-blur-sm p-4 rounded-lg text-white text-center z-30 opacity-100 transition-opacity duration-300">
+                        <div id="speed-quiz-question-area" class="absolute top-20 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-black/40 backdrop-blur-sm p-4 rounded-lg text-white text-center z-30 opacity-100 transition-opacity duration-300">
                               <p id="speed-quiz-question-text" class="text-xl font-semibold"></p>
                          </div>
 
-                         <div id="shooter-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 w-24 h-24 z-30">
+                        <div id="shooter-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 w-24 h-24 z-30">
                               <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
                                   <path d="M50 0C48.4488 4.29171 44.2917 8.44876 40 10C35.7083 11.5512 30.5833 11.5512 25 10C19.4167 8.44876 15.2596 4.29171 10 0L0 15C4.29171 19.7404 8.44876 24.2211 10 30C11.5512 35.7789 11.5512 41.6667 10 45C8.44876 50.5556 4.29171 55.2596 0 60L10 90C19.4167 85.5833 29.2596 80.7596 40 80H60C70.7404 80.7596 80.5833 85.5833 90 90L100 60C95.7083 55.2596 91.5512 50.5556 90 45C88.4488 39.4444 88.4488 33.5556 90 30C91.5512 24.4444 95.7083 19.7404 100 15L90 0C80.5833 4.41667 70.7404 8.44876 60 10C55.7083 11.5512 51.5512 11.5512 50 10V0Z" fill="url(#paint0_linear_1_2)"/>
                                   <circle cx="50" cy="45" r="12" fill="#24294A" stroke="white" stroke-width="2"/>
@@ -719,15 +690,13 @@
                     </div>
                 </div>
 
-                <!-- Set Operations Game Content -->
                 <div id="set-operations-game-content" class="hidden">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-3xl font-bold text-slate-800">เกมดำเนินการเซต</h2>
-                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
+                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">← กลับไปเลือกโหมด</button>
                     </div>
 
                     <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 max-w-4xl mx-auto">
-                        <!-- Game Info Header -->
                         <div class="flex justify-between items-center border-b border-slate-200 pb-4 mb-6">
                             <div>
                                 <p id="set-op-question" class="text-xl font-semibold text-slate-800"></p>
@@ -738,7 +707,6 @@
                             </div>
                         </div>
 
-                        <!-- Sets Display -->
                         <div class="flex justify-around mb-6 text-center">
                             <div>
                                 <p class="font-bold text-lg">เซต A</p>
@@ -750,23 +718,18 @@
                             </div>
                         </div>
                         
-                        <!-- Drop Zone -->
                         <div class="mb-6">
                             <p class="font-bold text-lg text-center mb-2">เซตคำตอบ (ลากตัวเลขมาวางที่นี่)</p>
                             <div id="set-op-drop-zone" class="min-h-[80px] bg-slate-100/80 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border-2 border-dashed border-slate-300">
-                                <!-- Dropped elements will go here -->
-                            </div>
+                                </div>
                         </div>
                         
-                        <!-- Draggable Elements Pool -->
-                         <div class="mb-6">
+                        <div class="mb-6">
                             <p class="font-bold text-lg text-center mb-2">ตัวเลือก</p>
                             <div id="set-op-element-pool" class="min-h-[80px] bg-white/50 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border border-slate-200">
-                                <!-- Draggable elements will go here -->
-                            </div>
+                                </div>
                         </div>
                         
-                        <!-- Controls -->
                         <div id="set-op-feedback" class="text-center mb-4 h-6 font-semibold"></div>
                         <div class="flex justify-center space-x-4">
                              <button id="set-op-reset-btn" class="px-6 py-2 bg-white/70 backdrop-blur-xl border border-white/30 rounded-lg hover:bg-white/80 transition-colors duration-300">ล้างคำตอบ</button>
@@ -775,15 +738,13 @@
                     </div>
                 </div>
                 
-                 <!-- Venn Diagram Game Content -->
-                <div id="venn-diagram-game-content" class="hidden">
+                 <div id="venn-diagram-game-content" class="hidden">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-3xl font-bold text-slate-800">เกมแผนภาพเวนน์</h2>
-                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
+                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">← กลับไปเลือกโหมด</button>
                     </div>
 
                     <div class="bg-white/70 backdrop-blur-xl p-6 sm:p-8 rounded-xl shadow-lg border border-white/30 max-w-5xl mx-auto">
-                        <!-- Game Info Header -->
                         <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-200 pb-4 mb-6 gap-4">
                             <div class="text-center sm:text-left">
                                  <p class="text-lg font-semibold text-slate-800">ลากตัวเลขไปยังบริเวณที่ถูกต้องในแผนภาพ</p>
@@ -795,8 +756,7 @@
                             </div>
                         </div>
                         
-                         <!-- Sets Display -->
-                        <div class="flex justify-around mb-6 text-center">
+                         <div class="flex justify-around mb-6 text-center">
                             <div>
                                 <p class="font-bold text-lg">เซต A</p>
                                 <p id="venn-set-a-display" class="text-xl p-2 bg-blue-100/80 rounded-lg font-mono"></p>
@@ -808,49 +768,43 @@
                         </div>
 
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-                            <!-- Draggable Elements Pool -->
                             <div class="lg:order-1">
                                 <p class="font-bold text-lg text-center mb-2">ตัวเลขสำหรับจัดเรียง</p>
                                 <div id="venn-element-pool" class="min-h-[150px] bg-slate-100/80 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border-2 border-dashed border-slate-300">
-                                    <!-- Draggable elements will go here -->
-                                </div>
+                                    </div>
                             </div>
 
-                            <!-- Venn Diagram -->
                             <div id="venn-diagram-container" class="relative lg:col-span-2 lg:order-2">
                                  <svg id="venn-diagram-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
-                                    <defs>
-                                        <mask id="maskA">
-                                            <rect width="100%" height="100%" fill="white"/>
-                                            <circle cx="130" cy="60" r="40" fill="black" />
-                                        </mask>
-                                        <mask id="maskB">
-                                            <rect width="100%" height="100%" fill="white"/>
-                                            <circle cx="70" cy="60" r="40" fill="black" />
-                                        </mask>
-                                    </defs>
+                                     <defs>
+                                         <mask id="maskA">
+                                             <rect width="100%" height="100%" fill="white"/>
+                                             <circle cx="130" cy="60" r="40" fill="black" />
+                                         </mask>
+                                         <mask id="maskB">
+                                             <rect width="100%" height="100%" fill="white"/>
+                                             <circle cx="70" cy="60" r="40" fill="black" />
+                                         </mask>
+                                     </defs>
                                     
-                                    <rect id="venn-zone-universe" class="venn-zone" width="200" height="120" rx="10" ry="10" fill="#f1f5f9" stroke="#cbd5e1" />
+                                     <rect id="venn-zone-universe" class="venn-zone" width="200" height="120" rx="10" ry="10" fill="#f1f5f9" stroke="#cbd5e1" />
                                     
-                                    <circle id="venn-zone-a" class="venn-zone" cx="70" cy="60" r="40" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="1.5" mask="url(#maskA)" />
-                                    <circle id="venn-zone-b" class="venn-zone" cx="130" cy="60" r="40" fill="rgba(168, 85, 247, 0.2)" stroke="#a855f7" stroke-width="1.5" mask="url(#maskB)" />
+                                     <circle id="venn-zone-a" class="venn-zone" cx="70" cy="60" r="40" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="1.5" mask="url(#maskA)" />
+                                     <circle id="venn-zone-b" class="venn-zone" cx="130" cy="60" r="40" fill="rgba(168, 85, 247, 0.2)" stroke="#a855f7" stroke-width="1.5" mask="url(#maskB)" />
                                     
-                                    <path id="venn-zone-intersection" class="venn-zone" d="M 100 94.64 C 83.43 94.64 68.43 83.43 62.22 68.43 C 68.43 53.43 83.43 42.22 100 42.22 C 116.57 42.22 131.57 53.43 137.78 68.43 C 131.57 83.43 116.57 94.64 100 94.64 Z" fill="rgba(107, 33, 168, 0.3)" />
+                                     <path id="venn-zone-intersection" class="venn-zone" d="M 100 94.64 C 83.43 94.64 68.43 83.43 62.22 68.43 C 68.43 53.43 83.43 42.22 100 42.22 C 116.57 42.22 131.57 53.43 137.78 68.43 C 131.57 83.43 116.57 94.64 100 94.64 Z" fill="rgba(107, 33, 168, 0.3)" />
 
-                                    <!-- Labels -->
-                                    <text x="35" y="30" font-family="Mitr" font-size="10" fill="#3b82f6" font-weight="bold">A</text>
-                                    <text x="160" y="30" font-family="Mitr" font-size="10" fill="#a855f7" font-weight="bold">B</text>
-                                </svg>
+                                     <text x="35" y="30" font-family="Mitr" font-size="10" fill="#3b82f6" font-weight="bold">A</text>
+                                     <text x="160" y="30" font-family="Mitr" font-size="10" fill="#a855f7" font-weight="bold">B</text>
+                                 </svg>
                                 
-                                <!-- Drop Areas over the SVG -->
-                                <div id="venn-drop-universe" data-zone="universe" class="venn-drop-area" style="top: 0; left: 0; width: 100%; height: 100%;"></div>
+                                 <div id="venn-drop-universe" data-zone="universe" class="venn-drop-area" style="top: 0; left: 0; width: 100%; height: 100%;"></div>
                                 <div id="venn-drop-a" data-zone="a" class="venn-drop-area" style="top: 25%; left: 10%; width: 30%; height: 50%; border-radius: 50%;"></div>
                                 <div id="venn-drop-b" data-zone="b" class="venn-drop-area" style="top: 25%; right: 10%; width: 30%; height: 50%; border-radius: 50%;"></div>
                                 <div id="venn-drop-intersection" data-zone="intersection" class="venn-drop-area" style="top: 30%; left: 42%; width: 16%; height: 40%;"></div>
                             </div>
                         </div>
                         
-                        <!-- Controls -->
                         <div id="venn-feedback" class="text-center my-4 h-6 font-semibold"></div>
                         <div class="flex justify-center space-x-4 mt-4">
                             <button id="venn-check-btn" class="px-8 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300">ตรวจคำตอบ</button>
@@ -863,7 +817,6 @@
             <section id="collab-hub" class="app-section hidden">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">ศูนย์รวมความร่วมมือ</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Student Chat -->
                     <div class="md:col-span-2 bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
                         <h3 class="text-xl font-semibold mb-4">พูดคุยกับเพื่อนๆ</h3>
                         <div class="h-96 border border-white/30 rounded-lg mb-4 p-4 overflow-y-auto custom-scrollbar">
@@ -874,7 +827,6 @@
                            <button class="bg-slate-300 text-white px-4 py-2 rounded-lg cursor-not-allowed">ส่ง</button>
                         </div>
                     </div>
-                    <!-- Find Friends & AI Help -->
                     <div class="space-y-8">
                         <div class="bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
                             <h3 class="text-xl font-semibold mb-4">AI ช่วยแก้โจทย์</h3>
@@ -905,43 +857,40 @@
             <section id="friends-challenge" class="app-section hidden">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">ท้าทายเพื่อน: แบบทดสอบประจำวัน</h2>
                  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                      <!-- Quiz Starter -->
                       <div class="md:col-span-2 bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-8 text-center flex flex-col justify-center items-center">
                            <h3 class="text-2xl font-semibold mb-2 text-slate-800">ทดสอบความรู้เรื่องเซต!</h3>
                            <p class="text-slate-600 mb-6">ตอบคำถาม 30 ข้อเพื่อเก็บคะแนนและไต่อันดับไปกับเพื่อนๆ<br><span class="text-xs text-indigo-500 font-semibold">ขับเคลื่อนด้วย AI</span></p>
                            <button id="start-quiz-btn" class="aurora-button px-10 py-4 font-bold rounded-lg transition-all duration-300 shadow-lg text-lg">เริ่มทำแบบทดสอบประจำวัน</button>
                       </div>
-                      <!-- Leaderboard -->
                       <div class="bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
-                         <h3 class="text-xl font-semibold mb-4">ตารางคะแนน</h3>
-                         <ol class="space-y-4">
-                            <li class="flex items-center space-x-3">
-                               <span class="font-bold text-lg text-yellow-500">1</span>
-                               <div class="flex-1">
-                                   <p class="font-semibold text-slate-800">คุณ</p>
-                                   <p class="text-sm text-slate-500">150 คะแนน | สตรีค 5 🔥</p>
-                               </div>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                               <span class="font-bold text-lg text-slate-400">2</span>
-                               <div class="flex-1">
-                                   <p class="font-semibold text-slate-800">สมชาย</p>
-                                   <p class="text-sm text-slate-500">125 คะแนน | สตรีค 3</p>
-                               </div>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                               <span class="font-bold text-lg text-orange-400">3</span>
-                               <div class="flex-1">
-                                   <p class="font-semibold text-slate-800">สมศรี</p>
-                                   <p class="text-sm text-slate-500">110 คะแนน | สตรีค 2</p>
-                               </div>
-                            </li>
-                         </ol>
+                           <h3 class="text-xl font-semibold mb-4">ตารางคะแนน</h3>
+                           <ol class="space-y-4">
+                               <li class="flex items-center space-x-3">
+                                   <span class="font-bold text-lg text-yellow-500">1</span>
+                                   <div class="flex-1">
+                                       <p class="font-semibold text-slate-800">คุณ</p>
+                                       <p class="text-sm text-slate-500">150 คะแนน | สตรีค 5 🔥</p>
+                                   </div>
+                               </li>
+                               <li class="flex items-center space-x-3">
+                                   <span class="font-bold text-lg text-slate-400">2</span>
+                                   <div class="flex-1">
+                                       <p class="font-semibold text-slate-800">สมชาย</p>
+                                       <p class="text-sm text-slate-500">125 คะแนน | สตรีค 3</p>
+                                   </div>
+                               </li>
+                               <li class="flex items-center space-x-3">
+                                   <span class="font-bold text-lg text-orange-400">3</span>
+                                   <div class="flex-1">
+                                       <p class="font-semibold text-slate-800">สมศรี</p>
+                                       <p class="text-sm text-slate-500">110 คะแนน | สตรีค 2</p>
+                                   </div>
+                               </li>
+                           </ol>
                       </div>
                  </div>
             </section>
             
-            <!-- Profile Page Section -->
             <section id="profile-page" class="app-section hidden">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">แก้ไขโปรไฟล์</h2>
                 <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
@@ -957,8 +906,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-2">เลือกรูปโปรไฟล์ใหม่</label>
                                 <div id="avatar-selection-grid" class="grid grid-cols-5 gap-4 avatar-selection">
-                                    <!-- Avatars will be injected by JS -->
-                                </div>
+                                    </div>
                             </div>
                             
                             <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300">
@@ -970,47 +918,42 @@
                 </div>
             </section>
 
-            <!-- Settings Page Section -->
             <section id="settings-page" class="app-section hidden">
                  <h2 class="text-3xl font-bold text-slate-800 mb-6">การตั้งค่าบัญชี</h2>
                  <div class="max-w-2xl mx-auto space-y-8">
-                      <!-- Change Email -->
-                     <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
-                          <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนอีเมล</h3>
-                          <form id="change-email-form" class="space-y-4">
-                            <div id="email-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
-                            <div id="email-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
-                            <div>
-                                <label for="new-email" class="block text-sm font-medium text-slate-700 mb-1">อีเมลใหม่</label>
-                                <input type="email" id="new-email" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
-                            </div>
-                            <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
-                                เปลี่ยนอีเมล
-                            </button>
-                          </form>
-                     </div>
-                     <!-- Change Password -->
-                     <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
-                          <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนรหัสผ่าน</h3>
-                          <form id="change-password-form" class="space-y-4">
-                            <div id="password-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
-                            <div id="password-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
-                            <div>
-                                <label for="new-password" class="block text-sm font-medium text-slate-700 mb-1">รหัสผ่านใหม่</label>
-                                <input type="password" id="new-password" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
-                            </div>
-                             <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
-                                เปลี่ยนรหัสผ่าน
-                            </button>
-                          </form>
-                     </div>
+                       <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                           <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนอีเมล</h3>
+                           <form id="change-email-form" class="space-y-4">
+                               <div id="email-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
+                               <div id="email-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
+                               <div>
+                                   <label for="new-email" class="block text-sm font-medium text-slate-700 mb-1">อีเมลใหม่</label>
+                                   <input type="email" id="new-email" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                               </div>
+                               <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
+                                   เปลี่ยนอีเมล
+                               </button>
+                           </form>
+                      </div>
+                      <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                           <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนรหัสผ่าน</h3>
+                           <form id="change-password-form" class="space-y-4">
+                               <div id="password-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
+                               <div id="password-error-message" class="hidden p-3 bg-red-100 text-red-700 rounded-lg text-sm"></div>
+                               <div>
+                                   <label for="new-password" class="block text-sm font-medium text-slate-700 mb-1">รหัสผ่านใหม่</label>
+                                   <input type="password" id="new-password" required class="w-full border-slate-300 rounded-lg focus:ring-indigo-500 focus:border-indigo-500">
+                               </div>
+                                <button type="submit" class="w-full py-2 px-4 bg-slate-700 text-white font-semibold rounded-lg hover:bg-slate-800 transition-colors">
+                                   เปลี่ยนรหัสผ่าน
+                               </button>
+                           </form>
+                      </div>
                  </div>
             </section>
         </div>
     </main>
 
-    <!-- =========== Modals =========== -->
-     <!-- AI Quiz Generation Loading Modal -->
     <div id="ai-quiz-loading-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
         <div class="bg-white/70 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-full max-w-sm p-8 text-center" style="animation: modal-scale-in 0.3s ease-out forwards;">
             <div class="flex justify-center items-center mb-4">
@@ -1024,7 +967,6 @@
         </div>
     </div>
     
-    <!-- Fullscreen Daily Quiz Modal -->
     <div id="quiz-modal" class="hidden fixed inset-0 bg-white z-50 flex flex-col p-4 sm:p-6 lg:p-8" style="animation: fadeIn 0.3s ease-out forwards;">
         <div id="quiz-header" class="w-full max-w-4xl mx-auto mb-4">
             <div class="flex justify-between items-center mb-2">
@@ -1036,11 +978,9 @@
             </div>
         </div>
         <div id="quiz-content" class="flex-grow w-full max-w-4xl mx-auto flex flex-col justify-center">
-            <!-- Quiz content will be loaded here by JS -->
-        </div>
+            </div>
     </div>
     
-    <!-- AI Solver Modal -->
     <div id="ai-solver-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
         <div class="bg-white/70 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-full max-w-xl flex flex-col h-[80vh] relative" style="animation: modal-scale-in 0.3s ease-out forwards;">
             <div class="p-4 border-b border-white/30">
@@ -1068,7 +1008,7 @@
     <script>
         // --- Firebase Configuration ---
         const firebaseConfig = {
-            apiKey: "AIzaSyDYi6Ozmf6vEWkWg49QC5MuyJAvt7a-xZc",
+            apiKey: "YOUR_API_KEY", // Replace with your actual Firebase config
             authDomain: "secset-542cb.firebaseapp.com",
             projectId: "secset-542cb",
             storageBucket: "secset-542cb.appspot.com",
@@ -1217,7 +1157,7 @@
 
             const showLoginScreen = () => {
                  mainApp.classList.add('opacity-0');
-                setTimeout(() => {
+                 setTimeout(() => {
                     mainApp.classList.add('hidden');
                     loginSection.classList.remove('hidden');
                     setTimeout(() => loginSection.classList.remove('opacity-0'), 50);
@@ -1506,25 +1446,45 @@
                 });
             }
             
+            // --- AI Chat Logic ---
             const callGeminiAPI = (prompt, chatBoxId, persona) => {
                 const typingIndicatorId = `typing-${Date.now()}`;
                 appendMessage({ text: '' }, 'ai', chatBoxId, typingIndicatorId);
 
-                setTimeout(() => {
-                    let responseText = "";
-                    const lowerCasePrompt = prompt.toLowerCase();
+                const getResponse = (userPrompt) => {
+                    const lowerCasePrompt = userPrompt.toLowerCase();
                     
-                    if (lowerCasePrompt.includes("ยูเนียน")) {
-                        responseText = "<b>ยูเนียน (Union)</b> คือการนำสมาชิกทั้งหมดของเซตมารวมกันค่ะ สัญลักษณ์คือ ∪ ค่ะ เช่น {1, 2} ∪ {2, 3} จะได้ {1, 2, 3}";
-                    } else if (lowerCasePrompt.includes("อินเตอร์เซก")) {
-                        responseText = "<b>อินเตอร์เซกชัน (Intersection)</b> คือการหาสมาชิกที่ซ้ำกันในเซตค่ะ สัญลักษณ์คือ ∩ ค่ะ เช่น {1, 2} ∩ {2, 3} จะได้ {2}";
-                    } else if (persona === 'Problem Solver') {
-                        responseText = "สำหรับโจทย์ข้อนี้ ลองวาดแผนภาพเวนน์-ออยเลอร์เพื่อช่วยให้เห็นภาพชัดขึ้นนะคะ";
-                    } else {
-                        responseText = "ขออภัยค่ะ ลองถามคำถามอื่นเกี่ยวกับเซตได้ไหมคะ?";
+                    // Keyword-based response dictionary
+                    const responses = {
+                        'ยูเนียน': "<b>ยูเนียน (∪)</b> ก็คือเอาสมาชิกทั้งหมดมารวมกันเลยค่ะ! เช่น {1, 2} ∪ {2, 3} ก็จะได้เป็น {1, 2, 3} ค่ะ 😊",
+                        'อินเตอร์เซก': "<b>อินเตอร์เซกชัน (∩)</b> คือการหาสมาชิกที่ซ้ำกัน หรือตัวที่อยู่ร่วมกันทั้งสองเซตค่ะ เช่น {1, 2} ∩ {2, 3} ก็จะได้ {2} ตัวเดียวเลย",
+                        'เซตว่าง': "<b>เซตว่าง (∅ หรือ {})</b> คือเซตที่ไม่มีสมาชิกอยู่ข้างในเลยค่ะ เหมือนกล่องเปล่าๆ เลย 텅~",
+                        'สับเซต': "<b>สับเซต (⊂)</b> คือเซตเล็กที่สมาชิกทุกตัวอยู่ในเซตใหญ่ค่ะ เช่น {1} เป็นสับเซตของ {1, 2, 3} เพราะ 1 อยู่ในเซตใหญ่นั่นเอง",
+                        'คอมพลีเมนต์': "<b>คอมพลีเมนต์ (')</b> คือสมาชิกที่อยู่ในกรอบใหญ่ (เอกภพสัมพัทธ์) แต่ไม่อยู่ในเซตที่เราสนใจค่ะ! เหมือนเอาส่วนที่เหลือทั้งหมดเลย",
+                        'ผลต่าง': "<b>ผลต่าง (-)</b> คือการเอาสมาชิกของเซตตัวตั้ง แต่ไม่เอาตัวที่ซ้ำกับเซตตัวลบค่ะ เช่น A - B คือ อยู่ใน A แต่ไม่อยู่ใน B จ้า",
+                        'เพาเวอร์เซต': "<b>เพาเวอร์เซต P(A)</b> คือเซตของสับเซตทั้งหมดที่เป็นไปได้ของ A ค่ะ ถ้า A มี n สมาชิก เพาเวอร์เซตจะมีสมาชิก 2<sup>n</sup> ตัวเลยนะ! เยอะมาก 🤯",
+                        'ขอบคุณ': "ยินดีเสมอค่ะ! มีอะไรให้ช่วยอีกไหมคะ? 🤗",
+                        'สวัสดี': "สวัสดีค่ะ น้องขอมพร้อมช่วยแล้ว! สงสัยเรื่องเซตตรงไหน ถามได้เลยน้าาา 😉",
+                    };
+
+                    // Find a matching keyword
+                    for (const keyword in responses) {
+                        if (lowerCasePrompt.includes(keyword)) {
+                            return responses[keyword];
+                        }
                     }
+
+                    // Default friendly response
+                    if (persona === 'Problem Solver') {
+                         return "โจทย์ข้อนี้น่าสนใจจัง! ลองบอกข้อมูลที่มีมาให้หมดก่อนนะคะ เดี๋ยวเรามาช่วยกันคิด 🤔";
+                    }
+                    return "อืมมม... เรื่องนั้นน้องขอมยังไม่แน่ใจเลยค่ะ ลองถามเกี่ยวกับเรื่องเซตดูไหมคะ? เช่น 'ยูเนียนคืออะไร?' อะไรแบบนี้ 😉";
+                };
+
+                setTimeout(() => {
+                    const responseText = getResponse(prompt);
                     updateTypingIndicator(typingIndicatorId, responseText, chatBoxId);
-                }, 1500); 
+                }, 1200); // Simulate API call delay
             };
             
             const appendMessage = (message, sender, chatBoxId, elementId = null) => {
@@ -1661,7 +1621,7 @@
             const flashcards = [
                 { term: "เซต (Set)", definition: "กลุ่มของสิ่งต่างๆ ที่เราสามารถกำหนดสมาชิกได้แน่นอน" },
                 { term: "สมาชิก (Element)", definition: "แต่ละสิ่งที่อยู่ในเซต" },
-                { term: "เซตว่าง (Empty Set)", definition: "เซตที่ไม่มีสมาชิกเลย เขียนแทนด้วย { } หรือ &empty;" },
+                { term: "เซตว่าง (Empty Set)", definition: "เซตที่ไม่มีสมาชิกเลย เขียนแทนด้วย { } หรือ ∅" },
                 { term: "เซตจำกัด (Finite Set)", definition: "เซตที่สามารถนับจำนวนสมาชิกได้" },
                 { term: "เซตอนันต์ (Infinite Set)", definition: "เซตที่ไม่ใช่เซตจำกัด หรือมีจำนวนสมาชิกนับไม่ถ้วน" },
                 { term: "สับเซต (Subset)", definition: "เซต A เป็นสับเซตของ B ถ้าสมาชิกทุกตัวของ A เป็นสมาชิกของ B" },
@@ -2024,8 +1984,8 @@
                 const gameRect = speedQuizGameArea.getBoundingClientRect();
                 bubbles.forEach(bubble => {
                      if (bubble.isHit) {
-                        bubble.el.style.opacity = Math.max(0, parseFloat(bubble.el.style.opacity) - 0.05);
-                        return;
+                         bubble.el.style.opacity = Math.max(0, parseFloat(bubble.el.style.opacity) - 0.05);
+                         return;
                     }
 
                     bubble.x += bubble.vx;
@@ -2402,8 +2362,8 @@
                 let isCorrect = true;
                 for (const zone in vennDropAreas) {
                     const userAnswers = Array.from(vennDropAreas[zone].children)
-                                            .map(el => parseInt(el.textContent))
-                                            .sort((a,b) => a - b);
+                                             .map(el => parseInt(el.textContent))
+                                             .sort((a,b) => a - b);
                     const correctAnswers = vennProblem.solution[zone].sort((a,b) => a - b);
                     if (JSON.stringify(userAnswers) !== JSON.stringify(correctAnswers)) {
                         isCorrect = false;
@@ -2450,15 +2410,15 @@
                 });
                 area.addEventListener('dragleave', (e) => {
                      if (e.target.closest('.venn-drop-area')) {
-                        e.target.closest('.venn-drop-area').classList.remove('drag-over');
+                         e.target.closest('.venn-drop-area').classList.remove('drag-over');
                      }
                 });
                 area.addEventListener('drop', e => {
                     e.preventDefault();
                     const dropTarget = e.target.closest('.venn-drop-area');
                      if(vennDraggedItem && dropTarget) {
-                       dropTarget.appendChild(vennDraggedItem);
-                       vennDraggedItem.classList.remove('invisible');
+                        dropTarget.appendChild(vennDraggedItem);
+                        vennDraggedItem.classList.remove('invisible');
                     }
                     dropTarget.classList.remove('drag-over');
                 });
@@ -2474,8 +2434,8 @@
                  e.preventDefault();
                  const dropTarget = e.target.closest('#venn-element-pool');
                  if(vennDraggedItem && dropTarget) {
-                    dropTarget.appendChild(vennDraggedItem);
-                    vennDraggedItem.classList.remove('invisible');
+                     dropTarget.appendChild(vennDraggedItem);
+                     vennDraggedItem.classList.remove('invisible');
                  }
                  dropTarget.classList.remove('drag-over');
             });
@@ -2490,7 +2450,7 @@
             const quizContent = document.getElementById('quiz-content');
             
             let staticQuizQuestions = [
-                { question: "ข้อใดคือสัญลักษณ์ของเซตว่าง?", options: ["{0}", "{}", "0", "&empty;"], correctAnswer: "&empty;" },
+                { question: "ข้อใดคือสัญลักษณ์ของเซตว่าง?", options: ["{0}", "{}", "0", "∅"], correctAnswer: "∅" },
                 { question: "ถ้า A = {1, 2, 3} แล้ว n(A) เท่ากับเท่าใด?", options: ["1", "2", "3", "6"], correctAnswer: "3" },
                 { question: "A ∪ B หมายถึงอะไร?", options: ["สมาชิกที่อยู่ใน A หรือ B", "สมาชิกที่อยู่ใน A และ B", "สมาชิกที่อยู่ใน A แต่ไม่อยู่ใน B", "สมาชิกที่ไม่อยู่ใน A และ B"], correctAnswer: "สมาชิกที่อยู่ใน A หรือ B" },
             ];
@@ -2500,7 +2460,7 @@
             let dailyQuizCurrentQuestionIndex = 0;
             let score = 0;
             
-             const generateQuizWithGemini = async () => {
+              const generateQuizWithGemini = async () => {
                 quizLoadingModal.classList.remove('hidden');
                 console.log("Simulating AI quiz generation... using static fallback questions.");
                 
@@ -2600,4 +2560,3 @@
 </body>
 
 </html>
-
