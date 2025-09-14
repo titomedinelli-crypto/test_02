@@ -311,10 +311,10 @@
             background-color: #e5e7eb;
         }
          /* --- Venn Diagram Game Styles --- */
-        #venn-diagram-container, #venn-3-diagram-container {
+        #venn-diagram-container {
             position: relative;
         }
-        #venn-diagram-svg, #venn-3-diagram-svg {
+        #venn-diagram-svg {
             width: 100%;
             height: auto;
         }
@@ -570,7 +570,7 @@
             <section id="recap-arcade" class="app-section hidden">
                  <div id="arcade-menu">
                     <h2 class="text-3xl font-bold text-slate-800 mb-6">อาเขตทบทวน</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-2 transition-all duration-300" id="start-flashcard-mode">
                             <div class="flex justify-center mb-4">
                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-blue-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -605,19 +605,8 @@
                                   <circle cx="13.5" cy="13.5" r="7.5" />
                                 </svg>
                             </div>
-                            <h3 class="text-2xl font-bold text-slate-800 mb-2">เกมแผนภาพเวนน์ (2 เซต)</h3>
+                            <h3 class="text-2xl font-bold text-slate-800 mb-2">เกมแผนภาพเวนน์</h3>
                             <p class="text-slate-600">จัดเรียงตัวเลขในแผนภาพเวนน์ให้ถูกต้อง</p>
-                        </div>
-                         <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-rose-500/20 hover:-translate-y-2 transition-all duration-300" id="start-venn-3-diagram-game">
-                            <div class="flex justify-center mb-4">
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-rose-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                    <circle cx="12" cy="8.25" r="4.5" />
-                                    <circle cx="8.25" cy="15.75" r="4.5" />
-                                    <circle cx="15.75" cy="15.75" r="4.5" />
-                                </svg>
-                            </div>
-                            <h3 class="text-2xl font-bold text-slate-800 mb-2">เกมแผนภาพเวนน์ (3 เซต)</h3>
-                            <p class="text-slate-600">ท้าทายยิ่งขึ้นด้วยการจัดเรียงตัวเลขใน 3 เซต</p>
                         </div>
                     </div>
                      <div class="mt-8 bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30">
@@ -786,10 +775,10 @@
                     </div>
                 </div>
                 
-                 <!-- Venn Diagram Game Content (2 sets) -->
+                 <!-- Venn Diagram Game Content -->
                 <div id="venn-diagram-game-content" class="hidden">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-slate-800">เกมแผนภาพเวนน์ (2 เซต)</h2>
+                        <h2 class="text-3xl font-bold text-slate-800">เกมแผนภาพเวนน์</h2>
                         <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
                     </div>
 
@@ -865,86 +854,6 @@
                         <div id="venn-feedback" class="text-center my-4 h-6 font-semibold"></div>
                         <div class="flex justify-center space-x-4 mt-4">
                             <button id="venn-check-btn" class="px-8 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300">ตรวจคำตอบ</button>
-                        </div>
-                    </div>
-                </div>
-
-                 <!-- Venn Diagram Game Content (3 sets) -->
-                <div id="venn-3-diagram-game-content" class="hidden">
-                    <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-slate-800">เกมแผนภาพเวนน์ (3 เซต)</h2>
-                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
-                    </div>
-
-                    <div class="bg-white/70 backdrop-blur-xl p-6 sm:p-8 rounded-xl shadow-lg border border-white/30 max-w-5xl mx-auto">
-                        <!-- Game Info Header -->
-                         <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-200 pb-4 mb-6 gap-4">
-                            <div class="text-center sm:text-left">
-                                 <p class="text-lg font-semibold text-slate-800">ลากตัวเลขไปยังบริเวณที่ถูกต้องในแผนภาพ</p>
-                                 <p class="text-slate-600">Universal Set U = { <span id="venn-3-universe-set"></span> }</p>
-                            </div>
-                            <div class="text-right bg-white/50 p-3 rounded-lg">
-                                <p class="text-slate-600">คะแนน</p>
-                                <p id="venn-3-score" class="text-2xl font-bold text-rose-600">0</p>
-                            </div>
-                        </div>
-
-                         <!-- Sets Display -->
-                        <div class="flex justify-around mb-6 text-center gap-4">
-                            <div>
-                                <p class="font-bold text-lg">เซต A</p>
-                                <p id="venn-3-set-a-display" class="text-md p-2 bg-blue-100/80 rounded-lg font-mono"></p>
-                            </div>
-                            <div>
-                                <p class="font-bold text-lg">เซต B</p>
-                                <p id="venn-3-set-b-display" class="text-md p-2 bg-purple-100/80 rounded-lg font-mono"></p>
-                            </div>
-                             <div>
-                                <p class="font-bold text-lg">เซต C</p>
-                                <p id="venn-3-set-c-display" class="text-md p-2 bg-green-100/80 rounded-lg font-mono"></p>
-                            </div>
-                        </div>
-
-                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-                            <!-- Draggable Elements Pool -->
-                            <div class="lg:order-1">
-                                <p class="font-bold text-lg text-center mb-2">ตัวเลขสำหรับจัดเรียง</p>
-                                <div id="venn-3-element-pool" class="min-h-[150px] bg-slate-100/80 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border-2 border-dashed border-slate-300">
-                                    <!-- Draggable elements will go here -->
-                                </div>
-                            </div>
-
-                            <!-- 3-Circle Venn Diagram -->
-                            <div id="venn-3-diagram-container" class="relative lg:col-span-2 lg:order-2">
-                                <svg id="venn-3-diagram-svg" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
-                                    <rect width="200" height="150" rx="10" ry="10" fill="#f1f5f9" stroke="#cbd5e1" />
-                                    <!-- Circles -->
-                                    <circle cx="100" cy="55" r="40" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1.5" />
-                                    <circle cx="75" cy="95" r="40" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="1.5" />
-                                    <circle cx="125" cy="95" r="40" fill="rgba(34, 197, 94, 0.2)" stroke="#22c55e" stroke-width="1.5" />
-                                    
-                                     <!-- Labels -->
-                                    <text x="100" y="25" font-family="Mitr" font-size="10" fill="#ef4444" font-weight="bold" text-anchor="middle">A</text>
-                                    <text x="45" y="130" font-family="Mitr" font-size="10" fill="#3b82f6" font-weight="bold">B</text>
-                                    <text x="155" y="130" font-family="Mitr" font-size="10" fill="#22c55e" font-weight="bold">C</text>
-                                </svg>
-                                
-                                <!-- Drop Areas for 3 Circles -->
-                                <div id="venn-3-drop-universe" data-zone="universe" class="venn-drop-area" style="top: 0; left: 0; width: 100%; height: 100%;"></div>
-                                <div id="venn-3-drop-a" data-zone="a_only" class="venn-drop-area" style="top: 15%; left: 42%; width: 16%; height: 20%;"></div>
-                                <div id="venn-3-drop-b" data-zone="b_only" class="venn-drop-area" style="top: 60%; left: 15%; width: 20%; height: 25%;"></div>
-                                <div id="venn-3-drop-c" data-zone="c_only" class="venn-drop-area" style="top: 60%; right: 15%; width: 20%; height: 25%;"></div>
-                                <div id="venn-3-drop-ab" data-zone="ab_only" class="venn-drop-area" style="top: 40%; left: 29%; width: 15%; height: 20%;"></div>
-                                <div id="venn-3-drop-ac" data-zone="ac_only" class="venn-drop-area" style="top: 40%; right: 29%; width: 15%; height: 20%;"></div>
-                                <div id="venn-3-drop-bc" data-zone="bc_only" class="venn-drop-area" style="bottom: 8%; left: 42%; width: 16%; height: 20%;"></div>
-                                <div id="venn-3-drop-abc" data-zone="abc_intersect" class="venn-drop-area" style="top: 52%; left: 42%; width: 16%; height: 20%;"></div>
-                            </div>
-                        </div>
-                        
-                        <!-- Controls -->
-                        <div id="venn-3-feedback" class="text-center my-4 h-6 font-semibold"></div>
-                        <div class="flex justify-center space-x-4 mt-4">
-                            <button id="venn-3-check-btn" class="px-8 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300">ตรวจคำตอบ</button>
                         </div>
                     </div>
                 </div>
@@ -1697,7 +1606,6 @@
             const speedQuizModeContent = document.getElementById('speed-quiz-mode-content');
             const setOperationsGameContent = document.getElementById('set-operations-game-content');
             const vennDiagramGameContent = document.getElementById('venn-diagram-game-content');
-            const venn3DiagramGameContent = document.getElementById('venn-3-diagram-game-content');
             const arcadeHighScoreEl = document.getElementById('arcade-high-score');
             
             const updateArcadeHighScore = () => {
@@ -1735,11 +1643,6 @@
                 vennDiagramGameContent.classList.remove('hidden');
                 startVennDiagramGame();
             });
-             document.getElementById('start-venn-3-diagram-game').addEventListener('click', () => {
-                arcadeMenu.classList.add('hidden');
-                venn3DiagramGameContent.classList.remove('hidden');
-                startVenn3DiagramGame();
-            });
 
             document.querySelectorAll('.back-to-arcade-menu').forEach(button => {
                 button.addEventListener('click', () => {
@@ -1748,7 +1651,6 @@
                     speedQuizModeContent.classList.add('hidden');
                     setOperationsGameContent.classList.add('hidden');
                     vennDiagramGameContent.classList.add('hidden');
-                    venn3DiagramGameContent.classList.add('hidden');
                     arcadeMenu.classList.remove('hidden');
                     if (gameAnimationId) endGame(true);
                     updateArcadeHighScore();
@@ -2430,7 +2332,7 @@
             checkBtn.addEventListener('click', checkAnswer);
             resetBtn.addEventListener('click', resetAnswer);
 
-             // --- Venn Diagram Game Logic (2 sets) ---
+             // --- Venn Diagram Game Logic ---
             const vennScoreEl = document.getElementById('venn-score');
             const vennUniverseSetEl = document.getElementById('venn-universe-set');
             const vennElementPool = document.getElementById('venn-element-pool');
@@ -2581,112 +2483,6 @@
 
             vennCheckBtn.addEventListener('click', checkVennAnswer);
 
-            // --- Venn Diagram Game Logic (3 sets) ---
-            const venn3ScoreEl = document.getElementById('venn-3-score');
-            const venn3UniverseSetEl = document.getElementById('venn-3-universe-set');
-            const venn3SetADisplay = document.getElementById('venn-3-set-a-display');
-            const venn3SetBDisplay = document.getElementById('venn-3-set-b-display');
-            const venn3SetCDisplay = document.getElementById('venn-3-set-c-display');
-            const venn3ElementPool = document.getElementById('venn-3-element-pool');
-            const venn3DropAreas = {
-                a_only: document.getElementById('venn-3-drop-a'),
-                b_only: document.getElementById('venn-3-drop-b'),
-                c_only: document.getElementById('venn-3-drop-c'),
-                ab_only: document.getElementById('venn-3-drop-ab'),
-                ac_only: document.getElementById('venn-3-drop-ac'),
-                bc_only: document.getElementById('venn-3-drop-bc'),
-                abc_intersect: document.getElementById('venn-3-drop-abc'),
-                universe: document.getElementById('venn-3-drop-universe'),
-            };
-            const venn3CheckBtn = document.getElementById('venn-3-check-btn');
-            const venn3FeedbackEl = document.getElementById('venn-3-feedback');
-            
-            let venn3Score = 0;
-            let venn3Problem = {};
-
-            function startVenn3DiagramGame() {
-                venn3Score = 0;
-                venn3ScoreEl.textContent = venn3Score;
-                generateVenn3Problem();
-            }
-
-            function generateVenn3Problem() {
-                venn3FeedbackEl.textContent = '';
-                const U = Array.from({length: 15}, (_, i) => i + 1);
-                const A = new Set(generateRandomSet(6, 1, 15));
-                const B = new Set(generateRandomSet(6, 1, 15));
-                const C = new Set(generateRandomSet(6, 1, 15));
-
-                venn3Problem = {
-                    U,
-                    A: Array.from(A).sort((a,b)=>a-b),
-                    B: Array.from(B).sort((a,b)=>a-b),
-                    C: Array.from(C).sort((a,b)=>a-b),
-                    solution: {
-                        a_only: [], b_only: [], c_only: [],
-                        ab_only: [], ac_only: [], bc_only: [],
-                        abc_intersect: [], universe: []
-                    }
-                };
-
-                U.forEach(num => {
-                    const inA = A.has(num);
-                    const inB = B.has(num);
-                    const inC = C.has(num);
-                    if (inA && inB && inC) venn3Problem.solution.abc_intersect.push(num);
-                    else if (inA && inB) venn3Problem.solution.ab_only.push(num);
-                    else if (inA && inC) venn3Problem.solution.ac_only.push(num);
-                    else if (inB && inC) venn3Problem.solution.bc_only.push(num);
-                    else if (inA) venn3Problem.solution.a_only.push(num);
-                    else if (inB) venn3Problem.solution.b_only.push(num);
-                    else if (inC) venn3Problem.solution.c_only.push(num);
-                    else venn3Problem.solution.universe.push(num);
-                });
-
-                venn3UniverseSetEl.textContent = U.join(', ');
-                venn3SetADisplay.textContent = `{ ${venn3Problem.A.join(', ')} }`;
-                venn3SetBDisplay.textContent = `{ ${venn3Problem.B.join(', ')} }`;
-                venn3SetCDisplay.textContent = `{ ${venn3Problem.C.join(', ')} }`;
-                
-                venn3ElementPool.innerHTML = '';
-                U.sort(() => 0.5 - Math.random()).forEach(num => {
-                    const el = document.createElement('div');
-                    el.className = 'venn-element';
-                    el.textContent = num;
-                    el.draggable = true;
-                    el.dataset.value = num;
-                    venn3ElementPool.appendChild(el);
-                });
-                
-                Object.values(venn3DropAreas).forEach(area => area.innerHTML = '');
-            }
-
-            function checkVenn3Answer() {
-                 let isCorrect = true;
-                for (const zone in venn3DropAreas) {
-                    const userAnswers = Array.from(venn3DropAreas[zone].children)
-                                            .map(el => parseInt(el.textContent))
-                                            .sort((a,b) => a - b);
-                    const correctAnswers = venn3Problem.solution[zone].sort((a,b) => a - b);
-                    if (JSON.stringify(userAnswers) !== JSON.stringify(correctAnswers)) {
-                        isCorrect = false;
-                        break;
-                    }
-                }
-                
-                if(isCorrect) {
-                    venn3Score += 15;
-                    venn3ScoreEl.textContent = venn3Score;
-                    venn3FeedbackEl.textContent = 'สุดยอด! ถูกต้องทั้งหมด';
-                    venn3FeedbackEl.className = 'text-center my-4 h-6 font-semibold text-green-600';
-                    setTimeout(generateVenn3Problem, 2000);
-                } else {
-                    venn3FeedbackEl.textContent = 'เกือบแล้ว! ลองตรวจสอบอีกครั้งนะคะ';
-                    venn3FeedbackEl.className = 'text-center my-4 h-6 font-semibold text-red-600';
-                }
-            }
-
-             venn3CheckBtn.addEventListener('click', checkVenn3Answer);
 
             const quizModal = document.getElementById('quiz-modal');
             const quizProgressBar = document.getElementById('quiz-progress-bar');
