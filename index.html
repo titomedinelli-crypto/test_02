@@ -794,18 +794,6 @@
                                 <p id="venn-score" class="text-2xl font-bold text-teal-600">0</p>
                             </div>
                         </div>
-                        
-                         <!-- Sets Display -->
-                        <div class="flex justify-around mb-6 text-center">
-                            <div>
-                                <p class="font-bold text-lg">เซต A</p>
-                                <p id="venn-set-a-display" class="text-xl p-2 bg-blue-100/80 rounded-lg font-mono"></p>
-                            </div>
-                            <div>
-                                <p class="font-bold text-lg">เซต B</p>
-                                <p id="venn-set-b-display" class="text-xl p-2 bg-purple-100/80 rounded-lg font-mono"></p>
-                            </div>
-                        </div>
 
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
                             <!-- Draggable Elements Pool -->
@@ -2382,9 +2370,6 @@
                 });
 
                 vennUniverseSetEl.textContent = U.join(', ');
-                document.getElementById('venn-set-a-display').textContent = `{ ${vennProblem.A.join(', ')} }`;
-                document.getElementById('venn-set-b-display').textContent = `{ ${vennProblem.B.join(', ')} }`;
-                
                 vennElementPool.innerHTML = '';
                 U.sort(() => 0.5 - Math.random()).forEach(num => {
                     const el = document.createElement('div');
@@ -2426,14 +2411,13 @@
             // Venn Drag and Drop
             let vennDraggedItem = null;
 
-            document.body.addEventListener('dragstart', e => {
+            vennElementPool.addEventListener('dragstart', e => {
                 if (e.target.classList.contains('venn-element')) {
                     vennDraggedItem = e.target;
                     setTimeout(() => e.target.classList.add('invisible'), 0);
                 }
             });
-
-            document.body.addEventListener('dragend', e => {
+            vennElementPool.addEventListener('dragend', e => {
                  setTimeout(() => {
                     if (vennDraggedItem) vennDraggedItem.classList.remove('invisible');
                     vennDraggedItem = null;
@@ -2444,42 +2428,26 @@
                 area.addEventListener('dragover', e => e.preventDefault());
                 area.addEventListener('dragenter', e => {
                     e.preventDefault();
-                    if (e.target.closest('.venn-drop-area')) {
-                        e.target.closest('.venn-drop-area').classList.add('drag-over');
-                    }
+                    area.classList.add('drag-over');
                 });
-                area.addEventListener('dragleave', (e) => {
-                     if (e.target.closest('.venn-drop-area')) {
-                        e.target.closest('.venn-drop-area').classList.remove('drag-over');
-                     }
-                });
+                area.addEventListener('dragleave', () => area.classList.remove('drag-over'));
                 area.addEventListener('drop', e => {
                     e.preventDefault();
-                    const dropTarget = e.target.closest('.venn-drop-area');
-                     if(vennDraggedItem && dropTarget) {
-                       dropTarget.appendChild(vennDraggedItem);
+                    if(vennDraggedItem && !area.contains(vennDraggedItem)) {
+                       // Move from pool to drop area
+                       const originalParent = vennDraggedItem.parentElement;
+                       area.appendChild(vennDraggedItem);
                        vennDraggedItem.classList.remove('invisible');
+                       
+                       // Make it draggable back
+                       vennDraggedItem.addEventListener('dragstart', (ev) => {
+                           vennDraggedItem = ev.target;
+                           setTimeout(() => ev.target.classList.add('invisible'), 0);
+                       });
                     }
-                    dropTarget.classList.remove('drag-over');
+                    area.classList.remove('drag-over');
                 });
             });
-            
-             vennElementPool.addEventListener('dragover', e => e.preventDefault());
-             vennElementPool.addEventListener('dragenter', e => {
-                e.preventDefault();
-                e.target.closest('#venn-element-pool').classList.add('drag-over');
-             });
-            vennElementPool.addEventListener('dragleave', e => e.target.closest('#venn-element-pool').classList.remove('drag-over'));
-            vennElementPool.addEventListener('drop', e => {
-                 e.preventDefault();
-                 const dropTarget = e.target.closest('#venn-element-pool');
-                 if(vennDraggedItem && dropTarget) {
-                    dropTarget.appendChild(vennDraggedItem);
-                    vennDraggedItem.classList.remove('invisible');
-                 }
-                 dropTarget.classList.remove('drag-over');
-            });
-
 
             vennCheckBtn.addEventListener('click', checkVennAnswer);
 
