@@ -2582,6 +2582,8 @@
             vennCheckBtn.addEventListener('click', checkVennAnswer);
 
             // --- Venn Diagram Game Logic (3 sets) ---
+          // --- Venn Diagram Game Logic (3 sets) ---
+            const venn3DiagramGameContent = document.getElementById('venn-3-diagram-game-content');
             const venn3ScoreEl = document.getElementById('venn-3-score');
             const venn3UniverseSetEl = document.getElementById('venn-3-universe-set');
             const venn3SetADisplay = document.getElementById('venn-3-set-a-display');
@@ -2589,13 +2591,13 @@
             const venn3SetCDisplay = document.getElementById('venn-3-set-c-display');
             const venn3ElementPool = document.getElementById('venn-3-element-pool');
             const venn3DropAreas = {
-                a_only: document.getElementById('venn-3-drop-a'),
-                b_only: document.getElementById('venn-3-drop-b'),
-                c_only: document.getElementById('venn-3-drop-c'),
-                ab_only: document.getElementById('venn-3-drop-ab'),
-                ac_only: document.getElementById('venn-3-drop-ac'),
-                bc_only: document.getElementById('venn-3-drop-bc'),
-                abc_intersect: document.getElementById('venn-3-drop-abc'),
+                a_only: document.getElementById('venn-3-drop-a_only'),
+                b_only: document.getElementById('venn-3-drop-b_only'),
+                c_only: document.getElementById('venn-3-drop-c_only'),
+                ab_only: document.getElementById('venn-3-drop-ab_only'),
+                ac_only: document.getElementById('venn-3-drop-ac_only'),
+                bc_only: document.getElementById('venn-3-drop-bc_only'),
+                abc_intersect: document.getElementById('venn-3-drop-abc_intersect'),
                 universe: document.getElementById('venn-3-drop-universe'),
             };
             const venn3CheckBtn = document.getElementById('venn-3-check-btn');
@@ -2665,8 +2667,8 @@
                  let isCorrect = true;
                 for (const zone in venn3DropAreas) {
                     const userAnswers = Array.from(venn3DropAreas[zone].children)
-                                            .map(el => parseInt(el.textContent))
-                                            .sort((a,b) => a - b);
+                                             .map(el => parseInt(el.textContent))
+                                             .sort((a,b) => a - b);
                     const correctAnswers = venn3Problem.solution[zone].sort((a,b) => a - b);
                     if (JSON.stringify(userAnswers) !== JSON.stringify(correctAnswers)) {
                         isCorrect = false;
@@ -2685,6 +2687,25 @@
                     venn3FeedbackEl.className = 'text-center my-4 h-6 font-semibold text-red-600';
                 }
             }
+             
+            // This event listener attaches the function to the check button
+            venn3CheckBtn.addEventListener('click', checkVenn3Answer);
+
+            // Add this event listener for the new game's start button
+            document.getElementById('start-venn-3-diagram-game').addEventListener('click', () => {
+                arcadeMenu.classList.add('hidden');
+                venn3DiagramGameContent.classList.remove('hidden');
+                startVenn3DiagramGame();
+            });
+
+            // Make sure the back button also hides the new game
+            document.querySelectorAll('.back-to-arcade-menu').forEach(button => {
+                button.addEventListener('click', () => {
+                    venn3DiagramGameContent.classList.add('hidden');
+                });
+            });
+
+            // The main drag-and-drop listeners on document.body will handle the .venn-element class automatically
 
              venn3CheckBtn.addEventListener('click', checkVenn3Answer);
 
@@ -2804,5 +2825,6 @@
 </body>
 
 </html>
+
 
 
