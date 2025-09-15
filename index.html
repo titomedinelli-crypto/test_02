@@ -7,10 +7,10 @@
     <title>ศูนย์การเรียนรู้เรื่องเซต</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
-    <!-- Firebase SDK -->
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@latest/Sortable.min.js"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -311,10 +311,10 @@
             background-color: #e5e7eb;
         }
          /* --- Venn Diagram Game Styles --- */
-        #venn-diagram-container {
+        #venn-diagram-container, #venn-3-diagram-container {
             position: relative;
         }
-        #venn-diagram-svg {
+        #venn-diagram-svg, #venn-3-diagram-svg {
             width: 100%;
             height: auto;
         }
@@ -356,18 +356,14 @@
 
 <body class="antialiased text-slate-700">
 
-    <!-- =========== Login Section =========== -->
     <section id="login-section" class="relative min-h-screen w-full flex items-center justify-center overflow-hidden transition-opacity duration-500">
-        <!-- Animated Blobs -->
         <div class="absolute top-0 left-0 w-full h-full z-0">
             <div class="absolute top-1/4 left-1/4 w-72 h-72 bg-purple-300 rounded-full animated-blob opacity-70" style="animation: blob-move-1 15s infinite ease;"></div>
             <div class="absolute top-1/2 right-1/4 w-80 h-80 bg-blue-300 rounded-full animated-blob opacity-60" style="animation: blob-move-2 18s infinite ease-in-out;"></div>
             <div class="absolute bottom-1/4 left-1/3 w-60 h-60 bg-indigo-300 rounded-full animated-blob opacity-50" style="animation: blob-move-3 12s infinite linear;"></div>
         </div>
 
-        <!-- Auth Container -->
         <div id="auth-container" class="relative z-10 w-full max-w-md p-8 space-y-8 bg-white/80 backdrop-blur-xl rounded-2xl shadow-2xl m-4">
-            <!-- Login View -->
             <div id="login-view">
                 <div class="text-center">
                     <h2 class="text-4xl font-bold text-slate-800">ยินดีต้อนรับ</h2>
@@ -396,7 +392,6 @@
                 </p>
             </div>
 
-            <!-- Signup View -->
             <div id="signup-view" class="hidden">
                  <div class="text-center">
                     <h2 class="text-4xl font-bold text-slate-800">สร้างบัญชีใหม่</h2>
@@ -431,16 +426,13 @@
         </div>
     </section>
 
-    <!-- =========== Main App Section =========== -->
     <main id="main-app" class="hidden opacity-0 transition-opacity duration-500 relative min-h-screen flex flex-col" style="animation: fadeIn 0.7s ease-out forwards;">
-        <!-- Animated Blobs Background -->
         <div class="fixed top-0 left-0 w-full h-full z-[-1]">
             <div class="absolute -top-20 -left-20 w-80 h-80 bg-purple-300 rounded-full animated-blob opacity-30" style="animation: blob-move-1 15s infinite ease;"></div>
             <div class="absolute top-1/2 right-1/4 w-96 h-96 bg-blue-300 rounded-full animated-blob opacity-20" style="animation: blob-move-2 18s infinite ease-in-out;"></div>
             <div class="absolute bottom-0 -right-20 w-72 h-72 bg-indigo-300 rounded-full animated-blob opacity-30" style="animation: blob-move-3 12s infinite linear;"></div>
         </div>
 
-        <!-- Header & Navigation -->
         <header class="bg-white/70 backdrop-blur-xl sticky top-0 z-40 shadow-sm border-b border-white/30">
             <div class="mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex justify-between items-center h-16">
@@ -448,7 +440,6 @@
                         <h1 class="text-2xl font-bold text-indigo-600">SucSet</h1>
                     </div>
 
-                    <!-- Right side of navbar for desktop -->
                     <div class="hidden md:flex items-center">
                         <nav class="flex space-x-8">
                             <a href="#study-zone" class="nav-link text-slate-500 hover:text-slate-800 px-3 py-2 text-md font-medium border-b-2 border-transparent transition-all duration-300 active">โซนเรียนรู้</a>
@@ -457,7 +448,6 @@
                             <a href="#friends-challenge" class="nav-link text-slate-500 hover:text-slate-800 px-3 py-2 text-md font-medium border-b-2 border-transparent transition-all duration-300">ท้าทายเพื่อน</a>
                         </nav>
 
-                        <!-- Profile Dropdown -->
                         <div class="relative ml-6" id="profile-menu">
                             <button id="profile-menu-button" type="button" class="flex items-center space-x-2 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 rounded-full">
                                 <span id="user-name-desktop" class="text-sm font-medium text-slate-700 hidden lg:block"></span>
@@ -477,7 +467,6 @@
                         </div>
                     </div>
                     
-                    <!-- Mobile menu button -->
                     <div class="md:hidden">
                         <button id="mobile-menu-button" class="inline-flex items-center justify-center p-2 rounded-lg text-indigo-600 bg-indigo-100 hover:bg-indigo-200 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-indigo-500 transition-colors duration-300">
                             <span class="sr-only">Open main menu</span>
@@ -488,8 +477,7 @@
                     </div>
                 </div>
             </div>
-             <!-- Mobile menu, show/hide based on menu state. -->
-            <div class="md:hidden hidden" id="mobile-menu">
+             <div class="md:hidden hidden" id="mobile-menu">
                 <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 border-b border-slate-200">
                     <a href="#study-zone" class="nav-link text-slate-600 hover:bg-white/50 block px-3 py-2 rounded-md text-base font-medium active">โซนเรียนรู้</a>
                     <a href="#recap-arcade" class="nav-link text-slate-600 hover:bg-white/50 block px-3 py-2 rounded-md text-base font-medium">อาเขตทบทวน</a>
@@ -515,22 +503,18 @@
             </div>
         </header>
 
-        <!-- Content Sections -->
         <div class="flex-grow mx-auto py-8 px-4 sm:px-6 lg:px-8 w-full">
             <section id="study-zone" class="app-section">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">โซนเรียนรู้: พื้นฐานเรื่องเซต</h2>
                 <div class="bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30">
                     <div class="flex flex-col lg:flex-row gap-6">
 
-                        <!-- Left Column: Video -->
                         <div class="lg:w-[60%] w-full relative">
                             <div id="player" class="aspect-video rounded-lg overflow-hidden bg-black shadow-lg">
-                                <!-- YouTube Player will be inserted here by JS -->
-                            </div>
+                                </div>
                              <canvas id="video-overlay" class="hidden absolute top-0 left-0 w-full h-full pointer-events-none z-10"></canvas>
                         </div>
 
-                        <!-- Right Column: AI Chat -->
                         <div class="lg:w-[40%] w-full flex flex-col">
                             <div class="flex flex-col h-full border border-white/30 rounded-lg bg-white/50 backdrop-blur-sm">
                                 <div class="p-4 border-b border-white/30">
@@ -570,7 +554,7 @@
             <section id="recap-arcade" class="app-section hidden">
                  <div id="arcade-menu">
                     <h2 class="text-3xl font-bold text-slate-800 mb-6">อาเขตทบทวน</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                         <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-blue-500/20 hover:-translate-y-2 transition-all duration-300" id="start-flashcard-mode">
                             <div class="flex justify-center mb-4">
                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-blue-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -601,12 +585,23 @@
                          <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-teal-500/20 hover:-translate-y-2 transition-all duration-300" id="start-venn-diagram-game">
                             <div class="flex justify-center mb-4">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-teal-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
-                                  <circle cx="10.5" cy="10.5" r="7.5" />
-                                  <circle cx="13.5" cy="13.5" r="7.5" />
+                                    <circle cx="10.5" cy="10.5" r="7.5" />
+                                    <circle cx="13.5" cy="13.5" r="7.5" />
                                 </svg>
                             </div>
-                            <h3 class="text-2xl font-bold text-slate-800 mb-2">เกมแผนภาพเวนน์</h3>
+                            <h3 class="text-2xl font-bold text-slate-800 mb-2">เกมแผนภาพเวนน์ (2 เซต)</h3>
                             <p class="text-slate-600">จัดเรียงตัวเลขในแผนภาพเวนน์ให้ถูกต้อง</p>
+                        </div>
+                         <div class="group bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 text-center cursor-pointer hover:shadow-2xl hover:shadow-rose-500/20 hover:-translate-y-2 transition-all duration-300" id="start-venn-3-diagram-game">
+                            <div class="flex justify-center mb-4">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 text-rose-500 group-hover:scale-110 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                                     <circle cx="12" cy="8.25" r="4.5" />
+                                     <circle cx="8.25" cy="15.75" r="4.5" />
+                                     <circle cx="15.75" cy="15.75" r="4.5" />
+                                </svg>
+                            </div>
+                            <h3 class="text-2xl font-bold text-slate-800 mb-2">เกมแผนภาพเวนน์ (3 เซต)</h3>
+                            <p class="text-slate-600">ท้าทายยิ่งขึ้นด้วยการจัดเรียงตัวเลขใน 3 เซต</p>
                         </div>
                     </div>
                      <div class="mt-8 bg-white/70 backdrop-blur-xl p-6 rounded-xl shadow-lg border border-white/30">
@@ -625,9 +620,8 @@
                     </div>
                  </div>
 
-                <!-- Flashcard Mode Content -->
                 <div id="flashcard-mode-content" class="hidden flex-col items-center">
-                    <button class="back-to-arcade-menu mb-6 text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
+                    <button class="back-to-arcade-menu mb-6 text-indigo-600 hover:text-indigo-800">← กลับไปเลือกโหมด</button>
                     <div id="flashcard-container" class="relative w-full max-w-lg h-72 perspective-1000">
                         <div id="flashcard-inner" class="relative w-full h-full text-center flip-card-inner">
                             <div class="absolute w-full h-full p-6 bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 flex items-center justify-center flip-card-front">
@@ -646,88 +640,81 @@
                     </div>
                 </div>
 
-                <!-- Speed Quiz Mode Content -->
                 <div id="speed-quiz-mode-content" class="hidden">
-                     <div id="speed-quiz-game-area" class="relative w-full max-w-3xl mx-auto h-[80vh] rounded-2xl shadow-2xl overflow-hidden bg-[#0B0F29]">
-                         <div class="absolute top-0 left-0 w-full h-16 bg-[#1D244F] z-30 flex items-center justify-between px-4">
-                             <div class="flex items-center space-x-2">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
-                                 <span id="speed-quiz-score-top" class="text-white font-bold text-lg">0</span>
-                             </div>
-                             <div>
-                                <span id="speed-quiz-question-counter-top" class="text-white font-bold text-lg">1/10</span>
-                             </div>
-                              <div class="flex items-center space-x-2">
-                                <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                                 <span id="speed-quiz-timer-top" class="text-white font-bold text-lg">10</span>
-                             </div>
-                             <button class="back-to-arcade-menu text-white">
-                                  <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
-                             </button>
-                         </div>
+                         <div id="speed-quiz-game-area" class="relative w-full max-w-3xl mx-auto h-[80vh] rounded-2xl shadow-2xl overflow-hidden bg-[#0B0F29]">
+                            <div class="absolute top-0 left-0 w-full h-16 bg-[#1D244F] z-30 flex items-center justify-between px-4">
+                                <div class="flex items-center space-x-2">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+                                    <span id="speed-quiz-score-top" class="text-white font-bold text-lg">0</span>
+                                </div>
+                                 <div class="flex items-center space-x-2">
+                                    <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                                    <span id="speed-quiz-timer-top" class="text-white font-bold text-lg">30</span>
+                                </div>
+                                <button class="back-to-arcade-menu text-white">
+                                     <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                </button>
+                            </div>
 
-                         <canvas id="background-canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
-                         <canvas id="laser-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></canvas>
-                         <canvas id="confetti-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-50"></canvas>
-                        
-                          <div id="speed-quiz-start-overlay" class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-40">
-                             <h3 class="text-4xl font-bold text-white mb-2">โหมดทดสอบความเร็ว</h3>
-                              <p class="text-white/80 mb-6">ยิงคำตอบที่ถูกต้องก่อนเวลาจะหมด!</p>
-                             <button id="speed-quiz-start-btn" class="aurora-button px-10 py-4 font-bold rounded-lg text-lg">เริ่มเกม</button>
-                         </div>
-                         <div id="countdown-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/80 flex-col items-center justify-center z-40 text-white text-9xl font-bold">
-                             <span id="countdown-text" class="countdown-number">3</span>
-                         </div>
-                         <div id="speed-quiz-end-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/90 backdrop-blur-md flex-col items-center justify-center z-40 p-8">
-                            <div class="w-full max-w-md text-center">
-                               <img src="https://img.icons8.com/plasticine/100/000000/trophy.png" alt="Trophy" class="mx-auto mb-4 h-24 w-24"/>
-                               <h3 class="text-3xl font-bold text-white mb-2">ทำได้ดีมาก!</h3>
-                               <p class="text-white/80 text-lg mb-6">นี่คือคะแนนสุดท้ายของคุณ</p>
-                               <div class="flex space-x-4 w-full">
-                                   <div class="w-1/2 bg-blue-500/20 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
-                                       <p class="text-blue-200 text-sm">คะแนนของคุณ</p>
-                                       <p id="final-score" class="text-white text-4xl font-bold">0</p>
+                            <canvas id="background-canvas" class="absolute top-0 left-0 w-full h-full z-0"></canvas>
+                            <canvas id="laser-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-20"></canvas>
+                            <canvas id="confetti-canvas" class="absolute top-0 left-0 w-full h-full pointer-events-none z-50"></canvas>
+                            
+                             <div id="speed-quiz-start-overlay" class="absolute inset-0 bg-black/50 flex flex-col items-center justify-center z-40">
+                                <h3 class="text-4xl font-bold text-white mb-2">โหมดทดสอบความเร็ว</h3>
+                                 <p class="text-white/80 mb-6">ยิงคำตอบที่ถูกต้องก่อนเวลาจะหมด!</p>
+                                <button id="speed-quiz-start-btn" class="aurora-button px-10 py-4 font-bold rounded-lg text-lg">เริ่มเกม</button>
+                            </div>
+                            <div id="countdown-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/80 flex-col items-center justify-center z-40 text-white text-9xl font-bold">
+                                <span id="countdown-text" class="countdown-number">3</span>
+                            </div>
+                            <div id="speed-quiz-end-overlay" class="hidden absolute inset-0 bg-[#0B0F29]/90 backdrop-blur-md flex-col items-center justify-center z-40 p-8">
+                               <div class="w-full max-w-md text-center">
+                                   <img src="https://img.icons8.com/plasticine/100/000000/trophy.png" alt="Trophy" class="mx-auto mb-4 h-24 w-24"/>
+                                   <h3 class="text-3xl font-bold text-white mb-2">ทำได้ดีมาก!</h3>
+                                   <p class="text-white/80 text-lg mb-6">นี่คือคะแนนสุดท้ายของคุณ</p>
+                                   <div class="flex space-x-4 w-full">
+                                       <div class="w-1/2 bg-blue-500/20 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
+                                           <p class="text-blue-200 text-sm">คะแนนของคุณ</p>
+                                           <p id="final-score" class="text-white text-4xl font-bold">0</p>
+                                       </div>
+                                       <div class="w-1/2 bg-fuchsia-500/20 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
+                                           <p class="text-fuchsia-200 text-sm">คะแนนสูงสุด</p>
+                                           <p id="high-score" class="text-white text-4xl font-bold">0</p>
+                                       </div>
                                    </div>
-                                   <div class="w-1/2 bg-fuchsia-500/20 backdrop-blur-lg border border-white/20 p-4 rounded-lg text-center">
-                                       <p class="text-fuchsia-200 text-sm">คะแนนสูงสุด</p>
-                                       <p id="high-score" class="text-white text-4xl font-bold">0</p>
-                                   </div>
+                                   <button id="speed-quiz-restart-btn" class="aurora-button mt-8 w-full py-3 font-bold rounded-lg text-lg">เล่นอีกครั้ง</button>
+                                    <button class="back-to-arcade-menu mt-4 w-full py-3 font-semibold rounded-lg text-white/70 hover:text-white transition-colors">กลับไปเลือกโหมด</button>
                                </div>
-                               <button id="speed-quiz-restart-btn" class="aurora-button mt-8 w-full py-3 font-bold rounded-lg text-lg">เล่นอีกครั้ง</button>
-                                 <button class="back-to-arcade-menu mt-4 w-full py-3 font-semibold rounded-lg text-white/70 hover:text-white transition-colors">กลับไปเลือกโหมด</button>
-                           </div>
-                         </div>
-                        
-                         <!-- Game elements -->
-                         <div id="speed-quiz-question-area" class="absolute top-20 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-black/40 backdrop-blur-sm p-4 rounded-lg text-white text-center z-30 opacity-100 transition-opacity duration-300">
-                              <p id="speed-quiz-question-text" class="text-xl font-semibold"></p>
-                         </div>
+                            </div>
+                            
+                            <div id="speed-quiz-question-area" class="absolute top-20 left-1/2 -translate-x-1/2 w-[90%] max-w-2xl bg-black/40 backdrop-blur-sm p-4 rounded-lg text-white text-center z-30 opacity-100 transition-opacity duration-300">
+                                 <p id="speed-quiz-question-text" class="text-xl font-semibold"></p>
+                            </div>
 
-                         <div id="shooter-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 w-24 h-24 z-30">
-                              <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                  <path d="M50 0C48.4488 4.29171 44.2917 8.44876 40 10C35.7083 11.5512 30.5833 11.5512 25 10C19.4167 8.44876 15.2596 4.29171 10 0L0 15C4.29171 19.7404 8.44876 24.2211 10 30C11.5512 35.7789 11.5512 41.6667 10 45C8.44876 50.5556 4.29171 55.2596 0 60L10 90C19.4167 85.5833 29.2596 80.7596 40 80H60C70.7404 80.7596 80.5833 85.5833 90 90L100 60C95.7083 55.2596 91.5512 50.5556 90 45C88.4488 39.4444 88.4488 33.5556 90 30C91.5512 24.4444 95.7083 19.7404 100 15L90 0C80.5833 4.41667 70.7404 8.44876 60 10C55.7083 11.5512 51.5512 11.5512 50 10V0Z" fill="url(#paint0_linear_1_2)"/>
-                                  <circle cx="50" cy="45" r="12" fill="#24294A" stroke="white" stroke-width="2"/>
-                                  <circle cx="50" cy="45" r="5" fill="#7DF0E5"/>
-                                  <defs>
-                                  <linearGradient id="paint0_linear_1_2" x1="50" y1="0" x2="50" y2="90" gradientUnits="userSpaceOnUse">
-                                  <stop stop-color="#3D457F"/>
-                                  <stop offset="1" stop-color="#24294A"/>
-                                  </linearGradient>
-                                  </defs>
-                              </svg>
-                         </div>
-                    </div>
+                            <div id="shooter-container" class="absolute bottom-4 left-1/2 -translate-x-1/2 w-24 h-24 z-30">
+                                 <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M50 0C48.4488 4.29171 44.2917 8.44876 40 10C35.7083 11.5512 30.5833 11.5512 25 10C19.4167 8.44876 15.2596 4.29171 10 0L0 15C4.29171 19.7404 8.44876 24.2211 10 30C11.5512 35.7789 11.5512 41.6667 10 45C8.44876 50.5556 4.29171 55.2596 0 60L10 90C19.4167 85.5833 29.2596 80.7596 40 80H60C70.7404 80.7596 80.5833 85.5833 90 90L100 60C95.7083 55.2596 91.5512 50.5556 90 45C88.4488 39.4444 88.4488 33.5556 90 30C91.5512 24.4444 95.7083 19.7404 100 15L90 0C80.5833 4.41667 70.7404 8.44876 60 10C55.7083 11.5512 51.5512 11.5512 50 10V0Z" fill="url(#paint0_linear_1_2)"/>
+                                    <circle cx="50" cy="45" r="12" fill="#24294A" stroke="white" stroke-width="2"/>
+                                    <circle cx="50" cy="45" r="5" fill="#7DF0E5"/>
+                                    <defs>
+                                    <linearGradient id="paint0_linear_1_2" x1="50" y1="0" x2="50" y2="90" gradientUnits="userSpaceOnUse">
+                                    <stop stop-color="#3D457F"/>
+                                    <stop offset="1" stop-color="#24294A"/>
+                                    </linearGradient>
+                                    </defs>
+                                </svg>
+                            </div>
+                        </div>
                 </div>
 
-                <!-- Set Operations Game Content -->
                 <div id="set-operations-game-content" class="hidden">
                     <div class="flex justify-between items-center mb-6">
                         <h2 class="text-3xl font-bold text-slate-800">เกมดำเนินการเซต</h2>
-                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
+                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">← กลับไปเลือกโหมด</button>
                     </div>
 
                     <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30 max-w-4xl mx-auto">
-                        <!-- Game Info Header -->
                         <div class="flex justify-between items-center border-b border-slate-200 pb-4 mb-6">
                             <div>
                                 <p id="set-op-question" class="text-xl font-semibold text-slate-800"></p>
@@ -738,7 +725,6 @@
                             </div>
                         </div>
 
-                        <!-- Sets Display -->
                         <div class="flex justify-around mb-6 text-center">
                             <div>
                                 <p class="font-bold text-lg">เซต A</p>
@@ -750,23 +736,18 @@
                             </div>
                         </div>
                         
-                        <!-- Drop Zone -->
                         <div class="mb-6">
                             <p class="font-bold text-lg text-center mb-2">เซตคำตอบ (ลากตัวเลขมาวางที่นี่)</p>
                             <div id="set-op-drop-zone" class="min-h-[80px] bg-slate-100/80 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border-2 border-dashed border-slate-300">
-                                <!-- Dropped elements will go here -->
-                            </div>
+                                </div>
                         </div>
                         
-                        <!-- Draggable Elements Pool -->
-                         <div class="mb-6">
+                        <div class="mb-6">
                             <p class="font-bold text-lg text-center mb-2">ตัวเลือก</p>
                             <div id="set-op-element-pool" class="min-h-[80px] bg-white/50 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border border-slate-200">
-                                <!-- Draggable elements will go here -->
-                            </div>
+                                </div>
                         </div>
                         
-                        <!-- Controls -->
                         <div id="set-op-feedback" class="text-center mb-4 h-6 font-semibold"></div>
                         <div class="flex justify-center space-x-4">
                              <button id="set-op-reset-btn" class="px-6 py-2 bg-white/70 backdrop-blur-xl border border-white/30 rounded-lg hover:bg-white/80 transition-colors duration-300">ล้างคำตอบ</button>
@@ -775,15 +756,13 @@
                     </div>
                 </div>
                 
-                 <!-- Venn Diagram Game Content -->
-                <div id="venn-diagram-game-content" class="hidden">
+                 <div id="venn-diagram-game-content" class="hidden">
                     <div class="flex justify-between items-center mb-6">
-                        <h2 class="text-3xl font-bold text-slate-800">เกมแผนภาพเวนน์</h2>
-                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">&larr; กลับไปเลือกโหมด</button>
+                        <h2 class="text-3xl font-bold text-slate-800">เกมแผนภาพเวนน์ (2 เซต)</h2>
+                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">← กลับไปเลือกโหมด</button>
                     </div>
 
                     <div class="bg-white/70 backdrop-blur-xl p-6 sm:p-8 rounded-xl shadow-lg border border-white/30 max-w-5xl mx-auto">
-                        <!-- Game Info Header -->
                         <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-200 pb-4 mb-6 gap-4">
                             <div class="text-center sm:text-left">
                                  <p class="text-lg font-semibold text-slate-800">ลากตัวเลขไปยังบริเวณที่ถูกต้องในแผนภาพ</p>
@@ -794,17 +773,25 @@
                                 <p id="venn-score" class="text-2xl font-bold text-teal-600">0</p>
                             </div>
                         </div>
+                        
+                         <div class="flex justify-around mb-6 text-center">
+                            <div>
+                                <p class="font-bold text-lg">เซต A</p>
+                                <p id="venn-set-a-display" class="text-xl p-2 bg-blue-100/80 rounded-lg font-mono"></p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-lg">เซต B</p>
+                                <p id="venn-set-b-display" class="text-xl p-2 bg-purple-100/80 rounded-lg font-mono"></p>
+                            </div>
+                        </div>
 
                         <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
-                            <!-- Draggable Elements Pool -->
                             <div class="lg:order-1">
                                 <p class="font-bold text-lg text-center mb-2">ตัวเลขสำหรับจัดเรียง</p>
                                 <div id="venn-element-pool" class="min-h-[150px] bg-slate-100/80 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border-2 border-dashed border-slate-300">
-                                    <!-- Draggable elements will go here -->
-                                </div>
+                                    </div>
                             </div>
 
-                            <!-- Venn Diagram -->
                             <div id="venn-diagram-container" class="relative lg:col-span-2 lg:order-2">
                                  <svg id="venn-diagram-svg" viewBox="0 0 200 120" xmlns="http://www.w3.org/2000/svg">
                                     <defs>
@@ -825,12 +812,10 @@
                                     
                                     <path id="venn-zone-intersection" class="venn-zone" d="M 100 94.64 C 83.43 94.64 68.43 83.43 62.22 68.43 C 68.43 53.43 83.43 42.22 100 42.22 C 116.57 42.22 131.57 53.43 137.78 68.43 C 131.57 83.43 116.57 94.64 100 94.64 Z" fill="rgba(107, 33, 168, 0.3)" />
 
-                                    <!-- Labels -->
                                     <text x="35" y="30" font-family="Mitr" font-size="10" fill="#3b82f6" font-weight="bold">A</text>
                                     <text x="160" y="30" font-family="Mitr" font-size="10" fill="#a855f7" font-weight="bold">B</text>
                                 </svg>
                                 
-                                <!-- Drop Areas over the SVG -->
                                 <div id="venn-drop-universe" data-zone="universe" class="venn-drop-area" style="top: 0; left: 0; width: 100%; height: 100%;"></div>
                                 <div id="venn-drop-a" data-zone="a" class="venn-drop-area" style="top: 25%; left: 10%; width: 30%; height: 50%; border-radius: 50%;"></div>
                                 <div id="venn-drop-b" data-zone="b" class="venn-drop-area" style="top: 25%; right: 10%; width: 30%; height: 50%; border-radius: 50%;"></div>
@@ -838,10 +823,79 @@
                             </div>
                         </div>
                         
-                        <!-- Controls -->
                         <div id="venn-feedback" class="text-center my-4 h-6 font-semibold"></div>
                         <div class="flex justify-center space-x-4 mt-4">
                             <button id="venn-check-btn" class="px-8 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300">ตรวจคำตอบ</button>
+                        </div>
+                    </div>
+                </div>
+
+                 <div id="venn-3-diagram-game-content" class="hidden">
+                    <div class="flex justify-between items-center mb-6">
+                        <h2 class="text-3xl font-bold text-slate-800">เกมแผนภาพเวนน์ (3 เซต)</h2>
+                        <button class="back-to-arcade-menu text-indigo-600 hover:text-indigo-800">← กลับไปเลือกโหมด</button>
+                    </div>
+
+                    <div class="bg-white/70 backdrop-blur-xl p-6 sm:p-8 rounded-xl shadow-lg border border-white/30 max-w-5xl mx-auto">
+                        <div class="flex flex-col sm:flex-row justify-between items-center border-b border-slate-200 pb-4 mb-6 gap-4">
+                            <div class="text-center sm:text-left">
+                                 <p class="text-lg font-semibold text-slate-800">ลากตัวเลขไปยังบริเวณที่ถูกต้องในแผนภาพ</p>
+                                 <p class="text-slate-600">Universal Set U = { <span id="venn-3-universe-set"></span> }</p>
+                            </div>
+                            <div class="text-right bg-white/50 p-3 rounded-lg">
+                                <p class="text-slate-600">คะแนน</p>
+                                <p id="venn-3-score" class="text-2xl font-bold text-rose-600">0</p>
+                            </div>
+                        </div>
+
+                         <div class="flex justify-around mb-6 text-center gap-4">
+                            <div>
+                                <p class="font-bold text-lg">เซต A</p>
+                                <p id="venn-3-set-a-display" class="text-md p-2 bg-blue-100/80 rounded-lg font-mono"></p>
+                            </div>
+                            <div>
+                                <p class="font-bold text-lg">เซต B</p>
+                                <p id="venn-3-set-b-display" class="text-md p-2 bg-purple-100/80 rounded-lg font-mono"></p>
+                            </div>
+                             <div>
+                                <p class="font-bold text-lg">เซต C</p>
+                                <p id="venn-3-set-c-display" class="text-md p-2 bg-green-100/80 rounded-lg font-mono"></p>
+                            </div>
+                        </div>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-center">
+                            <div class="lg:order-1">
+                                <p class="font-bold text-lg text-center mb-2">ตัวเลขสำหรับจัดเรียง</p>
+                                <div id="venn-3-element-pool" class="min-h-[150px] bg-slate-100/80 rounded-lg p-4 flex flex-wrap gap-3 items-center justify-center border-2 border-dashed border-slate-300">
+                                    </div>
+                            </div>
+
+                            <div id="venn-3-diagram-container" class="relative lg:col-span-2 lg:order-2">
+                                <svg id="venn-3-diagram-svg" viewBox="0 0 200 150" xmlns="http://www.w3.org/2000/svg">
+                                    <rect width="200" height="150" rx="10" ry="10" fill="#f1f5f9" stroke="#cbd5e1" />
+                                    <circle cx="100" cy="55" r="40" fill="rgba(239, 68, 68, 0.2)" stroke="#ef4444" stroke-width="1.5" />
+                                    <circle cx="75" cy="95" r="40" fill="rgba(59, 130, 246, 0.2)" stroke="#3b82f6" stroke-width="1.5" />
+                                    <circle cx="125" cy="95" r="40" fill="rgba(34, 197, 94, 0.2)" stroke="#22c55e" stroke-width="1.5" />
+                                    
+                                     <text x="100" y="25" font-family="Mitr" font-size="10" fill="#ef4444" font-weight="bold" text-anchor="middle">A</text>
+                                    <text x="45" y="130" font-family="Mitr" font-size="10" fill="#3b82f6" font-weight="bold">B</text>
+                                    <text x="155" y="130" font-family="Mitr" font-size="10" fill="#22c55e" font-weight="bold">C</text>
+                                </svg>
+                                
+                                <div id="venn-3-drop-universe" data-zone="universe" class="venn-drop-area" style="top: 0; left: 0; width: 100%; height: 100%;"></div>
+                                <div id="venn-3-drop-a" data-zone="a_only" class="venn-drop-area" style="top: 15%; left: 42%; width: 16%; height: 20%;"></div>
+                                <div id="venn-3-drop-b" data-zone="b_only" class="venn-drop-area" style="top: 60%; left: 15%; width: 20%; height: 25%;"></div>
+                                <div id="venn-3-drop-c" data-zone="c_only" class="venn-drop-area" style="top: 60%; right: 15%; width: 20%; height: 25%;"></div>
+                                <div id="venn-3-drop-ab" data-zone="ab_only" class="venn-drop-area" style="top: 40%; left: 29%; width: 15%; height: 20%;"></div>
+                                <div id="venn-3-drop-ac" data-zone="ac_only" class="venn-drop-area" style="top: 40%; right: 29%; width: 15%; height: 20%;"></div>
+                                <div id="venn-3-drop-bc" data-zone="bc_only" class="venn-drop-area" style="bottom: 8%; left: 42%; width: 16%; height: 20%;"></div>
+                                <div id="venn-3-drop-abc" data-zone="abc_intersect" class="venn-drop-area" style="top: 52%; left: 42%; width: 16%; height: 20%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div id="venn-3-feedback" class="text-center my-4 h-6 font-semibold"></div>
+                        <div class="flex justify-center space-x-4 mt-4">
+                            <button id="venn-3-check-btn" class="px-8 py-2 bg-green-600 text-white font-semibold rounded-lg hover:bg-green-700 transition-colors duration-300">ตรวจคำตอบ</button>
                         </div>
                     </div>
                 </div>
@@ -851,7 +905,6 @@
             <section id="collab-hub" class="app-section hidden">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">ศูนย์รวมความร่วมมือ</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Student Chat -->
                     <div class="md:col-span-2 bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
                         <h3 class="text-xl font-semibold mb-4">พูดคุยกับเพื่อนๆ</h3>
                         <div class="h-96 border border-white/30 rounded-lg mb-4 p-4 overflow-y-auto custom-scrollbar">
@@ -862,7 +915,6 @@
                            <button class="bg-slate-300 text-white px-4 py-2 rounded-lg cursor-not-allowed">ส่ง</button>
                         </div>
                     </div>
-                    <!-- Find Friends & AI Help -->
                     <div class="space-y-8">
                         <div class="bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
                             <h3 class="text-xl font-semibold mb-4">AI ช่วยแก้โจทย์</h3>
@@ -893,43 +945,40 @@
             <section id="friends-challenge" class="app-section hidden">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">ท้าทายเพื่อน: แบบทดสอบประจำวัน</h2>
                  <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                      <!-- Quiz Starter -->
                       <div class="md:col-span-2 bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-8 text-center flex flex-col justify-center items-center">
                            <h3 class="text-2xl font-semibold mb-2 text-slate-800">ทดสอบความรู้เรื่องเซต!</h3>
                            <p class="text-slate-600 mb-6">ตอบคำถาม 30 ข้อเพื่อเก็บคะแนนและไต่อันดับไปกับเพื่อนๆ<br><span class="text-xs text-indigo-500 font-semibold">ขับเคลื่อนด้วย AI</span></p>
                            <button id="start-quiz-btn" class="aurora-button px-10 py-4 font-bold rounded-lg transition-all duration-300 shadow-lg text-lg">เริ่มทำแบบทดสอบประจำวัน</button>
                       </div>
-                      <!-- Leaderboard -->
                       <div class="bg-white/70 backdrop-blur-xl rounded-xl shadow-lg border border-white/30 p-6">
-                         <h3 class="text-xl font-semibold mb-4">ตารางคะแนน</h3>
-                         <ol class="space-y-4">
-                            <li class="flex items-center space-x-3">
-                               <span class="font-bold text-lg text-yellow-500">1</span>
-                               <div class="flex-1">
-                                   <p class="font-semibold text-slate-800">คุณ</p>
-                                   <p class="text-sm text-slate-500">150 คะแนน | สตรีค 5 🔥</p>
-                               </div>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                               <span class="font-bold text-lg text-slate-400">2</span>
-                               <div class="flex-1">
-                                   <p class="font-semibold text-slate-800">สมชาย</p>
-                                   <p class="text-sm text-slate-500">125 คะแนน | สตรีค 3</p>
-                               </div>
-                            </li>
-                            <li class="flex items-center space-x-3">
-                               <span class="font-bold text-lg text-orange-400">3</span>
-                               <div class="flex-1">
-                                   <p class="font-semibold text-slate-800">สมศรี</p>
-                                   <p class="text-sm text-slate-500">110 คะแนน | สตรีค 2</p>
-                               </div>
-                            </li>
-                         </ol>
+                           <h3 class="text-xl font-semibold mb-4">ตารางคะแนน</h3>
+                           <ol class="space-y-4">
+                                <li class="flex items-center space-x-3">
+                                   <span class="font-bold text-lg text-yellow-500">1</span>
+                                   <div class="flex-1">
+                                       <p class="font-semibold text-slate-800">คุณ</p>
+                                       <p class="text-sm text-slate-500">150 คะแนน | สตรีค 5 🔥</p>
+                                   </div>
+                                </li>
+                                <li class="flex items-center space-x-3">
+                                   <span class="font-bold text-lg text-slate-400">2</span>
+                                   <div class="flex-1">
+                                       <p class="font-semibold text-slate-800">สมชาย</p>
+                                       <p class="text-sm text-slate-500">125 คะแนน | สตรีค 3</p>
+                                   </div>
+                                </li>
+                                <li class="flex items-center space-x-3">
+                                   <span class="font-bold text-lg text-orange-400">3</span>
+                                   <div class="flex-1">
+                                       <p class="font-semibold text-slate-800">สมศรี</p>
+                                       <p class="text-sm text-slate-500">110 คะแนน | สตรีค 2</p>
+                                   </div>
+                                </li>
+                           </ol>
                       </div>
                  </div>
             </section>
             
-            <!-- Profile Page Section -->
             <section id="profile-page" class="app-section hidden">
                 <h2 class="text-3xl font-bold text-slate-800 mb-6">แก้ไขโปรไฟล์</h2>
                 <div class="max-w-2xl mx-auto bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
@@ -945,8 +994,7 @@
                             <div>
                                 <label class="block text-sm font-medium text-slate-700 mb-2">เลือกรูปโปรไฟล์ใหม่</label>
                                 <div id="avatar-selection-grid" class="grid grid-cols-5 gap-4 avatar-selection">
-                                    <!-- Avatars will be injected by JS -->
-                                </div>
+                                    </div>
                             </div>
                             
                             <button type="submit" class="w-full py-3 px-4 bg-indigo-600 text-white font-semibold rounded-lg hover:bg-indigo-700 transition-colors duration-300">
@@ -958,12 +1006,10 @@
                 </div>
             </section>
 
-            <!-- Settings Page Section -->
             <section id="settings-page" class="app-section hidden">
                  <h2 class="text-3xl font-bold text-slate-800 mb-6">การตั้งค่าบัญชี</h2>
                  <div class="max-w-2xl mx-auto space-y-8">
-                      <!-- Change Email -->
-                     <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                      <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
                           <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนอีเมล</h3>
                           <form id="change-email-form" class="space-y-4">
                             <div id="email-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
@@ -977,8 +1023,7 @@
                             </button>
                           </form>
                      </div>
-                     <!-- Change Password -->
-                     <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
+                      <div class="bg-white/70 backdrop-blur-xl p-8 rounded-xl shadow-lg border border-white/30">
                           <h3 class="text-xl font-bold text-slate-800 mb-4">เปลี่ยนรหัสผ่าน</h3>
                           <form id="change-password-form" class="space-y-4">
                             <div id="password-success-message" class="hidden p-3 bg-green-100 text-green-700 rounded-lg text-sm"></div>
@@ -997,8 +1042,6 @@
         </div>
     </main>
 
-    <!-- =========== Modals =========== -->
-     <!-- AI Quiz Generation Loading Modal -->
     <div id="ai-quiz-loading-modal" class="hidden fixed inset-0 bg-black bg-opacity-70 z-50 flex items-center justify-center p-4">
         <div class="bg-white/70 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-full max-w-sm p-8 text-center" style="animation: modal-scale-in 0.3s ease-out forwards;">
             <div class="flex justify-center items-center mb-4">
@@ -1012,7 +1055,6 @@
         </div>
     </div>
     
-    <!-- Fullscreen Daily Quiz Modal -->
     <div id="quiz-modal" class="hidden fixed inset-0 bg-white z-50 flex flex-col p-4 sm:p-6 lg:p-8" style="animation: fadeIn 0.3s ease-out forwards;">
         <div id="quiz-header" class="w-full max-w-4xl mx-auto mb-4">
             <div class="flex justify-between items-center mb-2">
@@ -1024,11 +1066,9 @@
             </div>
         </div>
         <div id="quiz-content" class="flex-grow w-full max-w-4xl mx-auto flex flex-col justify-center">
-            <!-- Quiz content will be loaded here by JS -->
-        </div>
+            </div>
     </div>
     
-    <!-- AI Solver Modal -->
     <div id="ai-solver-modal" class="hidden fixed inset-0 bg-black bg-opacity-60 z-50 flex items-center justify-center p-4">
         <div class="bg-white/70 backdrop-blur-xl border border-white/30 rounded-2xl shadow-2xl w-full max-w-xl flex flex-col h-[80vh] relative" style="animation: modal-scale-in 0.3s ease-out forwards;">
             <div class="p-4 border-b border-white/30">
@@ -1594,6 +1634,7 @@
             const speedQuizModeContent = document.getElementById('speed-quiz-mode-content');
             const setOperationsGameContent = document.getElementById('set-operations-game-content');
             const vennDiagramGameContent = document.getElementById('venn-diagram-game-content');
+            const venn3DiagramGameContent = document.getElementById('venn-3-diagram-game-content');
             const arcadeHighScoreEl = document.getElementById('arcade-high-score');
             
             const updateArcadeHighScore = () => {
@@ -1631,6 +1672,11 @@
                 vennDiagramGameContent.classList.remove('hidden');
                 startVennDiagramGame();
             });
+             document.getElementById('start-venn-3-diagram-game').addEventListener('click', () => {
+                arcadeMenu.classList.add('hidden');
+                venn3DiagramGameContent.classList.remove('hidden');
+                startVenn3DiagramGame();
+            });
 
             document.querySelectorAll('.back-to-arcade-menu').forEach(button => {
                 button.addEventListener('click', () => {
@@ -1639,6 +1685,7 @@
                     speedQuizModeContent.classList.add('hidden');
                     setOperationsGameContent.classList.add('hidden');
                     vennDiagramGameContent.classList.add('hidden');
+                    venn3DiagramGameContent.classList.add('hidden');
                     arcadeMenu.classList.remove('hidden');
                     if (gameAnimationId) endGame(true);
                     updateArcadeHighScore();
@@ -1649,7 +1696,7 @@
             const flashcards = [
                 { term: "เซต (Set)", definition: "กลุ่มของสิ่งต่างๆ ที่เราสามารถกำหนดสมาชิกได้แน่นอน" },
                 { term: "สมาชิก (Element)", definition: "แต่ละสิ่งที่อยู่ในเซต" },
-                { term: "เซตว่าง (Empty Set)", definition: "เซตที่ไม่มีสมาชิกเลย เขียนแทนด้วย { } หรือ &empty;" },
+                { term: "เซตว่าง (Empty Set)", definition: "เซตที่ไม่มีสมาชิกเลย เขียนแทนด้วย { } หรือ ∅" },
                 { term: "เซตจำกัด (Finite Set)", definition: "เซตที่สามารถนับจำนวนสมาชิกได้" },
                 { term: "เซตอนันต์ (Infinite Set)", definition: "เซตที่ไม่ใช่เซตจำกัด หรือมีจำนวนสมาชิกนับไม่ถ้วน" },
                 { term: "สับเซต (Subset)", definition: "เซต A เป็นสับเซตของ B ถ้าสมาชิกทุกตัวของ A เป็นสมาชิกของ B" },
@@ -1687,9 +1734,9 @@
 
 
             // --- Speed Quiz Game Logic ---
+            const speedQuizGameArea = document.getElementById('speed-quiz-game-area');
             const speedQuizTimerEl = document.getElementById('speed-quiz-timer-top');
             const speedQuizScoreEl = document.getElementById('speed-quiz-score-top');
-            const speedQuizQuestionCounterEl = document.getElementById('speed-quiz-question-counter-top');
             const speedQuizQuestionArea = document.getElementById('speed-quiz-question-area');
             const speedQuizQuestionTextEl = document.getElementById('speed-quiz-question-text');
             const speedQuizStartOverlay = document.getElementById('speed-quiz-start-overlay');
@@ -1705,6 +1752,7 @@
             const confettiCanvas = document.getElementById('confetti-canvas');
             const confettiCtx = confettiCanvas.getContext('2d');
             
+            let speedQuizTimer;
             let speedQuizScore = 0;
             let timerInterval;
             let speedQuizCurrentQuestion = {};
@@ -1714,8 +1762,6 @@
             let particles = [];
             let lasers = [];
             let confetti = [];
-            let currentQuestionIndex = 0;
-            const MAX_QUESTIONS = 10;
             
             const speedQuizQuestions = flashcards.map(f => {
                 const wrongAnswers = flashcards
@@ -1730,6 +1776,7 @@
                 }
             });
 
+             // --- Confetti setup ---
             const setupConfetti = () => {
                 const gameRect = speedQuizGameArea.getBoundingClientRect();
                 confettiCanvas.width = gameRect.width;
@@ -1773,6 +1820,7 @@
             };
 
 
+            // --- Starfield setup ---
             const setupStarfield = () => {
                 const gameRect = speedQuizGameArea.getBoundingClientRect();
                 backgroundCanvas.width = gameRect.width;
@@ -1808,6 +1856,7 @@
                 });
             }
 
+            // --- Particle Explosion setup ---
              const createHitRing = (x, y, color) => {
                 particles.push({
                     x, y, color,
@@ -1832,6 +1881,7 @@
             }
 
             const drawParticles = () => {
+                // Particles are drawn on the laser canvas to be on top
                 particles.forEach(p => {
                     if (p.type === 'ring') {
                         laserCtx.beginPath();
@@ -1841,7 +1891,7 @@
                         laserCtx.stroke();
                     }
                 });
-                laserCtx.globalAlpha = 1.0;
+                laserCtx.globalAlpha = 1.0; // Reset alpha
             }
 
             const updateLasersAndParticles = () => {
@@ -1884,7 +1934,7 @@
                 countdownOverlay.classList.remove('hidden');
                 countdownOverlay.classList.add('flex');
                 countdownText.classList.remove('countdown-number');
-                void countdownText.offsetWidth;
+                void countdownText.offsetWidth; // Trigger reflow
                 countdownText.classList.add('countdown-number');
                 let count = 3;
                 countdownText.textContent = count;
@@ -1893,12 +1943,12 @@
                     if(count > 0) {
                         countdownText.textContent = count;
                         countdownText.classList.remove('countdown-number');
-                        void countdownText.offsetWidth;
+                        void countdownText.offsetWidth; // Trigger reflow
                         countdownText.classList.add('countdown-number');
                     } else if (count === 0) {
                         countdownText.textContent = "BLAST!";
                         countdownText.classList.remove('countdown-number');
-                        void countdownText.offsetWidth;
+                        void countdownText.offsetWidth; // Trigger reflow
                         countdownText.classList.add('countdown-number');
                     }
                     else {
@@ -1914,31 +1964,20 @@
                 speedQuizQuestionArea.classList.remove('opacity-0');
                 speedQuizScore = 0;
                 speedQuizScoreEl.textContent = speedQuizScore;
-                currentQuestionIndex = 0;
                 setupStarfield();
-                loadNewQuestion(true);
+                startTimer();
+                nextSpeedQuestion(true); // isFirstQuestion = true
                 gameLoop();
             }
 
-             const resetPerQuestionTimer = () => {
-                clearInterval(timerInterval);
-                let timeLeft = 10;
+            const startTimer = () => {
+                let timeLeft = 30;
                 speedQuizTimerEl.textContent = timeLeft;
                 timerInterval = setInterval(() => {
                     timeLeft--;
                     speedQuizTimerEl.textContent = timeLeft;
                     if (timeLeft <= 0) {
-                        clearInterval(timerInterval);
-                        bubbles.forEach(b => b.el.style.pointerEvents = 'none');
-                        const correctBubble = bubbles.find(b => b.el.dataset.answer === speedQuizCurrentQuestion.correctAnswer);
-                        if (correctBubble) {
-                            correctBubble.el.style.transition = 'background-color 0.2s';
-                            correctBubble.el.style.backgroundColor = '#16a34a'; // green-600
-                        }
-                        setTimeout(() => {
-                            currentQuestionIndex++;
-                            loadNewQuestion();
-                        }, 1500);
+                        endGame();
                     }
                 }, 1000);
             }
@@ -1991,12 +2030,12 @@
 
                 laserCtx.clearRect(0, 0, laserCanvas.width, laserCanvas.height);
                 
-                if (!timerInterval && !speedQuizEndOverlay.classList.contains('hidden')) {
+                if (!timerInterval) { // Paused or ended
                     if(confetti.length > 0) {
                         updateConfetti();
                         drawConfetti();
                     }
-                } else {
+                } else { // Playing
                     updateBubbles();
                     updateStarfield();
                     drawStarfield();
@@ -2013,6 +2052,9 @@
                 bubbles.forEach(bubble => {
                      if (bubble.isHit) {
                         bubble.el.style.opacity = Math.max(0, parseFloat(bubble.el.style.opacity) - 0.05);
+                        if (parseFloat(bubble.el.style.opacity) <= 0) {
+                            // Will be handled by next question logic
+                        }
                         return;
                     }
 
@@ -2022,7 +2064,7 @@
                     if (bubble.x <= 0 || bubble.x + bubble.el.offsetWidth >= gameRect.width) {
                         bubble.vx *= -1; 
                     }
-                    if (bubble.y <= 64 || bubble.y + bubble.el.offsetHeight >= gameRect.height - 120) {
+                    if (bubble.y <= 64 || bubble.y + bubble.el.offsetHeight >= gameRect.height - 120) { // Keep away from top/bottom
                         bubble.vy *= -1;
                     }
 
@@ -2033,17 +2075,12 @@
                 });
             }
 
-             const loadNewQuestion = (isFirstQuestion = false) => {
-                if (currentQuestionIndex >= MAX_QUESTIONS) {
-                    endGame();
-                    return;
-                }
-                
-                speedQuizQuestionCounterEl.textContent = `${currentQuestionIndex + 1}/${MAX_QUESTIONS}`;
-                resetPerQuestionTimer();
+            const nextSpeedQuestion = (isFirstQuestion = false) => {
+                if (!timerInterval) return;
+
                 speedQuizCurrentQuestion = speedQuizQuestions[Math.floor(Math.random() * speedQuizQuestions.length)];
                 speedQuizQuestionTextEl.innerHTML = speedQuizCurrentQuestion.question;
-                
+
                 const gameRect = speedQuizGameArea.getBoundingClientRect();
 
                 if (isFirstQuestion) {
@@ -2075,6 +2112,7 @@
                     });
                 }
                 
+                // Assign new options to all bubbles
                 const shuffledOptions = [...speedQuizCurrentQuestion.options].sort(() => 0.5 - Math.random());
                 bubbles.forEach((bubble, index) => {
                     bubble.el.innerHTML = shuffledOptions[index];
@@ -2082,7 +2120,6 @@
                     bubble.isHit = false;
                     bubble.el.style.opacity = 1;
                     bubble.el.style.pointerEvents = 'auto';
-                    bubble.el.style.backgroundColor = '';
                 });
             }
             
@@ -2099,7 +2136,7 @@
                 const centerY = bubbleRect.top + bubbleRect.height / 2 - gameAreaRect.top;
                 
                 const distance = Math.sqrt(Math.pow(centerX - startX, 2) + Math.pow(centerY - startY, 2));
-                const laserSpeed = 1 / (distance / 30);
+                const laserSpeed = 1 / (distance / 30); // Adjust divisor for speed
 
                 lasers.push({
                     startX, startY, endX: centerX, endY: centerY,
@@ -2113,8 +2150,6 @@
 
             const handleBubbleClick = (e) => {
                 if (!timerInterval || lasers.length > 0) return; 
-                clearInterval(timerInterval);
-
                 const selectedBubbleEl = e.currentTarget;
                 const selectedAnswer = selectedBubbleEl.dataset.answer;
                 
@@ -2129,22 +2164,13 @@
                     if (isCorrect) {
                         speedQuizScore += 10;
                         speedQuizScoreEl.textContent = speedQuizScore;
+                        nextSpeedQuestion();
                     } else {
                         speedQuizScore = Math.max(0, speedQuizScore - 5);
-                        speedQuizScoreEl.textContent = speedQuizScore;
-                        const correctBubble = bubbles.find(b => b.el.dataset.answer === speedQuizCurrentQuestion.correctAnswer);
-                        if (correctBubble) {
-                             correctBubble.el.style.transition = 'background-color 0.2s';
-                             correctBubble.el.style.backgroundColor = '#16a34a';
-                        }
+                         speedQuizScoreEl.textContent = speedQuizScore;
+                         bubbles.forEach(b => b.el.style.pointerEvents = 'auto');
                     }
-
-                    setTimeout(() => {
-                        currentQuestionIndex++;
-                        loadNewQuestion();
-                    }, 1000);
-
-                }, 500);
+                }, 500); // Wait for laser animation
             }
 
             document.getElementById('speed-quiz-start-btn').addEventListener('click', startCountdown);
@@ -2320,7 +2346,7 @@
             checkBtn.addEventListener('click', checkAnswer);
             resetBtn.addEventListener('click', resetAnswer);
 
-             // --- Venn Diagram Game Logic ---
+             // --- Venn Diagram Game Logic (2 sets) ---
             const vennScoreEl = document.getElementById('venn-score');
             const vennUniverseSetEl = document.getElementById('venn-universe-set');
             const vennElementPool = document.getElementById('venn-element-pool');
@@ -2370,6 +2396,9 @@
                 });
 
                 vennUniverseSetEl.textContent = U.join(', ');
+                document.getElementById('venn-set-a-display').textContent = `{ ${vennProblem.A.join(', ')} }`;
+                document.getElementById('venn-set-b-display').textContent = `{ ${vennProblem.B.join(', ')} }`;
+                
                 vennElementPool.innerHTML = '';
                 U.sort(() => 0.5 - Math.random()).forEach(num => {
                     const el = document.createElement('div');
@@ -2408,49 +2437,140 @@
                 }
             }
 
-            // Venn Drag and Drop
-            let vennDraggedItem = null;
+           // --- Venn Drag and Drop (using SortableJS for Mobile/Desktop) ---
 
-            vennElementPool.addEventListener('dragstart', e => {
-                if (e.target.classList.contains('venn-element')) {
-                    vennDraggedItem = e.target;
-                    setTimeout(() => e.target.classList.add('invisible'), 0);
-                }
-            });
-            vennElementPool.addEventListener('dragend', e => {
-                 setTimeout(() => {
-                    if (vennDraggedItem) vennDraggedItem.classList.remove('invisible');
-                    vennDraggedItem = null;
-                 }, 0);
-            });
+// ** For the 2-Set Venn Diagram Game **
+const venn2Pool = document.getElementById('venn-element-pool');
+const allVenn2DropZones = [venn2Pool, ...Object.values(vennDropAreas)];
 
-            Object.values(vennDropAreas).forEach(area => {
-                area.addEventListener('dragover', e => e.preventDefault());
-                area.addEventListener('dragenter', e => {
-                    e.preventDefault();
-                    area.classList.add('drag-over');
-                });
-                area.addEventListener('dragleave', () => area.classList.remove('drag-over'));
-                area.addEventListener('drop', e => {
-                    e.preventDefault();
-                    if(vennDraggedItem && !area.contains(vennDraggedItem)) {
-                       // Move from pool to drop area
-                       const originalParent = vennDraggedItem.parentElement;
-                       area.appendChild(vennDraggedItem);
-                       vennDraggedItem.classList.remove('invisible');
-                       
-                       // Make it draggable back
-                       vennDraggedItem.addEventListener('dragstart', (ev) => {
-                           vennDraggedItem = ev.target;
-                           setTimeout(() => ev.target.classList.add('invisible'), 0);
-                       });
-                    }
-                    area.classList.remove('drag-over');
-                });
-            });
+allVenn2DropZones.forEach(zone => {
+    new Sortable(zone, {
+        group: 'venn2', // Allows items to be dragged between these containers
+        animation: 150, // Animation speed in ms
+        draggable: '.venn-element', // Specifies which items are draggable
+        ghostClass: 'dragged' // The class for the semi-transparent clone
+    });
+});
 
             vennCheckBtn.addEventListener('click', checkVennAnswer);
 
+            // --- Venn Diagram Game Logic (3 sets) ---
+            const venn3ScoreEl = document.getElementById('venn-3-score');
+            const venn3UniverseSetEl = document.getElementById('venn-3-universe-set');
+            const venn3SetADisplay = document.getElementById('venn-3-set-a-display');
+            const venn3SetBDisplay = document.getElementById('venn-3-set-b-display');
+            const venn3SetCDisplay = document.getElementById('venn-3-set-c-display');
+            const venn3ElementPool = document.getElementById('venn-3-element-pool');
+            const venn3DropAreas = {
+                a_only: document.getElementById('venn-3-drop-a'),
+                b_only: document.getElementById('venn-3-drop-b'),
+                c_only: document.getElementById('venn-3-drop-c'),
+                ab_only: document.getElementById('venn-3-drop-ab'),
+                ac_only: document.getElementById('venn-3-drop-ac'),
+                bc_only: document.getElementById('venn-3-drop-bc'),
+                abc_intersect: document.getElementById('venn-3-drop-abc'),
+                universe: document.getElementById('venn-3-drop-universe'),
+            };
+            const venn3CheckBtn = document.getElementById('venn-3-check-btn');
+            const venn3FeedbackEl = document.getElementById('venn-3-feedback');
+            
+            let venn3Score = 0;
+            let venn3Problem = {};
+
+            function startVenn3DiagramGame() {
+                venn3Score = 0;
+                venn3ScoreEl.textContent = venn3Score;
+                generateVenn3Problem();
+            }
+
+            function generateVenn3Problem() {
+                venn3FeedbackEl.textContent = '';
+                const U = Array.from({length: 15}, (_, i) => i + 1);
+                const A = new Set(generateRandomSet(6, 1, 15));
+                const B = new Set(generateRandomSet(6, 1, 15));
+                const C = new Set(generateRandomSet(6, 1, 15));
+
+                venn3Problem = {
+                    U,
+                    A: Array.from(A).sort((a,b)=>a-b),
+                    B: Array.from(B).sort((a,b)=>a-b),
+                    C: Array.from(C).sort((a,b)=>a-b),
+                    solution: {
+                        a_only: [], b_only: [], c_only: [],
+                        ab_only: [], ac_only: [], bc_only: [],
+                        abc_intersect: [], universe: []
+                    }
+                };
+
+                U.forEach(num => {
+                    const inA = A.has(num);
+                    const inB = B.has(num);
+                    const inC = C.has(num);
+                    if (inA && inB && inC) venn3Problem.solution.abc_intersect.push(num);
+                    else if (inA && inB) venn3Problem.solution.ab_only.push(num);
+                    else if (inA && inC) venn3Problem.solution.ac_only.push(num);
+                    else if (inB && inC) venn3Problem.solution.bc_only.push(num);
+                    else if (inA) venn3Problem.solution.a_only.push(num);
+                    else if (inB) venn3Problem.solution.b_only.push(num);
+                    else if (inC) venn3Problem.solution.c_only.push(num);
+                    else venn3Problem.solution.universe.push(num);
+                });
+
+                venn3UniverseSetEl.textContent = U.join(', ');
+                venn3SetADisplay.textContent = `{ ${venn3Problem.A.join(', ')} }`;
+                venn3SetBDisplay.textContent = `{ ${venn3Problem.B.join(', ')} }`;
+                venn3SetCDisplay.textContent = `{ ${venn3Problem.C.join(', ')} }`;
+                
+                venn3ElementPool.innerHTML = '';
+                U.sort(() => 0.5 - Math.random()).forEach(num => {
+                    const el = document.createElement('div');
+                    el.className = 'venn-element';
+                    el.textContent = num;
+                    el.draggable = true;
+                    el.dataset.value = num;
+                    venn3ElementPool.appendChild(el);
+                });
+                
+                Object.values(venn3DropAreas).forEach(area => area.innerHTML = '');
+            }
+
+            function checkVenn3Answer() {
+                 let isCorrect = true;
+                for (const zone in venn3DropAreas) {
+                    const userAnswers = Array.from(venn3DropAreas[zone].children)
+                                            .map(el => parseInt(el.textContent))
+                                            .sort((a,b) => a - b);
+                    const correctAnswers = venn3Problem.solution[zone].sort((a,b) => a - b);
+                    if (JSON.stringify(userAnswers) !== JSON.stringify(correctAnswers)) {
+                        isCorrect = false;
+                        break;
+                    }
+                }
+                
+                if(isCorrect) {
+                    venn3Score += 15;
+                    venn3ScoreEl.textContent = venn3Score;
+                    venn3FeedbackEl.textContent = 'สุดยอด! ถูกต้องทั้งหมด';
+                    venn3FeedbackEl.className = 'text-center my-4 h-6 font-semibold text-green-600';
+                    setTimeout(generateVenn3Problem, 2000);
+                } else {
+                    venn3FeedbackEl.textContent = 'เกือบแล้ว! ลองตรวจสอบอีกครั้งนะคะ';
+                    venn3FeedbackEl.className = 'text-center my-4 h-6 font-semibold text-red-600';
+                }
+            }
+// ** For the 3-Set Venn Diagram Game **
+const venn3Pool = document.getElementById('venn-3-element-pool');
+const allVenn3DropZones = [venn3Pool, ...Object.values(venn3DropAreas)];
+
+allVenn3DropZones.forEach(zone => {
+    new Sortable(zone, {
+        group: 'venn3', // A different group name to keep this game separate
+        animation: 150,
+        draggable: '.venn-element',
+        ghostClass: 'dragged'
+    });
+});
+             venn3CheckBtn.addEventListener('click', checkVenn3Answer);
 
             const quizModal = document.getElementById('quiz-modal');
             const quizProgressBar = document.getElementById('quiz-progress-bar');
@@ -2458,7 +2578,7 @@
             const quizContent = document.getElementById('quiz-content');
             
             let staticQuizQuestions = [
-                { question: "ข้อใดคือสัญลักษณ์ของเซตว่าง?", options: ["{0}", "{}", "0", "&empty;"], correctAnswer: "&empty;" },
+                { question: "ข้อใดคือสัญลักษณ์ของเซตว่าง?", options: ["{0}", "{}", "0", "∅"], correctAnswer: "∅" },
                 { question: "ถ้า A = {1, 2, 3} แล้ว n(A) เท่ากับเท่าใด?", options: ["1", "2", "3", "6"], correctAnswer: "3" },
                 { question: "A ∪ B หมายถึงอะไร?", options: ["สมาชิกที่อยู่ใน A หรือ B", "สมาชิกที่อยู่ใน A และ B", "สมาชิกที่อยู่ใน A แต่ไม่อยู่ใน B", "สมาชิกที่ไม่อยู่ใน A และ B"], correctAnswer: "สมาชิกที่อยู่ใน A หรือ B" },
             ];
@@ -2568,4 +2688,3 @@
 </body>
 
 </html>
-
